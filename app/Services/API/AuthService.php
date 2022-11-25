@@ -1,8 +1,11 @@
 <?php
 namespace App\Services\API;
 
+use App\Http\Resources\API\UserResource;
 use App\Mail\API\Auth\RegisterMail;
+use App\Models\User;
 use App\Repositories\Eloquent\API\AuthRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthService extends BaseService
@@ -80,6 +83,43 @@ class AuthService extends BaseService
         if ($diffTime < 3600) {
             return true;
         }
+
+    }
+
+    public function verifyEmail($email)
+    {
+        $userData = $this->authRepository->verifyEmail($email);
+        if ($userData) {
+            return $userData;
+        }
+        $this->sendError("Sorry ! Unauthorised ! ");
+    }
+
+    public function handleLogin($password, $userData)
+    {
+
+        if (password_verify($password, $userData->password)) {
+
+            if ($userData->status == 1) {
+
+                $data = [
+                    'email' => $userData->email,
+                    'password' => $password,
+                ];
+
+                if (Auth::attempt($data)) {
+                    $success = [
+                        'token' => Auth::user()->createToken('token')->plainTextToken,
+                        'user' => new UserResource($userData),
+                        'message' => 'Login Success',
+                    ];
+                    return $success;
+                }
+
+            }
+            $this->sendError("Please activate your account !");
+        }
+        $this->sendError("Sorry ! Unauthorised ! ");
 
     }
 }
