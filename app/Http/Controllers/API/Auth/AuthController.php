@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\API\Auth\ChangePasswordRequest;
 use App\Http\Requests\API\Auth\LoginRequest;
 use App\Http\Requests\API\Auth\RegisterRequest;
+use App\Http\Requests\API\Auth\ForgotPasswordRequest;
 use App\Services\API\AuthService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,19 @@ class AuthController extends BaseController
         }  catch (\Exception$e) {
             return $this->sendError(null,$e->getMessage());
         }
+
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $email = $request->input('email');
+        try {
+            $result = $this->authService->handleForgotPassword($email);
+            return $this->sendSuccess( $result);
+        } catch (\Exception $e) {
+            return $this->sendError(null,$e->getMessage());
+        }
+
 
     }
 }

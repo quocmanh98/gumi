@@ -4,11 +4,14 @@ namespace App\Services\API;
 use App\Http\Resources\API\UserResource;
 use App\Mail\API\Auth\LoginOtpMail;
 use App\Mail\API\Auth\RegisterMail;
+use App\Mail\API\Auth\ForgotPasswordMail;
 use App\Models\User;
 use App\Repositories\Eloquent\API\AuthRepository;
 use App\Repositories\Eloquent\API\VerificationCodeRepository;
 use Carbon\Carbon;
+use Dotenv\Util\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthService extends BaseService
@@ -143,6 +146,30 @@ class AuthService extends BaseService
 
         } else {
             $this->sendError('Old Password does not matched with db password');
+        }
+    }
+
+    public function handleForgotPassword($email)
+    {
+        $user = $this->authRepository->verifyEmail($email);
+        if ($user) {
+            $passwordNew = rand(123456789, 999999999);
+            $passwordNewHash = Hash::make($passwordNew);
+            $data = [
+                'name' => $user->username,
+                'password_new' => $passwordNew,
+                'password_new_hash' => $passwordNewHash,
+            ];
+
+            Mail::to($email)->send(new ForgotPasswordMail($data));
+            $result = $this->authRepository->updatePasswordByEmail($passwordNewHash, $email);
+            if($result){
+                return [
+                    'message' => 'Success ! Please check your email to get the password new ',
+                ];
+            }
+        } else {
+            throw new \Exception("Email not exist ", 1);
         }
     }
 }
