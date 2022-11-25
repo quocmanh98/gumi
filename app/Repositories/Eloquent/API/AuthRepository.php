@@ -2,6 +2,7 @@
 namespace App\Repositories\Eloquent\API;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthRepository extends BaseRepository
 {
@@ -74,6 +75,23 @@ class AuthRepository extends BaseRepository
                 ]
 
             );
+    }
+
+    public function updateOrCreate( $user){
+        return $this->user->updateOrCreate([
+            'google_id' => $user->getId(),
+        ],[
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'password' => Hash::make($user->getName().'@'.$user->getId())
+        ]);
+    }
+
+    public function updateGoogleId($user)
+    {
+        return $this->user->where('email',  $user->getEmail())->update([
+            'google_id' => $user->getId(),
+        ]);
     }
 
 }

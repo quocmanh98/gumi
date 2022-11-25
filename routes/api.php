@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\AuthOtpController;
+use App\Http\Controllers\API\Auth\GoogleController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,8 +38,11 @@ Route::controller(AuthOtpController::class)->group(function(){
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
     Route::post('change-password', [AuthController::class, 'changePassword'])->name('auth.change_password');
     Route::get('token', [AuthController::class, 'getToken'])->name('auth.getToken');
+
     Route::prefix('users/')->name('users.')->middleware('auth:sanctum')->group(function () {
         Route::get('', [UserController::class, 'index'])->name('index');
     });
 });
+
+
 
