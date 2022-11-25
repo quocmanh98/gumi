@@ -36,11 +36,26 @@ class AuthRepository extends BaseRepository
         return $result;
     }
 
-    public function verifyEmail($email){
+    public function verifyEmail($email)
+    {
         $result = $this->user->select('*')
-        ->where('email', $email)
-        ->first();
-    return $result;
+            ->where('email', $email)
+            ->first();
+        return $result;
+    }
+
+    public function verifyPhone($phone)
+    {
+        $result = $this->user->select('*')
+            ->where('phone', $phone)
+            ->first();
+        return $result;
+    }
+
+    public function getDataUserId($userId)
+    {
+        $result = $this->user->whereId($userId)->first();
+        return $result;
     }
 
 }
