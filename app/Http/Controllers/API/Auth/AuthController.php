@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\API\Auth\ChangePasswordRequest;
 use App\Http\Requests\API\Auth\LoginRequest;
 use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Services\API\AuthService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends BaseController
 {
@@ -66,6 +68,23 @@ class AuthController extends BaseController
 
         try {
             $result =  $this->authService->handleLogin($password,$userData);
+            return $this->sendSuccess($result);
+        }  catch (\Exception$e) {
+            return $this->sendError(null,$e->getMessage());
+        }
+
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+
+        $passwordOld = $request->input('password_old');
+        $passwordNew = Hash::make($request->input('password_new'));
+        $password = Auth::user()->password;
+        $uniid = Auth::user()->unique_id;
+
+        try {
+            $result =   $this->authService->handleChangePassword($passwordOld,$passwordNew,$password,$uniid);
             return $this->sendSuccess($result);
         }  catch (\Exception$e) {
             return $this->sendError(null,$e->getMessage());

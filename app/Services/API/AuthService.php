@@ -128,4 +128,21 @@ class AuthService extends BaseService
 
     }
 
+
+    public function handleChangePassword($passwordOld,$passwordNew,$password,$uniid){
+        if (password_verify($passwordOld, $password)) {
+
+            $result = $this->authRepository->updatePassword($passwordNew, $uniid);
+
+            if ($result) {
+                return [
+                    'message' => 'Update Password Success',
+                ];
+            }
+            $this->sendError('Update Password No Success');
+
+        } else {
+            $this->sendError('Old Password does not matched with db password');
+        }
+    }
 }

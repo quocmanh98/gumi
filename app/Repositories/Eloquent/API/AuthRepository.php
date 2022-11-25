@@ -58,4 +58,9 @@ class AuthRepository extends BaseRepository
         return $result;
     }
 
+    public function updatePassword($passwordNew,$uniid){
+        return $result = $this->user->where('unique_id', $uniid)
+            ->update(['password' => $passwordNew]);
+    }
+
 }
