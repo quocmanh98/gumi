@@ -63,7 +63,7 @@ class AuthOtpService extends BaseService
         $result = Mail::to($email)->send(new LoginOtpMail($data));
             if ($result == true) {
                 return [
-                    'message' => 'Please check your email to get the otp code ',
+                    'message' => 'Success ! Please check your email to get the otp code ',
                 ];
             }
     }

@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/register/activate/{uniid}', [AuthController::class, 'registerActivate'])->name('auth.register_activate');
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot_password');
 
 Route::controller(AuthOtpController::class)->group(function(){
     // Route::get('/otp/login', 'login')->name('otp.login');
@@ -32,6 +33,6 @@ Route::controller(AuthOtpController::class)->group(function(){
 });
 
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
-    Route::post('change-password', [AuthController::class, 'changePassword'])->name('api.change_password');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('auth.change_password');
 });
 
