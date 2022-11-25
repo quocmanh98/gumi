@@ -30,3 +30,8 @@ Route::controller(AuthOtpController::class)->group(function(){
     Route::post('/otp/login', 'loginWithOtp')->name('otp.getlogin');
     // Route::get('/otp/verification/{user_id}', 'verification')->name('otp.verification');
 });
+
+Route::prefix('/')->middleware('auth:sanctum')->group(function () {
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('api.change_password');
+});
+
