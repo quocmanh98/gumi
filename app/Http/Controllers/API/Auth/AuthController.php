@@ -7,10 +7,13 @@ use App\Http\Requests\API\Auth\ChangePasswordRequest;
 use App\Http\Requests\API\Auth\LoginRequest;
 use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Http\Requests\API\Auth\ForgotPasswordRequest;
+use App\Models\User;
 use App\Services\API\AuthService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends BaseController
 {
@@ -103,6 +106,42 @@ class AuthController extends BaseController
             return $this->sendError(null,$e->getMessage());
         }
 
-
     }
+
+    public function getToken(){
+        $user = Auth::user();
+        try {
+            $result = $this->authService->getToken($user);
+            return $this->sendSuccess( $result);
+        } catch (\Exception $e) {
+            return $this->sendError(null,$e->getMessage());
+        }
+    }
+
+    // public function refreshToken(Request $request){
+    //     $token = $request->header('authorization');
+    //     $token = trim(str_replace('Bearer', '', $token));
+    //     $token = PersonalAccessToken::findToken($token);
+    //     if ($token) {
+    //         $tokenCreated = $token->created_at;
+    //         $expire = Carbon::parse($tokenCreated)->addMinutes(config('sanctum.expiration'));
+    //         if (Carbon::now() >= $expire) {
+    //             $tokenId = $token->id;
+    //             $userId = $token->tokenable_id;
+    //             $user = User::findOrFail($userId);
+    //             // $user->tokens()->delete();
+    //             $newToken = $user->createToken('auth_token')->plainTextToken;
+    //             $success = [
+    //                 'token' => $newToken,
+    //                 'name' => $user->name,
+    //                 'status' => 200,
+    //             ];
+    //             return $this->sendSuccess($success, 'Create Token Success !');
+    //         } else {
+    //             return $this->sendSuccess([], 'Unexpires');
+    //         }
+    //     } else {
+    //         return $this->sendError(null,'Unauthorized');
+    //     }
+    // }
 }
