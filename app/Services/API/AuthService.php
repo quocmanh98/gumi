@@ -172,4 +172,17 @@ class AuthService extends BaseService
             throw new \Exception("Email not exist ", 1);
         }
     }
+
+    public function getToken($user){
+        $data = [];
+        // $user->tokens()->delete();
+        // Xóa hết token
+        foreach ($user->tokens as $token) {
+            $data[] = $token;
+        }
+        // $user->tokens()->findOrFail(1)->delete();
+        // return $user->currentAccessToken();
+        // $user->currentAccessToken()->delete();
+        return $data;
+    }
 }
