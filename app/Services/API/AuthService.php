@@ -2,9 +2,12 @@
 namespace App\Services\API;
 
 use App\Http\Resources\API\UserResource;
+use App\Mail\API\Auth\LoginOtpMail;
 use App\Mail\API\Auth\RegisterMail;
 use App\Models\User;
 use App\Repositories\Eloquent\API\AuthRepository;
+use App\Repositories\Eloquent\API\VerificationCodeRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,9 +15,11 @@ class AuthService extends BaseService
 {
 
     protected $authRepository;
+    protected $verificationCodeRepository;
     public function __construct()
     {
         $this->authRepository = new AuthRepository;
+        $this->verificationCodeRepository = new VerificationCodeRepository;
     }
 
     public function createUser($dataInput, $userData)
@@ -122,4 +127,5 @@ class AuthService extends BaseService
         $this->sendError("Sorry ! Unauthorised ! ");
 
     }
+
 }
