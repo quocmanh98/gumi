@@ -26,21 +26,23 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::get('/register/activate/{uniid}', [AuthController::class, 'registerActivate'])->name('auth.register_activate');
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot_password');
-Route::get('/refresh-token', [AuthController::class, 'refreshToken'])->name('auth.refreshToken');
+Route::get('/refresh-token', [AuthController::class, 'refreshToken'])->name('auth.refresh_token');
 
 Route::controller(AuthOtpController::class)->group(function(){
-    // Route::get('/otp/login', 'login')->name('otp.login');
     Route::post('/otp/generate', 'generate')->name('otp.generate');
-    Route::post('/otp/login', 'loginWithOtp')->name('otp.getlogin');
-    // Route::get('/otp/verification/{user_id}', 'verification')->name('otp.verification');
+    Route::post('/otp/login', 'loginWithOtp')->name('otp.login');
 });
 
 Route::prefix('/')->middleware('auth:sanctum')->group(function () {
     Route::post('change-password', [AuthController::class, 'changePassword'])->name('auth.change_password');
-    Route::get('token', [AuthController::class, 'getToken'])->name('auth.getToken');
+    Route::get('token', [AuthController::class, 'getToken'])->name('auth.get_token');
 
     Route::prefix('users/')->name('users.')->middleware('auth:sanctum')->group(function () {
         Route::get('', [UserController::class, 'index'])->name('index');
+        Route::post('', [UserController::class, 'store'])->name('store');
+        Route::get('{user}', [UserController::class, 'show'])->name('show');
+        Route::put('{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 });
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\API\UpdateUserRequest;
+use App\Http\Requests\API\UserRequest;
 use App\Services\API\UserService;
 use Illuminate\Http\Request;
 
@@ -28,10 +30,54 @@ class UserController extends BaseController
 
         try {
             $userList = $this->userService->getAllUser($status, $roleId, $search, $sortBy, $sortType);
-            return $this->sendSuccess($userList, 'Fetch Data User Success');
+            return $this->sendSuccess($userList);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
 
+    }
+
+    public function store(UserRequest $request)
+    {
+        $data = $request->all();
+        $data['password'] = bcrypt($request->input('password'));
+        try {
+            $result = $this->userService->saveUserData($data);
+            return $this->sendSuccess($result);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
+    }
+
+    public function show($user)
+    {
+        try {
+            $result = $this->userService->getById($user);
+            return $this->sendSuccess($result);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
+    }
+
+
+    public function update(UpdateUserRequest $request,$id){
+        $data = $request->all();
+        $data['password'] = bcrypt($request->input('password'));
+        try {
+            $result = $this->userService->update($data,$id);
+            return $this->sendSuccess($result);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $result = $this->userService->delete($id);
+            return $this->sendSuccess($result);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
     }
 }

@@ -51,4 +51,25 @@ class UserRepository extends BaseRepository
         return $users;
     }
 
+    public function saveUserData($data){
+        return $this->user->create($data);
+    }
+
+    public function getById($user){
+        return $this->user->where('id',$user)->first();
+    }
+
+    public function update($data,$user){
+        return $user = $this->user->find($user)
+        ->update($data);
+    }
+
+    public function delete($user){
+        return $user = $this->user->find($user)
+        ->delete();
+    }
+
+    public function getAllData(){
+        return $this->user->all();
+    }
 }
