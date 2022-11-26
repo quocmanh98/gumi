@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\API\PostRequest;
 use App\Http\Requests\API\UpdatePostRequest;
+use App\Models\Post;
 use App\Services\API\PostService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends BaseController
 {
@@ -39,14 +41,17 @@ class PostController extends BaseController
         }
     }
 
-    public function show($id)
+    public function show(Post $post)
     {
-        try {
-            $result = $this->postService->getById($id);
-            return $this->sendSuccess($result);
-        } catch (\Exception$e) {
-            return $this->sendError(null, $e->getMessage());
+        if (Auth::user()->can('view', $post)) {
+            try {
+                $post = $this->postService->getById($post->id);
+                return $this->sendSuccess($post);
+            } catch (\Exception$e) {
+                return $this->sendError(null, $e->getMessage());
+            }
         }
+        return $this->sendError(null, 'Prohibited Access');
     }
 
     public function update(UpdatePostRequest $request,$id){

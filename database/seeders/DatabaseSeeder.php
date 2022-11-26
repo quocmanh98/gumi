@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BookTypeSeeder::class,
             BookSeeder::class,
-            PostSeeder::class
+            PostSeeder::class,
+            GroupPermissionSeeder::class,
+            PermissionSeeder::class,
+            PermissionRoleSeeder::class
         ]);
     }
 }

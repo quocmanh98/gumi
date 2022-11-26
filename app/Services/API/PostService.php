@@ -50,24 +50,15 @@ class PostService extends BaseService
 
     public function getById($id)
     {
-        $posts = $this->postRepository->getAllPost();
-        $dataId = [];
-        foreach ($posts as $post) {
-            $dataId[] = $post->id;
+        $result = $this->postRepository->getById($id);
+        if ($result) {
+            $success = [
+                'message' => 'Fetch Data Post Success',
+                'post' => new PostResource($result),
+            ];
+            return $success;
         }
-        if (in_array($id, $dataId)) {
-            $result = $this->postRepository->getById($id);
-            if ($result) {
-                $success = [
-                    'message' => 'Fetch Data Post Success',
-                    'user' => new PostResource($result),
-                ];
-                return $success;
-            }
-            throw new \Exception('Error ! Fetch Data Post No Success', 1);
-        }
-        throw new \Exception('Error ! No find Post', 1);
-
+        throw new \Exception('Error ! Fetch Data Post No Success', 1);
     }
 
     public function update($data, $id, $hasFile, $thumbnail)
@@ -87,13 +78,17 @@ class PostService extends BaseService
         foreach ($posts as $post) {
             $dataId[] = $post->id;
         }
+
         if (in_array($id, $dataId)) {
+
             $post = $this->postRepository->getById($id);
+
             if (!empty($thumbnail)) {
                 if (File::exists(public_path($post->thumbnail))) {
                     unlink($post->thumbnail);
                 }
             }
+
             $result = $this->postRepository->update($data, $id);
             if ($result) {
                 $success = [
@@ -103,6 +98,7 @@ class PostService extends BaseService
             }
             throw new \Exception('Error ! Update Data Post No Success', 1);
         }
+
         throw new \Exception('Error ! No find Post', 1);
     }
 
@@ -113,16 +109,20 @@ class PostService extends BaseService
         foreach ($posts as $post) {
             $dataId[] = $post->id;
         }
+
         if (in_array($id, $dataId)) {
             $result = $this->postRepository->delete($id);
+
             if ($result) {
                 $success = [
                     'message' => 'Success ! Delete Data Post Success',
                 ];
                 return $success;
             }
+            
             throw new \Exception('Error ! Delete Data Post No Success', 1);
         }
+
         throw new \Exception('Error ! No find Post', 1);
     }
 
