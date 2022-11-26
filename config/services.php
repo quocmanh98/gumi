@@ -33,6 +33,10 @@ return [
 
     'PER_PAGE' => 5,
 
+    'modules' => [
+        'posts' => 'posts'
+    ],
+
     'google' => [
         'client_id' => '439343600477-g3bhqctjgedd3u5i5rcuelv0baa86ca8.apps.googleusercontent.com', //USE FROM Google DEVELOPER ACCOUNT
         'client_secret' => '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', //USE FROM Google DEVELOPER ACCOUNT
