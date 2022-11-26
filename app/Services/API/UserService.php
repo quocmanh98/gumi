@@ -84,4 +84,78 @@ class UserService extends BaseService
         }
         throw new \Exception('Error ! Fetch Data User No Success', 1);
     }
+
+    public function saveUserData($data)
+    {
+        $result = $this->userRepository->saveUserData($data);
+        if ($result) {
+            $success = [
+                'message' => 'Create Data User Success',
+            ];
+            return $success;
+        }
+        throw new \Exception('Error ! Create Data User No Success', 1);
+    }
+
+    public function getById($id)
+    {
+        $users = $this->userRepository->getAllData();
+        $dataId = [];
+        foreach ($users as $user) {
+            $dataId[] = $user->id;
+        }
+        if (in_array($id, $dataId)) {
+            $result = $this->userRepository->getById($id);
+            if ($result) {
+                $success = [
+                    'message' => 'Fetch Data User Success',
+                    'user' => new UserResource($result),
+                ];
+                return $success;
+            }
+            throw new \Exception('Error ! Fetch Data User No Success', 1);
+        }
+        throw new \Exception('Error ! No find User', 1);
+
+    }
+
+    public function update($data, $id)
+    {
+        $users = $this->userRepository->getAllData();
+        $dataId = [];
+        foreach ($users as $user) {
+            $dataId[] = $user->id;
+        }
+        if (in_array($id, $dataId)) {
+            $result = $this->userRepository->update($data, $id);
+            if ($result) {
+                $success = [
+                    'message' => 'Update Data User Success',
+                ];
+                return $success;
+            }
+            throw new \Exception('Error ! Update Data User No Success', 1);
+        }
+        throw new \Exception('Error ! No find User', 1);
+    }
+
+    public function delete($id)
+    {
+        $users = $this->userRepository->getAllData();
+        $dataId = [];
+        foreach ($users as $user) {
+            $dataId[] = $user->id;
+        }
+        if (in_array($id, $dataId)) {
+            $result = $this->userRepository->delete($id);
+            if ($result) {
+                $success = [
+                    'message' => 'Success ! Delete Data User Success',
+                ];
+                return $success;
+            }
+            throw new \Exception('Error ! Delete Data User No Success', 1);
+        }
+        throw new \Exception('Error ! No find User', 1);
+    }
 }
