@@ -7,10 +7,22 @@ use App\Models\PermissionRole;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class PostPolicy
 {
     use HandlesAuthorization;
+
+    public function permissionPost(){
+
+        $user = Auth::user();
+        $data['permission']['posts'] = [];
+        foreach($user->role->permissions as $v){
+            $data['permission']['posts'][] = $v->name;
+        }
+        return $data;
+
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -20,12 +32,9 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-        $data['posts'] = [];
-        foreach($user->role->permissions as $v){
-            $data['posts'][] = $v->name;
-        }
+        $data = $this->permissionPost();
         if (!empty($data)) {
-            $check = isRole($data,config("services.modules.posts"), 'viewAny');
+            $check = isRole($data['permission'],config("services.modules.posts"), 'viewAny');
             if ($check) {
                 return true;
             }
@@ -42,12 +51,9 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        $data['posts'] = [];
-        foreach($user->role->permissions as $v){
-            $data['posts'][] = $v->name;
-        }
+        $data = $this->permissionPost();
         if (!empty($data)) {
-            $check = isRole($data, config("services.modules.posts"), 'view');
+            $check = isRole( $data['permission'], 'posts', 'view');
             if ($check && $user->id === $post->user_id) {
                 return true;
             }
@@ -63,12 +69,9 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        $data['posts'] = [];
-        foreach($user->role->permissions as $v){
-            $data['posts'][] = $v->name;
-        }
+        $data = $this->permissionPost();
         if (!empty($data)) {
-            $check = isRole($data,config("services.modules.posts"), 'create');
+            $check = isRole($data['permission'],config("services.modules.posts"), 'create');
             if ($check) {
                 return true;
             }
@@ -85,12 +88,9 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        $data['posts'] = [];
-        foreach($user->role->permissions as $v){
-            $data['posts'][] = $v->name;
-        }
+        $data = $this->permissionPost();
         if (!empty($data)) {
-            $check = isRole($data, config("services.modules.posts"), 'update');
+            $check = isRole($data['permission'], config("services.modules.posts"), 'update');
             if ($check && $user->id === $post->user_id) {
                 return true;
             }
@@ -107,12 +107,10 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        $data['posts'] = [];
-        foreach($user->role->permissions as $v){
-            $data['posts'][] = $v->name;
-        }
+        $data = $this->permissionPost();
+
         if (!empty($data)) {
-            $check = isRole($data, config("services.modules.posts"), 'delete');
+            $check = isRole($data['permission'], 'posts', 'delete');
             if ($check && $user->id === $post->user_id) {
                 return true;
             }

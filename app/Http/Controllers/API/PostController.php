@@ -43,33 +43,36 @@ class PostController extends BaseController
 
     public function show(Post $post)
     {
-        if (Auth::user()->can('view', $post)) {
+            $this->authorize('view',$post);
             try {
                 $post = $this->postService->getById($post->id);
                 return $this->sendSuccess($post);
             } catch (\Exception$e) {
                 return $this->sendError(null, $e->getMessage());
             }
-        }
-        return $this->sendError(null, 'Prohibited Access');
     }
 
-    public function update(UpdatePostRequest $request,$id){
+    public function update(UpdatePostRequest $request,Post $post){
+
+        $this->authorize('update',$post);
         $hasFile = $request->hasFile('thumbnail');
         $thumbnail = $request->file('thumbnail');
         $data = $request->all();
+
         try {
-            $result = $this->postService->update($data,$id,$hasFile,$thumbnail);
+            $result = $this->postService->update($data,$post->id,$hasFile,$thumbnail);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
+
     }
 
-    public function destroy($id)
+    public function destroy(Post $post)
     {
+        $this->authorize('delete',$post);
         try {
-            $result = $this->postService->delete($id);
+            $result = $this->postService->delete($post->id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
