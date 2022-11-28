@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -54,5 +56,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e, $request) {
             return response()->json(['status' => 'failed', 'message' => 'Data not found'], 404);
         });
+
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            return response()->json(['status' => 'failed', 'message' => 'Prohibited Access'], 403);
+        });
+
+
+
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\Auth\GoogleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\Auth\GoogleController;
+use App\Http\Controllers\API\MultipleImagePostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,4 @@ Route::prefix('google/')->name('google.')->group( function(){
     Route::get('login', [GoogleController::class, 'login'])->name('login');
     Route::any('callback', [GoogleController::class, 'callbackGoogle'])->name('callback');
 });
+

@@ -26,7 +26,8 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required','min:6'],
+            'id' => 'exists:posts,id',
+            'title' => 'required|min:6',
             'content' => 'required|min:6',
             'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'status' => 'required|integer|between:0,1',
@@ -34,6 +35,7 @@ class UpdatePostRequest extends FormRequest
             'user_id' => 'required|integer',
         ];
     }
+
 
     public function failedValidation(Validator $validator)
     {

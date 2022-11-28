@@ -1,16 +1,19 @@
 <?php
 namespace App\Repositories\Eloquent\API;
 
+use App\Models\MultipleImagePost;
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 
 class PostRepository extends BaseRepository
 {
 
-    protected $post;
+    protected $post,$multipleImagePost;
 
     public function __construct()
     {
         $this->post = new Post();
+        $this->multipleImagePost = new MultipleImagePost();
     }
 
     public function getAllPost(){
@@ -26,7 +29,7 @@ class PostRepository extends BaseRepository
     }
 
     public function update($data,$user){
-        return $post = $this->post->find($user)
+        return $this->post->find($user)
         ->update($data);
     }
     public function delete($user){
@@ -34,4 +37,15 @@ class PostRepository extends BaseRepository
         ->delete();
     }
 
+    public function saveMultipleImagePost($data){
+        DB::beginTransaction();
+        try {
+            $this->multipleImagePost->create($data);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new \Exception('Update Data User Success');
+        }
+    }
 }

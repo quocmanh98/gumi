@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\AuthOtpController;
 use App\Http\Controllers\API\Auth\GoogleController;
+use App\Http\Controllers\API\MultipleImagePostController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
@@ -54,11 +55,13 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
 
     Route::prefix('posts/')->name('posts.')->group(function () {
         Route::get('', [PostController::class, 'index'])->name('index')->can('viewAny',Post::class);
-        Route::post('', [PostController::class, 'store'])->name('store');
+        Route::post('', [PostController::class, 'store'])->name('store')->can('create',Post::class);
         Route::get('{post}', [PostController::class, 'show'])->name('show');
-        Route::put('{post}', [PostController::class, 'update'])->name('update');
-        // Route::post('{post}', [PostController::class, 'update'])->name('update');
+        // Route::put('{post}', [PostController::class, 'update'])->name('update');
+        Route::post('{post}', [PostController::class, 'update'])->name('update');
         Route::delete('{post}', [PostController::class, 'destroy'])->name('destroy');
+
+        Route::post('{post}/images', [MultipleImagePostController::class, 'store'])->name('images.store');
     });
 
     Route::prefix('roles/')->name('roles.')->group(function () {

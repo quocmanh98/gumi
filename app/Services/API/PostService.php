@@ -84,8 +84,10 @@ class PostService extends BaseService
             $post = $this->postRepository->getById($id);
 
             if (!empty($thumbnail)) {
-                if (File::exists(public_path($post->thumbnail))) {
-                    unlink($post->thumbnail);
+                if($post->thumbnail){
+                    if (File::exists(public_path($post->thumbnail))) {
+                        unlink($post->thumbnail);
+                    }
                 }
             }
 
@@ -119,11 +121,49 @@ class PostService extends BaseService
                 ];
                 return $success;
             }
-            
+
             throw new \Exception('Error ! Delete Data Post No Success', 1);
         }
 
         throw new \Exception('Error ! No find Post', 1);
+    }
+
+    public function handleUploadMultipleImagePost($images, $postId)
+    {
+        $imageErrors = [];
+        try {
+
+            foreach ($images as $image) {
+
+                $name = time() . rand(1, 99) . '.' . $image->extension();
+                $nameImage = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $image->move('image/multi/posts', $name);
+                $pathImage = 'image/multi/posts' . $name;
+
+                $data = [
+                    'title' => $nameImage,
+                    'path' => $pathImage,
+                    'post_id' => $postId,
+                ];
+
+                $imageErrors[] = $pathImage;
+
+                $this->postRepository->saveMultipleImagePost($data);
+            }
+
+        } catch (\Exception$e) {
+            foreach ($imageErrors as $imageError) {
+                if (File::exists(public_path($imageError))) {
+                    unlink($imageError);
+                }
+            }
+            throw new \Exception('Error !Upload Multiple Image Post No Success', 1);
+        }
+
+        $success = [
+            'message' => 'Success ! Upload Multiple Image Post Success',
+        ];
+        return $success;
     }
 
 }

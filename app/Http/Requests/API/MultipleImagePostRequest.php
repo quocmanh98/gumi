@@ -3,10 +3,10 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class PostRequest extends FormRequest
+class MultipleImagePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +26,9 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required','min:6','unique:posts,title',
-            'content' => 'required|min:6',
-            'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'status' => 'required|integer|between:0,1',
-            'book_id' => 'required|integer',
-            'user_id' => 'required|integer',
+            'post_id' =>'required',
+            'image' => 'required',
+            'image.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf',
         ];
     }
 
