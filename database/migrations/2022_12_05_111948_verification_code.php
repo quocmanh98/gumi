@@ -15,8 +15,16 @@ return new class extends Migration
     {
         Schema::create('verification_codes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id')
+            ->nullable()
+            ->constrained('users')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
             $table->string('otp');
+            $table->text('email')->nullable();
+            $table->text('user_created')->nullable();
+            $table->text('user_updated')->nullable();
+            $table->text('user_deleted')->nullable();
             $table->timestamp('expire_at')->nullable();
             $table->timestamps();
         });

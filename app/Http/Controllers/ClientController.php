@@ -14,7 +14,7 @@ class ClientController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:admin','permission:edit book'])->only('index','show');;
+        // $this->middleware(['role:admin','permission:edit book'])->only('index','show');;
     }
 
     public function impersonate($id){

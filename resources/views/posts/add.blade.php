@@ -6,7 +6,7 @@
         <h1>
             Thêm Posts
         </h1>
-        <form action="{{ route('blogs.store') }}" method="post" id='post-form'>
+        <form action="{{ route('posts.store') }}" method="post" id='post-form'>
             @csrf
             <div class="mb-3">
                 <label for="">Tên bài viết</label>
@@ -49,6 +49,7 @@
                         url: actionUrl,
                         type: 'POST',
                         dataType: "json",
+                        headers: {"Authorization": localStorage.getItem('token')},
                         // contentType: "application/json",
                         data: {
                             title: postName,

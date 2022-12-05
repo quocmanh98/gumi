@@ -13,21 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
+        Schema::create('post_reaction', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
             $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
+            $table->text('reaction_type')->nullable();
+            $table->foreignId('post_id')
+            ->nullable()
+            ->constrained('posts')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+            $table->boolean('status')->default(1)->nullable();
             $table->text('user_created')->nullable();
             $table->text('user_updated')->nullable();
             $table->text('user_deleted')->nullable();
-            $table->softDeletes();
-
+            $table->timestamps();
         });
     }
 
@@ -38,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('post_reaction');
     }
 };
