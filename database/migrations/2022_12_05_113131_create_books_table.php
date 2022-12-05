@@ -15,14 +15,22 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 510)->nullable();
-            $table->text('slug')->nullable();
+            $table->text('name')->nullable();
+            $table->text('title')->nullable();
             $table->text('content')->nullable();
+            $table->text('slug')->nullable();
+            $table->text('thumbnail')->nullable();
+            $table->text('meta_keyword')->nullable();
+            $table->boolean('status')->default(1)->nullable();
+            $table->text('author')->nullable();
             $table->foreignId('type_id')
-                ->nullable()
-                ->constrained('book_types')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            ->nullable()
+            ->constrained('book_types')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+            $table->text('user_created')->nullable();
+            $table->text('user_updated')->nullable();
+            $table->text('user_deleted')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

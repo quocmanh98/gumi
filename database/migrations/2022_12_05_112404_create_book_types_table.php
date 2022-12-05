@@ -15,8 +15,14 @@ return new class extends Migration
     {
         Schema::create('book_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name',510)->nullable();
+            $table->text('name')->nullable();
+            $table->text('title')->nullable();
+            $table->text('content')->nullable();
             $table->text('slug')->nullable();
+            $table->text('meta_keyword')->nullable();
+            $table->text('user_created')->nullable();
+            $table->text('user_updated')->nullable();
+            $table->text('user_deleted')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

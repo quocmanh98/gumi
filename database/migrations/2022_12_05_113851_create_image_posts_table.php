@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_role', function (Blueprint $table) {
+        Schema::create('image_posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            $table->text('name')->nullable();
+            $table->text('path')->nullable();
+            $table->foreignId('post_id')
                 ->nullable()
-                ->constrained('users')
+                ->constrained('posts')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('role_id')
-                ->nullable()
-                ->constrained('roles')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                $table->text('user_created')->nullable();
+                $table->text('user_updated')->nullable();
+                $table->text('user_deleted')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_role');
+        Schema::dropIfExists('image_posts');
     }
 };

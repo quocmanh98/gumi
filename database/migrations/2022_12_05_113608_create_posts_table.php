@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->text('name')->nullable();
             $table->text('title')->nullable();
-            $table->text('slug')->nullable();
             $table->text('content')->nullable();
+            $table->text('slug')->nullable();
             $table->text('thumbnail')->nullable();
+            $table->text('meta_keyword')->nullable();
             $table->boolean('status')->default(1)->nullable();
             $table->foreignId('book_id')
                 ->nullable()
@@ -30,6 +32,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->text('user_created')->nullable();
+            $table->text('user_updated')->nullable();
+            $table->text('user_deleted')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

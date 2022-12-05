@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('fullname')->nullable();
             $table->text('username')->nullable()->index();
             $table->text('email')->nullable()->unique();
-            $table->text('gender')->nullable()->unique();
+            $table->text('gender')->nullable();
             $table->boolean('status')->default(1)->nullable();
             $table->text('phone')->nullable();
             $table->text('thumbnail')->nullable();
@@ -27,6 +27,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('google_id')->nullable();
+            $table->text('user_created')->nullable();
+            $table->text('user_updated')->nullable();
+            $table->text('user_deleted')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

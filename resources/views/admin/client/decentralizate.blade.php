@@ -28,6 +28,7 @@
                             @endif
                             <br>
                             <input type="checkbox" name="checkedAll" id="checkedAll" />
+                            Chọn tất cả
                             @foreach ($permission as $k => $v)
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
