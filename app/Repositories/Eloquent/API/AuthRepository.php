@@ -16,7 +16,7 @@ class AuthRepository extends BaseRepository
 
     public function createUser($data)
     {
-        return $this->user->create($data);
+        return $this->user->insertGetId($data);
     }
 
     public function verifyUniid($id)
@@ -77,19 +77,20 @@ class AuthRepository extends BaseRepository
             );
     }
 
-    public function updateOrCreate( $user){
+    public function updateOrCreate($user)
+    {
         return $this->user->updateOrCreate([
             'google_id' => $user->getId(),
-        ],[
+        ], [
             'name' => $user->getName(),
             'email' => $user->getEmail(),
-            'password' => Hash::make($user->getName().'@'.$user->getId())
+            'password' => Hash::make($user->getName() . '@' . $user->getId()),
         ]);
     }
 
     public function updateGoogleId($user)
     {
-        return $this->user->where('email',  $user->getEmail())->update([
+        return $this->user->where('email', $user->getEmail())->update([
             'google_id' => $user->getId(),
         ]);
     }

@@ -28,6 +28,7 @@ class AuthService extends BaseService
     public function createUser($dataInput, $userData)
     {
         $result = $this->authRepository->createUser($userData);
+        
         if ($result == false) {
             $this->sendError("Sorry !  Unable to create an account !");
         } else {
