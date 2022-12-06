@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('post_reaction_comment', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-            ->nullable()
-            ->constrained('users')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->text('reaction_type')->nullable();
             $table->foreignId('comment_id')
             ->nullable()

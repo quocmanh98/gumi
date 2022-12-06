@@ -14,7 +14,8 @@ class BlogController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.detail', compact('post'));
+        $comments = Comment::where(['blog_id' => $id, 'reply_id' => 0])->get();
+        return view('posts.detail', compact('post','comments'));
     }
 
     public function comment($blog_id,Request $request)
@@ -35,9 +36,13 @@ class BlogController extends Controller
             ];
             $comment = Comment::create($data);
             if($comment){
-                $comments = Comment::where(['blog_id' => $blog_id, 'reply_id' => 0])->get();
+                // return response()->json(['success'=>'Added new records.']);
+                // $comments = Comment::where(['blog_id' => $blog_id, 'reply_id' => 0])->get();
                 // return response()->json(['data' =>  $comments], 200);
-                return view('posts.list_comment', compact('comments'));
+                // return view('posts.list_comment', compact('comments'));
+                return response()->json([
+                    'success'=>true
+                ]);
             }
         }
     }
@@ -47,6 +52,7 @@ class BlogController extends Controller
     }
 
     public function store(Request $request){
+        
         $validator = Validator::make($request->all(), [
             'title' =>'required',
             'content' => 'required',
@@ -66,6 +72,10 @@ class BlogController extends Controller
             ));
         }
 
+
+    }
+
+    public function index(){
 
     }
 }

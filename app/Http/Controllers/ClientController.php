@@ -167,7 +167,10 @@ class ClientController extends Controller
         $role_id = $user->roles->first()->id;
 
         $role = Role::findOrFail($role_id);
-        $role->syncPermissions($data['permission']);
+        if(!empty($data['permission'])){
+            $role->syncPermissions($data['permission']);
+        }
+
         return  redirect()->route('client.index')->with('status', 'Thêm vai trò cho User thành công');
     }
 

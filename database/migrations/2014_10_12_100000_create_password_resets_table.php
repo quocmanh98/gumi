@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('token');
             $table->timestamp('created_at')->nullable();
             $table->foreignId('user_id')
-            ->nullable()
-            ->constrained('users')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->text('user_created')->nullable();
             $table->text('user_updated')->nullable();
             $table->text('user_deleted')->nullable();

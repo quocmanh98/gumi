@@ -6,22 +6,22 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="container">
         <h1>
-            Thêm Posts
+            Login
         </h1>
-        <form action="{{ route('posts.store') }}" method="post" id='post-form'>
+        <form action="{{ route('demo.login') }}" method="post" id='btn-login'>
             @csrf
             <div class="mb-3">
-                <label for="">Tên bài viết</label>
-                <input type="text" class='form-control' name='title'>
-                <span style='color:red' class="error title_error"></span>
+                <label for="">Email</label>
+                <input type="email" class='form-control' name='email'>
+                <span style='color:red' class="error email_error"></span>
 
             </div>
             <div class="mb-3">
-                <label for="">Content</label>
-                <input type="text" class='form-control' name='content'>
-                <span style='color:red' class="error content_error"></span>
+                <label for="">Password</label>
+                <input type="password" class='form-control' name='password'>
+                <span style='color:red' class="error password_error"></span>
             </div>
-            <button type="submit" class='btn btn-danger'>Thêm</button>
+            <button type="submit" class='btn btn-danger' >Login</button>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"
@@ -31,13 +31,12 @@
         integrity="sha512-Z4QYNSc2DFv8LrhMEyarEP3rBkODBZT90RwUC7dYQYF29V4dfkh+8oYZHt0R6T3/KNv32/u0W6icGWUUk9V0jA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        console.log( localStorage.getItem('token'));
         $(document).ready(function() {
-            $('#post-form').on('submit', function(e) {
+            $('#btn-login').on('submit', function(e) {
                 e.preventDefault();
 
-                let postName = $('input[name="title"]').val().trim();
-                let postContent = $('input[name="content"]').val().trim();
+                let email = $('input[name="email"]').val().trim();
+                let password = $('input[name="password"]').val().trim();
                 let actionUrl = $(this).attr('action');
                 let cscfToken = $(this).find('input[name="_token"]').val();
                 $('.error').text('');
@@ -46,27 +45,32 @@
                     url: actionUrl,
                     type: 'POST',
                     dataType: "json",
-                    headers: {
-                        "Authorization": "Bearer "+localStorage.getItem('token')
-                    },
                     data: {
-                        title: postName,
-                        content: postContent,
+                        email: email,
+                        password: password,
                         _token: cscfToken
                     },
                     success: function(response) {
-                        console.log(response)
                         if (response.success == false) {
-                            for (let key in response.data) {
-                                $('.' + key + '_error').text(response.data[key][0])
+                            for (let key in response.error) {
+                                $('.' + key + '_error').text(response.error[key][0])
                             }
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.error,
+                                icon: 'Error',
+                                confirmBbuttonText: 'Cool'
+                            })
                         } else {
+
+                            localStorage.setItem('token', response.token)
                             Swal.fire({
                                 title: 'Success',
-                                text: 'Add Record Success',
+                                text: 'Login Success',
                                 icon: 'Success',
                                 confirmBbuttonText: 'Cool'
                             })
+
                         }
                     }
                 })

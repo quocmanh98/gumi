@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Auth\GoogleController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Demo\DemoAuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,3 +48,8 @@ Route::get('posts/detail/{id}', [BlogController::class, 'show'])->name('posts.de
 Route::post('comment/{blog_id}', [BlogController::class, 'comment'])->name('posts.comment');
 Route::get('posts/add', [BlogController::class, 'add'])->name('posts.add');
 Route::post('blogs/store', [BlogController::class, 'store'])->name('blogs.store');
+
+Route::get('blogs/index', [BlogController::class, 'index'])->name('blogs.index');
+
+
+

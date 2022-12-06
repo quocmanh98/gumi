@@ -13,6 +13,8 @@
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.1",
+        "qirolab/laravel-reactions": "^2.6",
+        "spatie/laravel-comments": "^1.4",
         "spatie/laravel-permission": "^5.7"
     },
     "require-dev": {

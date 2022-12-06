@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('post_comments', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
@@ -27,8 +28,9 @@ return new class extends Migration
             ->cascadeOnDelete();
             $table->text('content')->nullable();
             $table->text('reply_id')->nullable();
-            $table->timestamps();
             $table->boolean('status')->default(1)->nullable();
+            
+            $table->timestamps();
             $table->text('user_created')->nullable();
             $table->text('user_updated')->nullable();
             $table->text('user_deleted')->nullable();

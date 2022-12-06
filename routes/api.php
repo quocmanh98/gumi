@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\GroupPermissionController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\API\Auth\AuthController;
-use App\Http\Controllers\API\Auth\AuthOtpController;
-use App\Http\Controllers\API\Auth\GoogleController;
-use App\Http\Controllers\API\MultipleImagePostController;
-use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\RoleController;
-use App\Http\Controllers\API\UserController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\Demo\DemoAuthController;
+use App\Http\Controllers\API\Auth\GoogleController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\API\Auth\AuthOtpController;
+use App\Http\Controllers\Admin\GroupPermissionController;
+use App\Http\Controllers\API\MultipleImagePostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
 
     Route::prefix('posts/')->name('posts.')->group(function () {
         Route::get('', [PostController::class, 'index'])->name('index')->can('viewAny',Post::class);
-        Route::post('', [PostController::class, 'store'])->name('store')->can('create',Post::class);
+        Route::post('', [PostController::class, 'store'])->name('store');
         Route::get('{post}', [PostController::class, 'show'])->name('show');
         // Route::put('{post}', [PostController::class, 'update'])->name('update');
         Route::post('{post}', [PostController::class, 'update'])->name('update');
@@ -92,5 +93,8 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
     });
 });
 
+
+Route::get('demo/login', [DemoAuthController::class, 'login']);
+Route::post('demo/login', [DemoAuthController::class, 'handleLogin'])->name('demo.login');
 
 

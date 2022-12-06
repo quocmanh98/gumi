@@ -26,8 +26,14 @@ class PostController extends BaseController
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
+        //
     }
 
+    /**
+     * Summary of store
+     * @param PostRequest $request
+     * @return mixed
+     */
     public function store(PostRequest $request)
     {
         $data = $request->all();
