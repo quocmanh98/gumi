@@ -9,6 +9,7 @@ class CreatePermissionTables extends Migration
 {
     /**
      * Run the migrations.
+     * Tạo bảng phân quyền (thư viện spatie)
      *
      * @return void
      */

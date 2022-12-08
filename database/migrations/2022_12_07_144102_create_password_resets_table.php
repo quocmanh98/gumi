@@ -8,24 +8,28 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * Tạo bảng password_resets
+     * Lưu token được gửi qua cho user qua email
      *
      * @return void
      */
     public function up()
     {
         Schema::create('password_resets', function (Blueprint $table) {
+
             $table->id();
             $table->string('email')->index();
             $table->string('token');
-            $table->timestamp('created_at')->nullable();
-            $table->foreignId('user_id')
-            ->nullable()
-            ->constrained('users')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
-            $table->text('user_created')->nullable();
-            $table->text('user_updated')->nullable();
-            $table->text('user_deleted')->nullable();
+            $table->integer('user_id');
+
+            $table->integer('user_created')
+                ->nullable();
+            $table->integer('user_updated')
+                ->nullable();
+            $table->integer('user_deleted')
+                ->nullable();
+
+            $table->timestamps();
             $table->softDeletes();
 
         });
@@ -33,6 +37,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * Xóa bảng: password_resets
      *
      * @return void
      */
