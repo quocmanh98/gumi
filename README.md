@@ -1,66 +1,35 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+                            Website bán sách
+1. Lý do chọn đề tài:
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ngày nay, sở thích đọc sách của con người rất phổ biến và có xu hướng phát triển mạnh. 
+Sách mang đến cho con người nền tri thức vô giá, 
+làm cho cuộc sống con người ngày trở lên văn minh hơn.
+Nhưng tình hình dịch bệnh đang căng thẳng và một số người không
+có thời gian để tìm đến nhà sách để lựa chọn cho mình những quyển
+sách hay và ý nghĩa. Nhận thấy vấn đề này em quyết định xây dựng
+website bán sách trực tuyến. Những khách hàng có nhu cầu mua sách
+chỉ cần thông qua website trực tuyến không mất nhiều thời gian để
+có thể sở hữu cuốn sách mà mình yêu thích.
 
-## About Laravel
+2. Mục đích đề tài:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Xây dựng website bán sách trực tuyến với các chức năng hoàn
+chỉnh, dễ sử dụng và thuận tiện cho việc quản lý.
+Việc xây dựng website bán sách nhằm giúp các nhà kinh doanh
+có thể giải quyết các công việc nghiệp vụ liên quan một cách nhanh
+chóng hiệu quả và chính xác hơn so với làm thủ công. Ít tổn thời gian
+và mở rộng thị trường sách online cùng với đà phát triển của công
+nghệ thông tin. Giúp cho doanh nghiệp tránh được rủi ro về quản trị
+thông tin cũng như mát mát những thông tin khách hàng nhạy cảm.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Giúp khách hàng có thể đặt mua sách qua mạng một cách nhanh chóng, tiện lợi và tiết kiệm chi phí. 
+Khách hàng có thể lựa chọn một kho báu kiến thức khổng lồ 
+bao gồm hàng ngàn cuốn sách từ sách giáo khoa cho đến sách khoa học cơ bản như 
+sách lịch sử, sách địa lý, sách thiên văn học, sách y học, sách ngoại ngữ..v.v. 
+những cuốn sách bán chạy nhất hiện nay, sách được báo chí giới thiệu, sách kinh tế,
+ sách học làm người, sách danh nhân, sách tâm lý nghệ thuật sống.v.v. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. Đối tượng nghiên cứu:
+Khách hàng là những người yêu sách, có sở thích đọc sách
+Website này có thể được ứng dụng cho các nhà sách có quy mô và hình thức hoạt động nghiệp vụ nhỏ.
