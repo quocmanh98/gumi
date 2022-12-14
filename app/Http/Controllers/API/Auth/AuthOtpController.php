@@ -5,18 +5,14 @@ namespace App\Http\Controllers\API\Auth;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\API\Auth\GenerateRequest;
 use App\Http\Requests\API\Auth\LoginWithOtpRequest;
-use App\Models\User;
-use App\Models\VerificationCode;
 use App\Services\API\AuthOtpService;
 use App\Services\API\AuthService;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthOtpController extends BaseController
 {
     protected $authService;
     protected $authOtpService;
+
     public function __construct()
     {
         $this->authService = new AuthService;
@@ -27,6 +23,7 @@ class AuthOtpController extends BaseController
     {
         $phone = $request->phone;
         $email = $request->email;
+
         $result = $this->authOtpService->handleGenerate($phone,$email);
         return $this->sendSuccess($result);
     }
@@ -34,17 +31,15 @@ class AuthOtpController extends BaseController
 
     public function loginWithOtp(LoginWithOtpRequest $request)
     {
-        // hidden : user_id
-        $userId =  $request->user_id;
+        $user_id =  $request->user_id;
         $otp = $request->otp;
 
         try {
-            $result = $this->authOtpService->handleLoginWithOtp($userId,$otp);
+            $result = $this->authOtpService->handleLoginWithOtp($user_id,$otp);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null,$e->getMessage());
         }
-
     }
 
 }

@@ -10,7 +10,8 @@ class GroupPermission extends Model
     protected  $table = "group_permissions";
     protected $guarded = [];
 
-    public function permissions() {
+    public function permissions()
+    {
         return $this->hasMany(Permission::class);
     }
 }

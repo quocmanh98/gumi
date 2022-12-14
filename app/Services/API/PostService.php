@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\File;
 
 class PostService extends BaseService
 {
-
     protected $postRepository;
+
     public function __construct()
     {
         $this->postRepository = new PostRepository;
     }
 
-    public function getAll()
+    public function getAllPost()
     {
         $result = $this->postRepository->getAllPost();
         if ($result) {
@@ -27,12 +27,10 @@ class PostService extends BaseService
         throw new \Exception('Error ! Fetch Data Post No Success', 1);
     }
 
-    public function savePostData($data, $hasFile, $thumbnail)
+    public function handleSavePostData($data, $hasFile, $thumbnail)
     {
-
         if ($hasFile) {
             $imageName = $thumbnail->getClientOriginalName();
-
             $thumbnail->move('image/posts', $imageName);
             $image = 'image/posts/' . $imageName;
             $data['thumbnail'] = $image;
@@ -61,18 +59,15 @@ class PostService extends BaseService
         throw new \Exception('Error ! Fetch Data Post No Success', 1);
     }
 
-    public function update($data, $id, $hasFile, $thumbnail)
+    public function handleUpdatePost($data, $id, $hasFile, $thumbnail)
     {
-
         if ($hasFile) {
-
             $imageName = $thumbnail->getClientOriginalName();
-
             $thumbnail->move('image/posts', $imageName);
             $image = 'image/posts/' . $imageName;
             $data['thumbnail'] = $image;
-
         }
+
         $posts = $this->postRepository->getAllPost();
         $dataId = [];
         foreach ($posts as $post) {
@@ -80,9 +75,7 @@ class PostService extends BaseService
         }
 
         if (in_array($id, $dataId)) {
-
             $post = $this->postRepository->getById($id);
-
             if (!empty($thumbnail)) {
                 if($post->thumbnail){
                     if (File::exists(public_path($post->thumbnail))) {
@@ -91,7 +84,7 @@ class PostService extends BaseService
                 }
             }
 
-            $result = $this->postRepository->update($data, $id);
+            $result = $this->postRepository->updatePost($data, $id);
             if ($result) {
                 $success = [
                     'message' => 'Update Data Post Success',
@@ -104,7 +97,7 @@ class PostService extends BaseService
         throw new \Exception('Error ! No find Post', 1);
     }
 
-    public function delete($id)
+    public function handleDeletePost($id)
     {
         $posts = $this->postRepository->getAllPost();
         $dataId = [];
@@ -113,15 +106,13 @@ class PostService extends BaseService
         }
 
         if (in_array($id, $dataId)) {
-            $result = $this->postRepository->delete($id);
-
+            $result = $this->postRepository->deletePost($id);
             if ($result) {
                 $success = [
                     'message' => 'Success ! Delete Data Post Success',
                 ];
                 return $success;
             }
-
             throw new \Exception('Error ! Delete Data Post No Success', 1);
         }
 
@@ -132,9 +123,7 @@ class PostService extends BaseService
     {
         $imageErrors = [];
         try {
-
             foreach ($images as $image) {
-
                 $name = time() . rand(1, 99) . '.' . $image->extension();
                 $nameImage = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 $image->move('image/multi/posts', $name);
@@ -147,10 +136,8 @@ class PostService extends BaseService
                 ];
 
                 $imageErrors[] = $pathImage;
-
                 $this->postRepository->saveMultipleImagePost($data);
             }
-
         } catch (\Exception$e) {
             foreach ($imageErrors as $imageError) {
                 if (File::exists(public_path($imageError))) {

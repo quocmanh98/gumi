@@ -9,9 +9,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class UserService extends BaseService
 {
-
     protected $userRepository;
     protected $authRepository;
+
     public function __construct()
     {
         $this->userRepository = new UserRepository;
@@ -85,7 +85,7 @@ class UserService extends BaseService
         throw new \Exception('Error ! Fetch Data User No Success', 1);
     }
 
-    public function saveUserData($data)
+    public function handleSaveUserData($data)
     {
         $result = $this->userRepository->saveUserData($data);
         if ($result) {
@@ -104,6 +104,7 @@ class UserService extends BaseService
         foreach ($users as $user) {
             $dataId[] = $user->id;
         }
+
         if (in_array($id, $dataId)) {
             $result = $this->userRepository->getById($id);
             if ($result) {
@@ -116,10 +117,9 @@ class UserService extends BaseService
             throw new \Exception('Error ! Fetch Data User No Success', 1);
         }
         throw new \Exception('Error ! No find User', 1);
-
     }
 
-    public function update($data, $id)
+    public function handleUpdateUser($data, $id)
     {
         $users = $this->userRepository->getAllData();
         $dataId = [];
@@ -127,7 +127,7 @@ class UserService extends BaseService
             $dataId[] = $user->id;
         }
         if (in_array($id, $dataId)) {
-            $result = $this->userRepository->update($data, $id);
+            $result = $this->userRepository->updateUser($data, $id);
             if ($result) {
                 $success = [
                     'message' => 'Update Data User Success',
@@ -139,7 +139,7 @@ class UserService extends BaseService
         throw new \Exception('Error ! No find User', 1);
     }
 
-    public function delete($id)
+    public function handleDeleteUser($id)
     {
         $users = $this->userRepository->getAllData();
         $dataId = [];
@@ -147,7 +147,7 @@ class UserService extends BaseService
             $dataId[] = $user->id;
         }
         if (in_array($id, $dataId)) {
-            $result = $this->userRepository->delete($id);
+            $result = $this->userRepository->deleteUser($id);
             if ($result) {
                 $success = [
                     'message' => 'Success ! Delete Data User Success',

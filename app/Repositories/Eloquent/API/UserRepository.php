@@ -5,7 +5,6 @@ use App\Models\User;
 
 class UserRepository extends BaseRepository
 {
-
     protected $user;
 
     public function __construct()
@@ -51,25 +50,30 @@ class UserRepository extends BaseRepository
         return $users;
     }
 
-    public function saveUserData($data){
+    public function saveUserData($data)
+    {
         return $this->user->create($data);
     }
 
-    public function getById($user){
+    public function getById($user)
+    {
         return $this->user->where('id',$user)->first();
     }
 
-    public function update($data,$user){
+    public function updateUser($data,$user)
+    {
         return $user = $this->user->find($user)
         ->update($data);
     }
 
-    public function delete($user){
+    public function deleteUser($user)
+    {
         return $user = $this->user->find($user)
         ->delete();
     }
 
-    public function getAllData(){
+    public function getAllData()
+    {
         return $this->user->all();
     }
 }

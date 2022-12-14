@@ -19,10 +19,10 @@ class AuthRepository extends BaseRepository
         return $this->user->insertGetId($data);
     }
 
-    public function verifyUniid($id)
+    public function verifyUuid($uuid)
     {
         $result = $this->user->select('activate_date', 'unique_id', 'status')
-            ->where('unique_id', $id)
+            ->where('unique_id', $uuid)
             ->first();
         return $result;
     }
@@ -53,46 +53,51 @@ class AuthRepository extends BaseRepository
         return $result;
     }
 
-    public function getDataUserId($userId)
+    public function getDataUserId($user_id)
     {
-        $result = $this->user->whereId($userId)->first();
+        $result = $this->user->whereId($user_id)->first();
         return $result;
     }
 
-    public function updatePassword($passwordNew, $uniid)
+    public function updatePassword($passwordNew, $uuid)
     {
-        return $this->user->where('unique_id', $uniid)
-            ->update(['password' => $passwordNew]);
+        return $this->user->where('unique_id', $uuid)
+            ->update(
+                ['password' => $passwordNew]
+            );
     }
 
-    public function updatePasswordByEmail($passwordNewHash, $email)
+    public function updatePasswordByEmail($password_new_hash, $email)
     {
         return $this->user->where('email', $email)
             ->update(
                 [
-                    'password' => $passwordNewHash,
+                    'password' => $password_new_hash,
                     'status' => 1,
                 ]
-
             );
     }
 
     public function updateOrCreate($user)
     {
-        return $this->user->updateOrCreate([
+        return $this->user->updateOrCreate(
+            [
             'google_id' => $user->getId(),
-        ], [
+            ], [
             'name' => $user->getName(),
             'email' => $user->getEmail(),
             'password' => Hash::make($user->getName() . '@' . $user->getId()),
-        ]);
+            ]
+        );
     }
 
     public function updateGoogleId($user)
     {
-        return $this->user->where('email', $user->getEmail())->update([
+        return $this->user->where('email', $user->getEmail())->update(
+            [
             'google_id' => $user->getId(),
-        ]);
+            ]
+        );
     }
 
 }

@@ -22,6 +22,7 @@ class UserController extends BaseController
         $search = null;
         $status = $request->status;
         $roleId = $request->role_id;
+
         if (!empty($request->search)) {
             $search = $request->search;
         }
@@ -34,7 +35,6 @@ class UserController extends BaseController
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
-
     }
 
     public function store(UserRequest $request)
@@ -42,7 +42,7 @@ class UserController extends BaseController
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
-            $result = $this->userService->saveUserData($data);
+            $result = $this->userService->handleSaveUserData($data);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -64,7 +64,7 @@ class UserController extends BaseController
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
-            $result = $this->userService->update($data,$id);
+            $result = $this->userService->handleUpdateUser($data,$id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -74,7 +74,7 @@ class UserController extends BaseController
     public function destroy($id)
     {
         try {
-            $result = $this->userService->delete($id);
+            $result = $this->userService->handleDeleteUser($id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 class PostRepository extends BaseRepository
 {
 
-    protected $post,$multipleImagePost;
+    protected $post;
+    protected $multipleImagePost;
 
     public function __construct()
     {
@@ -16,35 +17,42 @@ class PostRepository extends BaseRepository
         $this->multipleImagePost = new MultipleImagePost();
     }
 
-    public function getAllPost(){
+    public function getAllPost()
+    {
         return $this->post->all();
     }
 
-    public function savePostData($data){
+    public function savePostData($data)
+    {
         return $this->post->create($data);
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         return $this->post->where('id',$id)->first();
     }
 
-    public function update($data,$user){
+    public function updatePost($data,$user)
+    {
         return $this->post->find($user)
         ->update($data);
     }
-    public function delete($user){
+
+    public function deletePost($user)
+    {
         return $user = $this->post->find($user)
         ->delete();
     }
 
-    public function saveMultipleImagePost($data){
+    public function saveMultipleImagePost($data)
+    {
         DB::beginTransaction();
+
         try {
             $this->multipleImagePost->create($data);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-
             throw new \Exception('Update Data User Success');
         }
     }

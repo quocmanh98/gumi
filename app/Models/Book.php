@@ -11,7 +11,8 @@ class Book extends Model
     protected  $table = "books";
     protected $guarded = [];
 
-    public function post(){
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
 

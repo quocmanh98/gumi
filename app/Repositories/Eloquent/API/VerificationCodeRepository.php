@@ -39,7 +39,8 @@ class VerificationCodeRepository extends BaseRepository
         ]);
     }
 
-    public function deleteOtp(){
+    public function deleteOtp()
+    {
         return $this->verificationCode->truncate();
     }
 }

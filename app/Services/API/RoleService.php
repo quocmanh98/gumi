@@ -2,24 +2,24 @@
 namespace App\Services\API;
 
 use App\Repositories\Eloquent\API\RoleRepository;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 
-class RoleService{
-
+class RoleService
+{
     protected $roleRepository;
+
     public function __construct()
     {
         $this->roleRepository = new RoleRepository;
     }
 
-    public function searchRole($search){
-        return $this->roleRepository->searchRole($search);
+    public function getSearchRole($search)
+    {
+        return $this->roleRepository->getSearchRole($search);
     }
 
-    public function handleAdd($name,$description,$permission_id){
+    public function handleSaveRole($name, $description, $permission_id)
+    {
         try {
             DB::beginTransaction();
 
@@ -39,16 +39,18 @@ class RoleService{
         }
     }
 
-    public function getId($role){
-        return $this->roleRepository->getId($role);
+    public function getRoleInfo($role)
+    {
+        return $this->roleRepository->getRoleId($role);
     }
 
-    public function handleUpdate($role,$name,$description,$permission_id){
+    public function handleUpdateRole($role,$name,$description,$permission_id)
+    {
         try {
             DB::beginTransaction();
 
-            $this->roleRepository->updateRole($role,$name,$description);
-            $role = $this->roleRepository->getId($role);
+            $this->roleRepository->updateRoleInfo($role,$name,$description);
+            $role = $this->roleRepository->getRoleId($role);
 
             $role->permissions()->sync($permission_id);
 
@@ -61,8 +63,9 @@ class RoleService{
         }
     }
 
-    public function delete($role){
-        return $this->roleRepository->delete($role);
+    public function handleDeleteRole($role)
+    {
+        return $this->roleRepository->deleteRole($role);
     }
 }
 

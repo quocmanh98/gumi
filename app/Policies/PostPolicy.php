@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Models\Permission;
-use App\Models\PermissionRole;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -13,15 +11,14 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
-    public function permissionPost(){
-
+    public function permissionPost()
+    {
         $user = Auth::user();
         $data['permission']['posts'] = [];
         foreach($user->role->permissions as $v){
             $data['permission']['posts'][] = $v->name;
         }
         return $data;
-
     }
 
     /**
@@ -116,29 +113,5 @@ class PostPolicy
             }
         }
         return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Post $post)
-    {
-        //
     }
 }

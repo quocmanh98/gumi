@@ -7,24 +7,24 @@ use App\Http\Requests\API\PermissionRequest;
 use App\Http\Requests\API\UpdatePermissionRequest;
 use App\Http\Resources\API\PermissionResource;
 use App\Services\API\PermissionService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
     protected $permissionService;
-    public function __construct(PermissionService $permissionService)
+
+    public function __construct()
     {
-        $this->permissionService = $permissionService;
+        $this->permissionService = new PermissionService();
     }
 
-    public function index(){
+    public function index()
+    {
         $permissions = PermissionResource::collection($this->permissionService->getList());
         return sendResponse($permissions,'Fetch Data Success');
     }
 
-    public function store(PermissionRequest $request){
-
+    public function store(PermissionRequest $request)
+    {
         $name = $request->input('name');
         $title = $request->input('title');
         $group_permission_id = $request->input('group_permission_id');
@@ -35,28 +35,29 @@ class PermissionController extends Controller
             'group_permission_id' =>  $group_permission_id
         ];
 
-        $this->permissionService->handleAdd( $dataInsert );
+        $this->permissionService->savePermission( $dataInsert );
         return sendResponse('','Add Permission Success');
     }
 
-    public function update($id,UpdatePermissionRequest $request){
-
+    public function update($id,UpdatePermissionRequest $request)
+    {
         $name = $request->input('name');
         $title = $request->input('title');
         $group_permission_id = $request->input('group_permission_id');
-        
-        $this->permissionService->update($id,$name,$title,$group_permission_id);
+
+        $this->permissionService->updatePermission($id,$name,$title,$group_permission_id);
         return sendResponse([],'Update Permission Success');
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $result = new PermissionResource($this->permissionService->getId($id));
         return sendResponse($result,'Fetch Permission Success');
     }
 
-    public function delete($id){
-        $this->permissionService->delete($id);
+    public function destroy($id)
+    {
+        $this->permissionService->deletePermission($id);
         return sendResponse([],'Delete Permission Success');
-
     }
 }
