@@ -63,7 +63,7 @@ class RoleController extends BaseController
             'permissionsChecked' => $permissionsChecked
         ];
 
-        return sendResponse($result,'Show Data Success');
+        return sendResponse($result, 'Show Data Success');
     }
 
     /**
@@ -78,7 +78,7 @@ class RoleController extends BaseController
         $description = $request->input('description');
         $permissionId = $request->input('permission_id');
 
-        return $this->roleService->handleUpdateRole($role,$name, $description, $permissionId);
+        return $this->roleService->handleUpdateRole($role, $name, $description, $permissionId);
     }
 
     /**
@@ -89,6 +89,6 @@ class RoleController extends BaseController
     public function destroy($role)
     {
         $this->roleService->handleDeleteRole($role);
-        return sendResponse([],'Delete Data Success');
+        return sendResponse([], 'Delete Data Success');
     }
 }

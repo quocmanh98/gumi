@@ -55,12 +55,7 @@ class RoleRepository
     {
         return $this->role
             ->findOrFail($role)
-            ->update(
-                [
-                    'name' => $name,
-                    'description' => $description,
-                ]
-            );
+            ->update(['name' => $name, 'description' => $description]);
     }
 
     /**

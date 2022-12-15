@@ -33,7 +33,7 @@ class VerificationCodeRepository extends BaseRepository
      * @param mixed $otp
      * @return mixed
      */
-    public function verifyUserOtp($userId,$otp)
+    public function verifyUserOtp($userId, $otp)
     {
         $result = $this->verificationCode->select('*')
             ->where('user_id', $userId)->where('otp', $otp)
@@ -48,11 +48,8 @@ class VerificationCodeRepository extends BaseRepository
      */
     public function createVerificationCode($userId)
     {
-        return $this->verificationCode->create([
-            'user_id' => $userId,
-            'otp' => rand(123456, 999999),
-            'expire_at' => Carbon::now()->addMinutes(10)
-        ]);
+        return $this->verificationCode
+                ->create(['user_id' => $userId, 'otp' => rand(123456, 999999), 'expire_at' => Carbon::now()->addMinutes(10)]);
     }
 
     /**

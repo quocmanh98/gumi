@@ -75,7 +75,7 @@ class UserRepository extends BaseRepository
      */
     public function getById(int $user)
     {
-        return $this->user->where('id',$user)->first();
+        return $this->user->where('id', $user)->first();
     }
 
     /**
@@ -84,7 +84,7 @@ class UserRepository extends BaseRepository
      * @param mixed $user
      * @return mixed
      */
-    public function updateUser($data,$user)
+    public function updateUser($data, $user)
     {
         return $user = $this->user->find($user)
         ->update($data);

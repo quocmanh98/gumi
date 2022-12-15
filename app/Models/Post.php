@@ -17,7 +17,7 @@ class Post extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
@@ -26,7 +26,7 @@ class Post extends Model
      */
     public function book()
     {
-        return $this->belongsTo(Book::class,'book_id','id');
+        return $this->belongsTo(Book::class, 'book_id', 'id');
     }
 
     /**
@@ -35,6 +35,6 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'blog_id', 'id')->orderBy('id','desc');
+        return $this->hasMany(Comment::class, 'blog_id', 'id')->orderBy('id', 'desc');
     }
 }

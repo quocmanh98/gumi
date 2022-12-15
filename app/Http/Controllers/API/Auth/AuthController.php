@@ -50,7 +50,7 @@ class AuthController extends BaseController
             $result = $this->authService->createUser($dataInput, $userData);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ class AuthController extends BaseController
             $result = $this->authService->verifyUuid($id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 
@@ -82,14 +82,14 @@ class AuthController extends BaseController
         try {
             $userData = $this->authService->verifyEmail($email);
         } catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
 
         try {
             $result =  $this->authService->handleLogin($password, $userData);
             return $this->sendSuccess($result);
         }  catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 
@@ -106,10 +106,10 @@ class AuthController extends BaseController
         $uuid = Auth::user()->uuid;
 
         try {
-            $result =  $this->authService->handleChangePassword($passwordOld, $passwordNew, $password,$uuid);
+            $result =  $this->authService->handleChangePassword($passwordOld, $passwordNew, $password, $uuid);
             return $this->sendSuccess($result);
         }  catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ class AuthController extends BaseController
             $result = $this->authService->handleForgotPassword($email);
             return $this->sendSuccess($result);
         } catch (\Exception $e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 }

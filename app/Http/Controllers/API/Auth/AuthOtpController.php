@@ -29,7 +29,7 @@ class AuthOtpController extends BaseController
         $phone = $request->phone;
         $email = $request->email;
 
-        $result = $this->authOtpService->handleGenerate($phone,$email);
+        $result = $this->authOtpService->handleGenerate($phone, $email);
         return $this->sendSuccess($result);
     }
 
@@ -45,10 +45,10 @@ class AuthOtpController extends BaseController
         $otp = $request->otp;
 
         try {
-            $result = $this->authOtpService->handleLoginWithOtp($userId,$otp);
+            $result = $this->authOtpService->handleLoginWithOtp($userId, $otp);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
-            return $this->sendError(null,$e->getMessage());
+            return $this->sendError(null, $e->getMessage());
         }
     }
 

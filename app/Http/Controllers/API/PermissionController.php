@@ -36,12 +36,11 @@ class PermissionController extends Controller
     {
         $name = $request->input('name');
         $title = $request->input('title');
-        $groupPermissionId = $request->input('group_permission_id');
 
         $dataInput = [
             'name' => $name,
             'title' => $title,
-            'group_permission_id' =>  $groupPermissionId
+            'group_permission_id' =>  $request->input('group_permission_id')
         ];
 
         $this->permissionService->savePermission( $dataInput );
@@ -60,7 +59,7 @@ class PermissionController extends Controller
         $title = $request->input('title');
         $groupPermissionId = $request->input('group_permission_id');
 
-        $this->permissionService->updatePermission($id,$name,$title,$groupPermissionId);
+        $this->permissionService->updatePermission($id, $name, $title, $groupPermissionId);
         return sendResponse([],'Update Permission Success');
     }
 
@@ -72,7 +71,7 @@ class PermissionController extends Controller
     public function show(int $id)
     {
         $result = new PermissionResource($this->permissionService->getId($id));
-        return sendResponse($result,'Fetch Permission Success');
+        return sendResponse($result, 'Fetch Permission Success');
     }
 
     /**
@@ -83,6 +82,6 @@ class PermissionController extends Controller
     public function destroy(int $id)
     {
         $this->permissionService->deletePermission($id);
-        return sendResponse([],'Delete Permission Success');
+        return sendResponse([], 'Delete Permission Success');
     }
 }

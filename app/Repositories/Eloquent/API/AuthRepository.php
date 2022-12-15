@@ -46,9 +46,7 @@ class AuthRepository extends BaseRepository
     {
         $result = $this->user
             ->where('unique_id', $uuid)
-            ->update(
-                ['status' => 1]
-            );
+            ->update(['status' => 1]);
         return $result;
     }
 
@@ -98,9 +96,7 @@ class AuthRepository extends BaseRepository
     public function updatePassword($passwordNew, $uuid)
     {
         return $this->user->where('unique_id', $uuid)
-            ->update(
-                ['password' => $passwordNew]
-            );
+            ->update(['password' => $passwordNew]);
     }
 
     /**
@@ -112,12 +108,7 @@ class AuthRepository extends BaseRepository
     public function updatePasswordByEmail($passwordNewHash, $email)
     {
         return $this->user->where('email', $email)
-            ->update(
-                [
-                    'password' => $passwordNewHash,
-                    'status' => 1,
-                ]
-            );
+            ->update(['password' => $passwordNewHash, 'status' => 1]);
     }
 
     /**
@@ -127,15 +118,9 @@ class AuthRepository extends BaseRepository
      */
     public function updateOrCreate($user)
     {
-        return $this->user->updateOrCreate(
-            [
-            'google_id' => $user->getId(),
-            ], [
-            'name' => $user->getName(),
-            'email' => $user->getEmail(),
-            'password' => Hash::make($user->getName() . '@' . $user->getId()),
-            ]
-        );
+        return $this->user->updateOrCreate(['google_id' => $user->getId()],
+        [ 'name' => $user->getName(),'email' => $user->getEmail(),
+        'password' => Hash::make($user->getName() . '@' . $user->getId())]);
     }
 
     /**
@@ -145,10 +130,8 @@ class AuthRepository extends BaseRepository
      */
     public function updateGoogleId($user)
     {
-        return $this->user->where('email', $user->getEmail())->update(
-            [
-            'google_id' => $user->getId(),
-            ]
+        return $this->user->where('email', $user->getEmail())
+        ->update(['google_id' => $user->getId(),]
         );
     }
 

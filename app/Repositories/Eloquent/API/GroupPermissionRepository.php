@@ -49,10 +49,8 @@ class GroupPermissionRepository
      */
     public function updateGroupPermissionInfo(int $id,$name,$description)
     {
-        return $this->groupPermission->findOrFail($id)->update([
-            'name' => $name,
-            'description' => $description,
-        ]);
+        return $this->groupPermission->findOrFail($id)
+            ->update(['name' => $name, 'description' => $description]);
     }
 
     /**

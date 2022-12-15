@@ -43,7 +43,7 @@ class PostController extends BaseController
         $thumbnail = $request->file('thumbnail');
 
         try {
-            $result = $this->postService->handleSavePostData($data,$hasFile,$thumbnail);
+            $result = $this->postService->handleSavePostData($data, $hasFile, $thumbnail);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -57,7 +57,7 @@ class PostController extends BaseController
      */
     public function show(Post $post)
     {
-        $this->authorize('view',$post);
+        $this->authorize('view', $post);
         try {
             $post = $this->postService->getById($post->id);
             return $this->sendSuccess($post);
@@ -74,13 +74,13 @@ class PostController extends BaseController
      */
     public function update(UpdatePostRequest $request,Post $post)
     {
-        $this->authorize('update',$post);
+        $this->authorize('update', $post);
         $hasFile = $request->hasFile('thumbnail');
         $thumbnail = $request->file('thumbnail');
         $data = $request->all();
 
         try {
-            $result = $this->postService->handleUpdatePost($data,$post->id,$hasFile,$thumbnail);
+            $result = $this->postService->handleUpdatePost($data, $post->id, $hasFile, $thumbnail);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -94,7 +94,7 @@ class PostController extends BaseController
      */
     public function destroy(Post $post)
     {
-        $this->authorize('delete',$post);
+        $this->authorize('delete', $post);
         try {
             $result = $this->postService->handleDeletePost($post->id);
             return $this->sendSuccess($result);

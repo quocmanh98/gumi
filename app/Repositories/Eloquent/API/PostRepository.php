@@ -52,7 +52,7 @@ class PostRepository extends BaseRepository
      * @param mixed $user
      * @return mixed
      */
-    public function updatePost($data,$user)
+    public function updatePost($data, $user)
     {
         return $this->post->find($user)
         ->update($data);

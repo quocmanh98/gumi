@@ -39,13 +39,10 @@ class PermissionRepository
      * @param mixed $groupPermissionId
      * @return mixed
      */
-    public function updatePermission($id,$name,$description,$groupPermissionId)
+    public function updatePermission($id, $name, $description, $groupPermissionId)
     {
-        return $this->permission->findOrFail($id)->update([
-            'name' => $name,
-            'description' => $description,
-            'group_permission_id' => $groupPermissionId
-        ]);
+        return $this->permission->findOrFail($id)
+        ->update(['name' => $name, 'description' => $description, 'group_permission_id' => $groupPermissionId]);
     }
 
     /**

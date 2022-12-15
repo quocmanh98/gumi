@@ -45,7 +45,7 @@ class RoleService
 
             DB::commit();
 
-            return sendResponse([],'Add Role Success');
+            return sendResponse([], 'Add Role Success');
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());
@@ -71,19 +71,19 @@ class RoleService
      * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
-    public function handleUpdateRole($role,$name,$description,$permissionId)
+    public function handleUpdateRole($role, $name, $description, $permissionId)
     {
         try {
             DB::beginTransaction();
 
-            $this->roleRepository->updateRoleInfo($role,$name,$description);
+            $this->roleRepository->updateRoleInfo($role, $name, $description);
             $role = $this->roleRepository->getRoleId($role);
 
             $role->permissions()->sync($permissionId);
 
             DB::commit();
 
-            return sendResponse([],'Update Role Success');
+            return sendResponse([], 'Update Role Success');
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());

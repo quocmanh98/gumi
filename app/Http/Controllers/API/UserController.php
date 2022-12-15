@@ -80,11 +80,11 @@ class UserController extends BaseController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request,int $id){
+    public function update(UpdateUserRequest $request, int $id){
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
-            $result = $this->userService->handleUpdateUser($data,$id);
+            $result = $this->userService->handleUpdateUser($data, $id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
