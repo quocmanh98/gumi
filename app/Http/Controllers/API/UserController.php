@@ -17,6 +17,11 @@ class UserController extends BaseController
         $this->userService = new UserService;
     }
 
+    /**
+     * Summary of index
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $search = null;
@@ -37,6 +42,11 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Summary of store
+     * @param UserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(UserRequest $request)
     {
         $data = $request->all();
@@ -49,7 +59,12 @@ class UserController extends BaseController
         }
     }
 
-    public function show($user)
+    /**
+     * Summary of show
+     * @param int $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $user)
     {
         try {
             $result = $this->userService->getById($user);
@@ -59,8 +74,13 @@ class UserController extends BaseController
         }
     }
 
-
-    public function update(UpdateUserRequest $request,$id){
+    /**
+     * Summary of update
+     * @param UpdateUserRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateUserRequest $request,int $id){
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
@@ -71,7 +91,12 @@ class UserController extends BaseController
         }
     }
 
-    public function destroy($id)
+    /**
+     * Summary of destroy
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id)
     {
         try {
             $result = $this->userService->handleDeleteUser($id);

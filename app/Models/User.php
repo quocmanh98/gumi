@@ -40,11 +40,20 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Summary of role
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
+    /**
+     * Summary of hasPermission
+     * @param Permission $permission
+     * @return bool
+     */
     public function hasPermission(Permission $permission)
     {
         return !!optional(optional($this->role)->permissions)->contains($permission);

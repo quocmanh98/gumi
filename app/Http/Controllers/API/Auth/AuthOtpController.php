@@ -19,6 +19,11 @@ class AuthOtpController extends BaseController
         $this->authOtpService = new AuthOtpService;
     }
 
+    /**
+     * Summary of generate
+     * @param GenerateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function generate(GenerateRequest $request)
     {
         $phone = $request->phone;
@@ -29,13 +34,18 @@ class AuthOtpController extends BaseController
     }
 
 
+    /**
+     * Summary of loginWithOtp
+     * @param LoginWithOtpRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loginWithOtp(LoginWithOtpRequest $request)
     {
-        $user_id =  $request->user_id;
+        $userId =  $request->user_id;
         $otp = $request->otp;
 
         try {
-            $result = $this->authOtpService->handleLoginWithOtp($user_id,$otp);
+            $result = $this->authOtpService->handleLoginWithOtp($userId,$otp);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null,$e->getMessage());

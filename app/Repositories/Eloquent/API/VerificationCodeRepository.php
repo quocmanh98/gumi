@@ -14,6 +14,11 @@ class VerificationCodeRepository extends BaseRepository
         $this->verificationCode = new VerificationCode();
     }
 
+    /**
+     * Summary of verifyUser
+     * @param mixed $user
+     * @return mixed
+     */
     public function verifyUser($user)
     {
         $result = $this->verificationCode->select('*')
@@ -22,7 +27,13 @@ class VerificationCodeRepository extends BaseRepository
         return $result;
     }
 
-    public function verifyUserOtp( $userId,$otp)
+    /**
+     * Summary of verifyUserOtp
+     * @param mixed $userId
+     * @param mixed $otp
+     * @return mixed
+     */
+    public function verifyUserOtp($userId,$otp)
     {
         $result = $this->verificationCode->select('*')
             ->where('user_id', $userId)->where('otp', $otp)
@@ -30,6 +41,11 @@ class VerificationCodeRepository extends BaseRepository
         return $result;
     }
 
+    /**
+     * Summary of createVerificationCode
+     * @param mixed $userId
+     * @return mixed
+     */
     public function createVerificationCode($userId)
     {
         return $this->verificationCode->create([
@@ -39,6 +55,10 @@ class VerificationCodeRepository extends BaseRepository
         ]);
     }
 
+    /**
+     * Summary of deleteOtp
+     * @return mixed
+     */
     public function deleteOtp()
     {
         return $this->verificationCode->truncate();

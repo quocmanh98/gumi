@@ -12,28 +12,56 @@ class PermissionService
         $this->permissionRepository = new PermissionRepository();
     }
 
+    /**
+     * Summary of getList
+     * @return mixed
+     */
     public function getList()
     {
         return $this->permissionRepository->getList();
     }
 
-    public function savePermission($data_input)
+    /**
+     * Summary of savePermission
+     * @param mixed $dataInput
+     * @return mixed
+     */
+    public function savePermission($dataInput)
     {
-        return $this->permissionRepository->savePermission($data_input);
+        return $this->permissionRepository->savePermission($dataInput);
     }
 
-    public function updatePermission($id, $name, $description, $group_permission_id)
+    /**
+     * Summary of updatePermission
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $description
+     * @param mixed $groupPermissionId
+     * @return mixed
+     */
+    public function updatePermission($id, $name, $description, $groupPermissionId)
     {
         return $this->permissionRepository
-            ->updatePermission($id, $name, $description, $group_permission_id);
+            ->updatePermission($id, $name, $description, $groupPermissionId);
     }
 
-    public function getId($id)
+
+    /**
+     * Summary of getId
+     * @param int $id
+     * @return mixed
+     */
+    public function getId(int $id)
     {
         return $this->permissionRepository->getId($id);
     }
 
-    public function deletePermission($id)
+    /**
+     * Summary of deletePermission
+     * @param int $id
+     * @return mixed
+     */
+    public function deletePermission(int $id)
     {
         return $this->permissionRepository->deletePermission($id);
     }

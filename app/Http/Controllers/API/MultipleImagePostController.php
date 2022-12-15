@@ -15,13 +15,18 @@ class MultipleImagePostController extends BaseController
         $this->postService = new PostService;
     }
 
+    /**
+     * Summary of store
+     * @param MultipleImagePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(MultipleImagePostRequest $request)
     {
         $images = $request->file('image');
-        $post_id = $request->input('post_id');
+        $postId = $request->input('post_id');
 
         try {
-            $result =  $this->postService->handleUploadMultipleImagePost($images, $post_id);
+            $result =  $this->postService->handleUploadMultipleImagePost($images, $postId);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());

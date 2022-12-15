@@ -11,6 +11,10 @@ class Permission extends Model
     protected  $table = "permissions";
     protected $guarded = [];
 
+    /**
+     * Summary of groupPermission
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function groupPermission()
     {
         return $this->belongsTo(GroupPermission::class);

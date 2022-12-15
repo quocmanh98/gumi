@@ -12,6 +12,14 @@ class UserRepository extends BaseRepository
         $this->user = new User();
     }
 
+    /**
+     * Summary of getAllUser
+     * @param mixed $filters
+     * @param mixed $search
+     * @param mixed $sortArr
+     * @param mixed $perPage
+     * @return mixed
+     */
     public function getAllUser($filters = [], $search = null, $sortArr = null, $perPage = null)
     {
         $users = $this->user
@@ -50,28 +58,53 @@ class UserRepository extends BaseRepository
         return $users;
     }
 
-    public function saveUserData($data)
+    /**
+     * Summary of saveUserData
+     * @param array $data
+     * @return mixed
+     */
+    public function saveUserData(array $data)
     {
         return $this->user->create($data);
     }
 
-    public function getById($user)
+    /**
+     * Summary of getById
+     * @param int $user
+     * @return mixed
+     */
+    public function getById(int $user)
     {
         return $this->user->where('id',$user)->first();
     }
 
+    /**
+     * Summary of updateUser
+     * @param mixed $data
+     * @param mixed $user
+     * @return mixed
+     */
     public function updateUser($data,$user)
     {
         return $user = $this->user->find($user)
         ->update($data);
     }
 
+    /**
+     * Summary of deleteUser
+     * @param mixed $user
+     * @return mixed
+     */
     public function deleteUser($user)
     {
         return $user = $this->user->find($user)
         ->delete();
     }
 
+    /**
+     * Summary of getAllData
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getAllData()
     {
         return $this->user->all();

@@ -12,22 +12,42 @@ class GroupPermissionRepository
         $this->groupPermission = new GroupPermission();
     }
 
+    /**
+     * Summary of getAll
+     * @return mixed
+     */
     public function getAll()
     {
         return $this->groupPermission->get();
     }
 
+    /**
+     * Summary of getList
+     * @return mixed
+     */
     public function getList()
     {
         return $this->groupPermission->latest()->paginate(5);
     }
 
-    public function saveGroupPermission($dataInsert)
+    /**
+     * Summary of saveGroupPermission
+     * @param array $dataInput
+     * @return mixed
+     */
+    public function saveGroupPermission(array $dataInput)
     {
-        return $this->groupPermission->create($dataInsert);
+        return $this->groupPermission->create($dataInput);
     }
 
-    public function updateGroupPermissionInfo($id,$name,$description)
+    /**
+     * Summary of updateGroupPermissionInfo
+     * @param int $id
+     * @param mixed $name
+     * @param mixed $description
+     * @return mixed
+     */
+    public function updateGroupPermissionInfo(int $id,$name,$description)
     {
         return $this->groupPermission->findOrFail($id)->update([
             'name' => $name,
@@ -35,11 +55,21 @@ class GroupPermissionRepository
         ]);
     }
 
-    public function getId($id)
+    /**
+     * Summary of getId
+     * @param int $id
+     * @return mixed
+     */
+    public function getId(int $id)
     {
         return $this->groupPermission->findOrFail($id);
     }
 
+    /**
+     * Summary of deleteGroupPermissionInfo
+     * @param mixed $id
+     * @return mixed
+     */
     public function deleteGroupPermissionInfo($id)
     {
         return $this->groupPermission->find($id)->delete();

@@ -12,6 +12,11 @@ class RoleRepository
         $this->role = new Role();
     }
 
+    /**
+     * Summary of getSearchRole
+     * @param mixed $search
+     * @return mixed
+     */
     public function getSearchRole($search)
     {
         return $this->role
@@ -19,16 +24,33 @@ class RoleRepository
             ->latest()->paginate(5);
     }
 
-    public function addRole($data_role)
+    /**
+     * Summary of addRole
+     * @param mixed $dataRole
+     * @return mixed
+     */
+    public function addRole($dataRole)
     {
-        return $this->role->create($data_role);
+        return $this->role->create($dataRole);
     }
 
-    public function getRoleId($role)
+    /**
+     * Summary of getRoleId
+     * @param int $role
+     * @return mixed
+     */
+    public function getRoleId(int $role)
     {
         return $this->role->findOrFail($role);
     }
 
+    /**
+     * Summary of updateRoleInfo
+     * @param mixed $role
+     * @param mixed $name
+     * @param mixed $description
+     * @return mixed
+     */
     public function updateRoleInfo($role, $name, $description)
     {
         return $this->role
@@ -41,6 +63,11 @@ class RoleRepository
             );
     }
 
+    /**
+     * Summary of deleteRole
+     * @param mixed $role
+     * @return mixed
+     */
     public function deleteRole($role)
     {
         return $this->role->findOrFail($role)->delete();

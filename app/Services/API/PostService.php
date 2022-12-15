@@ -14,6 +14,11 @@ class PostService extends BaseService
         $this->postRepository = new PostRepository;
     }
 
+    /**
+     * Summary of getAllPost
+     * @throws \Exception
+     * @return array
+     */
     public function getAllPost()
     {
         $result = $this->postRepository->getAllPost();
@@ -27,6 +32,14 @@ class PostService extends BaseService
         throw new \Exception('Error ! Fetch Data Post No Success', 1);
     }
 
+    /**
+     * Summary of handleSavePostData
+     * @param mixed $data
+     * @param mixed $hasFile
+     * @param mixed $thumbnail
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleSavePostData($data, $hasFile, $thumbnail)
     {
         if ($hasFile) {
@@ -46,7 +59,13 @@ class PostService extends BaseService
         throw new \Exception('Error ! Create Data Post No Success', 1);
     }
 
-    public function getById($id)
+    /**
+     * Summary of getById
+     * @param int $id
+     * @throws \Exception
+     * @return array
+     */
+    public function getById(int $id)
     {
         $result = $this->postRepository->getById($id);
         if ($result) {
@@ -59,6 +78,15 @@ class PostService extends BaseService
         throw new \Exception('Error ! Fetch Data Post No Success', 1);
     }
 
+    /**
+     * Summary of handleUpdatePost
+     * @param mixed $data
+     * @param mixed $id
+     * @param mixed $hasFile
+     * @param mixed $thumbnail
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleUpdatePost($data, $id, $hasFile, $thumbnail)
     {
         if ($hasFile) {
@@ -97,6 +125,12 @@ class PostService extends BaseService
         throw new \Exception('Error ! No find Post', 1);
     }
 
+    /**
+     * Summary of handleDeletePost
+     * @param mixed $id
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleDeletePost($id)
     {
         $posts = $this->postRepository->getAllPost();
@@ -119,6 +153,13 @@ class PostService extends BaseService
         throw new \Exception('Error ! No find Post', 1);
     }
 
+    /**
+     * Summary of handleUploadMultipleImagePost
+     * @param mixed $images
+     * @param mixed $postId
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleUploadMultipleImagePost($images, $postId)
     {
         $imageErrors = [];

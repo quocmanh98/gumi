@@ -17,6 +17,10 @@ class PostController extends BaseController
         $this->postService = new PostService;
     }
 
+    /**
+     * Summary of index
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         try {
@@ -27,6 +31,11 @@ class PostController extends BaseController
         }
     }
 
+    /**
+     * Summary of store
+     * @param PostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(PostRequest $request)
     {
         $data = $request->all();
@@ -41,6 +50,11 @@ class PostController extends BaseController
         }
     }
 
+    /**
+     * Summary of show
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Post $post)
     {
         $this->authorize('view',$post);
@@ -52,6 +66,12 @@ class PostController extends BaseController
         }
     }
 
+    /**
+     * Summary of update
+     * @param UpdatePostRequest $request
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(UpdatePostRequest $request,Post $post)
     {
         $this->authorize('update',$post);
@@ -67,6 +87,11 @@ class PostController extends BaseController
         }
     }
 
+    /**
+     * Summary of destroy
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Post $post)
     {
         $this->authorize('delete',$post);

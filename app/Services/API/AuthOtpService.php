@@ -20,6 +20,12 @@ class AuthOtpService extends BaseService
         $this->verificationCodeRepository = new VerificationCodeRepository;
     }
 
+    /**
+     * Summary of handleLoginWithOtp
+     * @param mixed $userId
+     * @param mixed $otp
+     * @return array
+     */
     public function handleLoginWithOtp($userId, $otp)
     {
         #Validation Logic
@@ -50,7 +56,13 @@ class AuthOtpService extends BaseService
         $this->sendError("OTP is not correct");
     }
 
-    public function handleGenerate($phone, $email)
+    /**
+     * Summary of handleGenerate
+     * @param int $phone
+     * @param mixed $email
+     * @return array<string>
+     */
+    public function handleGenerate(int $phone, $email)
     {
         # Generate An OTP
         $verificationCode = $this->generateOtp($phone);
@@ -68,6 +80,11 @@ class AuthOtpService extends BaseService
         }
     }
 
+    /**
+     * Summary of generateOtp
+     * @param mixed $phone
+     * @return mixed
+     */
     public function generateOtp($phone)
     {
         $user = $this->authRepository->verifyPhone($phone);

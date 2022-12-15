@@ -15,11 +15,19 @@ class GoogleController extends BaseController
         $this->userService = new UserService;
     }
 
+    /**
+     * Summary of login
+     * @return mixed
+     */
     public function login()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * Summary of callbackGoogle
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function callbackGoogle()
     {
         try {

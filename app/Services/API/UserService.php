@@ -18,6 +18,16 @@ class UserService extends BaseService
         $this->authRepository = new AuthRepository;
     }
 
+    /**
+     * Summary of getAllUser
+     * @param mixed $status
+     * @param mixed $roleId
+     * @param mixed $search
+     * @param mixed $sortBy
+     * @param mixed $sortType
+     * @throws \Exception
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getAllUser($status, $roleId, $search, $sortBy, $sortType)
     {
         $filters = [];
@@ -59,6 +69,11 @@ class UserService extends BaseService
         throw new \Exception('Error ! Fetch Data User No Success', 1);
     }
 
+    /**
+     * Summary of handleCallbackGoogle
+     * @throws \Exception
+     * @return array
+     */
     public function handleCallbackGoogle()
     {
         $user = Socialite::driver('google')->user();
@@ -85,6 +100,12 @@ class UserService extends BaseService
         throw new \Exception('Error ! Fetch Data User No Success', 1);
     }
 
+    /**
+     * Summary of handleSaveUserData
+     * @param mixed $data
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleSaveUserData($data)
     {
         $result = $this->userRepository->saveUserData($data);
@@ -97,7 +118,13 @@ class UserService extends BaseService
         throw new \Exception('Error ! Create Data User No Success', 1);
     }
 
-    public function getById($id)
+    /**
+     * Summary of getById
+     * @param int $id
+     * @throws \Exception
+     * @return array
+     */
+    public function getById(int $id)
     {
         $users = $this->userRepository->getAllData();
         $dataId = [];
@@ -119,7 +146,14 @@ class UserService extends BaseService
         throw new \Exception('Error ! No find User', 1);
     }
 
-    public function handleUpdateUser($data, $id)
+    /**
+     * Summary of handleUpdateUser
+     * @param array $data
+     * @param int $id
+     * @throws \Exception
+     * @return array<string>
+     */
+    public function handleUpdateUser(array $data,int $id)
     {
         $users = $this->userRepository->getAllData();
         $dataId = [];
@@ -139,7 +173,13 @@ class UserService extends BaseService
         throw new \Exception('Error ! No find User', 1);
     }
 
-    public function handleDeleteUser($id)
+    /**
+     * Summary of handleDeleteUser
+     * @param int $id
+     * @throws \Exception
+     * @return array<string>
+     */
+    public function handleDeleteUser(int $id)
     {
         $users = $this->userRepository->getAllData();
         $dataId = [];

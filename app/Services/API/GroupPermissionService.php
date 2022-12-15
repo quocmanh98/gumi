@@ -12,27 +12,53 @@ class GroupPermissionService
         $this->groupPermissionRepository = new GroupPermissionRepository;
     }
 
+    /**
+     * Summary of getList
+     * @return mixed
+     */
     public function getList()
     {
         return $this->groupPermissionRepository->getList();
     }
 
-    public function handleSaveGroupPermission($data_input)
+    /**
+     * Summary of handleSaveGroupPermission
+     * @param array $dataInput
+     * @return mixed
+     */
+    public function handleSaveGroupPermission(array $dataInput)
     {
-        return $this->groupPermissionRepository->saveGroupPermission($data_input);
+        return $this->groupPermissionRepository->saveGroupPermission($dataInput);
     }
 
+    /**
+     * Summary of handleUpdateGroupPermission
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $description
+     * @return mixed
+     */
     public function handleUpdateGroupPermission($id, $name, $description)
     {
         return $this->groupPermissionRepository->updateGroupPermissionInfo($id, $name, $description);
     }
 
+    /**
+     * Summary of getId
+     * @param mixed $id
+     * @return mixed
+     */
     public function getId($id)
     {
         return $this->groupPermissionRepository->getId($id);
     }
 
-    public function handleDeleteGroupPermission($id)
+    /**
+     * Summary of handleDeleteGroupPermission
+     * @param int $id
+     * @return mixed
+     */
+    public function handleDeleteGroupPermission(int $id)
     {
         return $this->groupPermissionRepository->deleteGroupPermissionInfo($id);
     }

@@ -11,7 +11,13 @@ class Role extends Model
     use HasFactory;
     use HasRoles;
     protected $guarded = [];
-    public function permissions() {
+
+    /**
+     * Summary of permissions
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
         return $this->belongsToMany(Permission::class, 'role_permission', 'role_id', 'permission_id')->withTimestamps();;
     }
 }

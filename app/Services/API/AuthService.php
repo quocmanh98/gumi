@@ -20,21 +20,27 @@ class AuthService extends BaseService
         $this->verificationCodeRepository = new VerificationCodeRepository;
     }
 
-    public function createUser($data_input, $user_data)
+    /**
+     * Summary of createUser
+     * @param mixed $dataInput
+     * @param mixed $userData
+     * @return array<string>
+     */
+    public function createUser($dataInput, $userData)
     {
-        $result = $this->authRepository->createUser($user_data);
+        $result = $this->authRepository->createUser($userData);
 
         if ($result == false) {
             $this->sendError("Sorry ! Unable to create an account !");
         } else {
             $data =
             [
-                'name' => $data_input['username'],
-                'email' => $data_input['email'],
-                'uuid' => $data_input['uuid'],
+                'name' => $dataInput['username'],
+                'email' => $dataInput['email'],
+                'uuid' => $dataInput['uuid'],
             ];
 
-            $result = Mail::to($data_input['email'])->send(new RegisterMail($data));
+            $result = Mail::to($dataInput['email'])->send(new RegisterMail($data));
             if ($result == true) {
                 return [
                     'message' => 'Send Mail Success !',
@@ -44,7 +50,12 @@ class AuthService extends BaseService
 
     }
 
-    public function verifyUuid($id)
+    /**
+     * Summary of verifyUuid
+     * @param string $id
+     * @return array<string>
+     */
+    public function verifyUuid(string $id)
     {
         if (!empty($id)) {
 
@@ -74,18 +85,28 @@ class AuthService extends BaseService
         $this->sendError("Sorry !  Unable to process your request !");
     }
 
-    public function verifyExpireTime($regulate_time)
+    /**
+     * Summary of verifyExpireTime
+     * @param mixed $regulateTime
+     * @return bool
+     */
+    public function verifyExpireTime($regulateTime)
     {
-        $current_time = strtotime(now());
-        $regulate_time = strtotime($regulate_time);
-        $difference_time =  $current_time -  $regulate_time;
+        $currentTime = strtotime(now());
+        $regulateTime = strtotime($regulateTime);
+        $differenceTime =  $currentTime -  $regulateTime;
 
-        if ($difference_time < 3600) {
+        if ($differenceTime < 3600) {
             return true;
         }
     }
 
-    public function verifyEmail($email)
+    /**
+     * Summary of verifyEmail
+     * @param string $email
+     * @return mixed
+     */
+    public function verifyEmail(string $email)
     {
         $userData = $this->authRepository->verifyEmail($email);
         if ($userData) {
@@ -95,12 +116,18 @@ class AuthService extends BaseService
         $this->sendError("Sorry ! Unauthorise ! ");
     }
 
-    public function handleLogin($password, $user_data)
+    /**
+     * Summary of handleLogin
+     * @param string $password
+     * @param mixed $userData
+     * @return array<string>
+     */
+    public function handleLogin(string $password, $userData)
     {
-        if (password_verify($password, $user_data->password)) {
-            if ($user_data->status == 1) {
+        if (password_verify($password, $userData->password)) {
+            if ($userData->status == 1) {
                 $data = [
-                    'email' => $user_data->email,
+                    'email' => $userData->email,
                     'password' => $password,
                 ];
 
@@ -119,10 +146,18 @@ class AuthService extends BaseService
     }
 
 
-    public function handleChangePassword($password_old, $password_new, $password, $uuid)
+    /**
+     * Summary of handleChangePassword
+     * @param mixed $passwordOld
+     * @param mixed $passwordNew
+     * @param mixed $password
+     * @param mixed $uuid
+     * @return array<string>
+     */
+    public function handleChangePassword($passwordOld, $passwordNew, $password, $uuid)
     {
-        if (password_verify($password_old, $password)) {
-            $result = $this->authRepository->updatePassword($password_new, $uuid );
+        if (password_verify($passwordOld, $password)) {
+            $result = $this->authRepository->updatePassword($passwordNew, $uuid );
 
             if ($result) {
                 return [
@@ -135,21 +170,27 @@ class AuthService extends BaseService
         }
     }
 
+    /**
+     * Summary of handleForgotPassword
+     * @param mixed $email
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleForgotPassword($email)
     {
         $user = $this->authRepository->verifyEmail($email);
 
         if ($user) {
-            $password_new = rand(123456789, 999999999);
-            $password_new_hash = Hash::make($password_new);
+            $passwordNew = rand(123456789, 999999999);
+            $passwordNewHash = Hash::make($passwordNew);
             $data = [
                 'username' => $user->username,
-                'password_new' => $password_new,
-                'password_new_hash' => $password_new_hash,
+                'password_new' => $passwordNew,
+                'password_new_hash' => $passwordNewHash,
             ];
 
             Mail::to($email)->send(new ForgotPasswordMail($data));
-            $result = $this->authRepository->updatePasswordByEmail($password_new_hash, $email);
+            $result = $this->authRepository->updatePasswordByEmail($passwordNewHash, $email);
 
             if($result){
                 return [
