@@ -72,6 +72,7 @@ Route::prefix('admin/')->middleware('auth:sanctum')->group(function () {
             Route::get('action', 'action')->name('action');
             Route::put('{post}', 'update')->name('update');
             Route::delete('{post}', 'destroy')->name('destroy');
+            Route::put('thumbnail/update', 'update')->name('thumbnail.update');
         });
     });
 
