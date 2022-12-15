@@ -1,43 +1,43 @@
 <?php
 namespace App\Services\API;
 
-use App\Http\Resources\API\UserResource;
-use App\Mail\API\Auth\LoginOtpMail;
 use App\Mail\API\Auth\RegisterMail;
 use App\Mail\API\Auth\ForgotPasswordMail;
-use App\Models\User;
 use App\Repositories\Eloquent\API\AuthRepository;
 use App\Repositories\Eloquent\API\VerificationCodeRepository;
-use Carbon\Carbon;
-use Dotenv\Util\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthService extends BaseService
 {
-
     protected $authRepository;
     protected $verificationCodeRepository;
+
     public function __construct()
     {
         $this->authRepository = new AuthRepository;
         $this->verificationCodeRepository = new VerificationCodeRepository;
     }
 
+    /**
+     * Summary of createUser
+     * @param mixed $dataInput
+     * @param mixed $userData
+     * @return array<string>
+     */
     public function createUser($dataInput, $userData)
     {
         $result = $this->authRepository->createUser($userData);
-        
-        if ($result == false) {
-            $this->sendError("Sorry !  Unable to create an account !");
-        } else {
 
+        if ($result == false) {
+            $this->sendError("Sorry ! Unable to create an account !");
+        } else {
             $data =
-                [
+            [
                 'name' => $dataInput['username'],
                 'email' => $dataInput['email'],
-                'unique_id' => $dataInput['uniid'],
+                'uuid' => $dataInput['uuid'],
             ];
 
             $result = Mail::to($dataInput['email'])->send(new RegisterMail($data));
@@ -47,27 +47,30 @@ class AuthService extends BaseService
                 ];
             }
         }
+
     }
 
-    public function verifyUniid($id)
+    /**
+     * Summary of verifyUuid
+     * @param string $id
+     * @return array<string>
+     */
+    public function verifyUuid(string $id)
     {
         if (!empty($id)) {
 
-            $userData = $this->authRepository->verifyUniid($id);
+            $userData = $this->authRepository->verifyUuid($id);
             if ($userData) {
                 if ($this->verifyExpireTime($userData->activate_date)) {
 
                     if ($userData->status == 0) {
                         $result = $this->authRepository->updateStatusUser($id);
-
                         if ($result) {
                             return [
                                 'message' => 'Account activated success',
                             ];
                         }
-
                     }
-
                     return [
                         'message' => 'Your account is already activated !',
                     ];
@@ -82,88 +85,113 @@ class AuthService extends BaseService
         $this->sendError("Sorry !  Unable to process your request !");
     }
 
-    public function verifyExpireTime($regTime)
+    /**
+     * Summary of verifyExpireTime
+     * @param mixed $regulateTime
+     * @return bool
+     */
+    public function verifyExpireTime($regulateTime)
     {
+        $currentTime = strtotime(now());
+        $regulateTime = strtotime($regulateTime);
+        $differenceTime =  $currentTime -  $regulateTime;
 
-        $currTime = strtotime(now());
-        $regTime = strtotime($regTime);
-        $diffTime = $currTime - $regTime;
-
-        if ($diffTime < 3600) {
+        if ($differenceTime < 3600) {
             return true;
         }
-
     }
 
-    public function verifyEmail($email)
+    /**
+     * Summary of verifyEmail
+     * @param string $email
+     * @return mixed
+     */
+    public function verifyEmail(string $email)
     {
         $userData = $this->authRepository->verifyEmail($email);
         if ($userData) {
             return $userData;
         }
-        $this->sendError("Sorry ! Unauthorised ! ");
+
+        $this->sendError("Sorry ! Unauthorise ! ");
     }
 
-    public function handleLogin($password, $userData)
+    /**
+     * Summary of handleLogin
+     * @param string $password
+     * @param mixed $userData
+     * @return array<string>
+     */
+    public function handleLogin(string $password, $userData)
     {
-
         if (password_verify($password, $userData->password)) {
-
             if ($userData->status == 1) {
-
                 $data = [
                     'email' => $userData->email,
                     'password' => $password,
                 ];
 
                 if (Auth::attempt($data)) {
+                    $user = Auth::user();
                     $success = [
-                        'token' => Auth::user()->createToken('token')->plainTextToken,
-                        'user' => new UserResource($userData),
+                        'token' => $user->createToken('token')->plainTextToken,
                         'message' => 'Login Success',
                     ];
                     return $success;
                 }
-
             }
             $this->sendError("Please activate your account !");
         }
         $this->sendError("Sorry ! Unauthorised ! ");
-
     }
 
 
-    public function handleChangePassword($passwordOld,$passwordNew,$password,$uniid){
+    /**
+     * Summary of handleChangePassword
+     * @param mixed $passwordOld
+     * @param mixed $passwordNew
+     * @param mixed $password
+     * @param mixed $uuid
+     * @return array<string>
+     */
+    public function handleChangePassword($passwordOld, $passwordNew, $password, $uuid)
+    {
         if (password_verify($passwordOld, $password)) {
-
-            $result = $this->authRepository->updatePassword($passwordNew, $uniid);
+            $result = $this->authRepository->updatePassword($passwordNew, $uuid );
 
             if ($result) {
                 return [
                     'message' => 'Update Password Success',
                 ];
             }
-            $this->sendError('Update Password No Success');
-
+            $this->sendError('Update password no success');
         } else {
-            $this->sendError('Old Password does not matched with db password');
+            $this->sendError('Password old does not matched with database password');
         }
     }
 
+    /**
+     * Summary of handleForgotPassword
+     * @param mixed $email
+     * @throws \Exception
+     * @return array<string>
+     */
     public function handleForgotPassword($email)
     {
         $user = $this->authRepository->verifyEmail($email);
+
         if ($user) {
             $passwordNew = rand(123456789, 999999999);
             $passwordNewHash = Hash::make($passwordNew);
             $data = [
-                'name' => $user->username,
+                'username' => $user->username,
                 'password_new' => $passwordNew,
                 'password_new_hash' => $passwordNewHash,
             ];
 
             Mail::to($email)->send(new ForgotPasswordMail($data));
             $result = $this->authRepository->updatePasswordByEmail($passwordNewHash, $email);
+
             if($result){
                 return [
                     'message' => 'Success ! Please check your email to get the password new ',
@@ -172,18 +200,5 @@ class AuthService extends BaseService
         } else {
             throw new \Exception("Email not exist ", 1);
         }
-    }
-
-    public function getToken($user){
-        $data = [];
-        // $user->tokens()->delete();
-        // Xóa hết token
-        foreach ($user->tokens as $token) {
-            $data[] = $token;
-        }
-        // $user->tokens()->findOrFail(1)->delete();
-        // return $user->currentAccessToken();
-        // $user->currentAccessToken()->delete();
-        return $data;
     }
 }

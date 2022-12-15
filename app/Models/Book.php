@@ -11,7 +11,12 @@ class Book extends Model
     protected  $table = "books";
     protected $guarded = [];
 
-    public function post(){
+    /**
+     * Summary of post
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
 

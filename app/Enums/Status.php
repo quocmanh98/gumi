@@ -1,11 +1,10 @@
 <?php
+
 namespace App\Enums;
 
 class Status
 {
-
-    const Active = 2;
-    const Inactive = 3;
-
+    const Active = 1;
+    const Inactive = 2;
 }
 

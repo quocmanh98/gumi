@@ -17,6 +17,12 @@ class RoleController extends BaseController
     {
         $this->roleService = new RoleService;
     }
+
+    /**
+     * Summary of index
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request) {
 
         $search = '';
@@ -24,23 +30,32 @@ class RoleController extends BaseController
             $search = $request->input('search');
         }
 
-        $result = RoleResource::collection($this->roleService->searchRole($search));
+        $result = RoleResource::collection($this->roleService->getSearchRole($search));
         return $this->sendSuccess($result);
-
     }
 
+    /**
+     * Summary of store
+     * @param RoleRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(RoleRequest $request)
     {
         $name = $request->input('name');
         $description = $request->input('description');
-        $permission_id = $request->input('permission_id');
+        $permissionId = $request->input('permission_id');
 
-        return $this->roleService->handleAdd($name, $description, $permission_id);
+        return $this->roleService->handleSaveRole($name, $description, $permissionId);
     }
 
+    /**
+     * Summary of show
+     * @param mixed $role
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($role)
     {
-        $role = $this->roleService->getId($role);
+        $role = $this->roleService->getRoleInfo($role);
         $permissionsChecked = $role->permissions;
 
         $result = [
@@ -48,20 +63,32 @@ class RoleController extends BaseController
             'permissionsChecked' => $permissionsChecked
         ];
 
-        return sendResponse($result,'Show Data Success');
+        return sendResponse($result, 'Show Data Success');
     }
 
-    function update($role, UpdateRoleRequest $request) {
-        
+    /**
+     * Summary of update
+     * @param mixed $role
+     * @param UpdateRoleRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function update($role, UpdateRoleRequest $request)
+    {
         $name = $request->input('name');
         $description = $request->input('description');
-        $permission_id = $request->input('permission_id');
+        $permissionId = $request->input('permission_id');
 
-        return $this->roleService->handleUpdate($role,$name, $description, $permission_id);
+        return $this->roleService->handleUpdateRole($role, $name, $description, $permissionId);
     }
 
-    public function delete($role){
-        $this->roleService->delete($role);
-        return sendResponse([],'Delete Data Success');
+    /**
+     * Summary of destroy
+     * @param mixed $role
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($role)
+    {
+        $this->roleService->handleDeleteRole($role);
+        return sendResponse([], 'Delete Data Success');
     }
 }

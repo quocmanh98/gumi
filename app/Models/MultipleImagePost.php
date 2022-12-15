@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class MultipleImagePost extends Model
 {
     use HasFactory;
-    protected  $table = "images_post";
     protected $guarded = [];
 }

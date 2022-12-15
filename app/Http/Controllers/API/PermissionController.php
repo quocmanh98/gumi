@@ -7,56 +7,81 @@ use App\Http\Requests\API\PermissionRequest;
 use App\Http\Requests\API\UpdatePermissionRequest;
 use App\Http\Resources\API\PermissionResource;
 use App\Services\API\PermissionService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
     protected $permissionService;
-    public function __construct(PermissionService $permissionService)
+
+    public function __construct()
     {
-        $this->permissionService = $permissionService;
+        $this->permissionService = new PermissionService();
     }
 
-    public function index(){
+    /**
+     * Summary of index
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
         $permissions = PermissionResource::collection($this->permissionService->getList());
         return sendResponse($permissions,'Fetch Data Success');
     }
 
-    public function store(PermissionRequest $request){
-
+    /**
+     * Summary of store
+     * @param PermissionRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(PermissionRequest $request)
+    {
         $name = $request->input('name');
         $title = $request->input('title');
-        $group_permission_id = $request->input('group_permission_id');
 
-        $dataInsert = [
+        $dataInput = [
             'name' => $name,
             'title' => $title,
-            'group_permission_id' =>  $group_permission_id
+            'group_permission_id' =>  $request->input('group_permission_id')
         ];
 
-        $this->permissionService->handleAdd( $dataInsert );
+        $this->permissionService->savePermission( $dataInput );
         return sendResponse('','Add Permission Success');
     }
 
-    public function update($id,UpdatePermissionRequest $request){
-
+    /**
+     * Summary of update
+     * @param int $id
+     * @param UpdatePermissionRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(int $id,UpdatePermissionRequest $request)
+    {
         $name = $request->input('name');
         $title = $request->input('title');
-        $group_permission_id = $request->input('group_permission_id');
-        
-        $this->permissionService->update($id,$name,$title,$group_permission_id);
+        $groupPermissionId = $request->input('group_permission_id');
+
+        $this->permissionService->updatePermission($id, $name, $title, $groupPermissionId);
         return sendResponse([],'Update Permission Success');
     }
 
-    public function show($id){
+    /**
+     * Summary of show
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $id)
+    {
         $result = new PermissionResource($this->permissionService->getId($id));
-        return sendResponse($result,'Fetch Permission Success');
+        return sendResponse($result, 'Fetch Permission Success');
     }
 
-    public function delete($id){
-        $this->permissionService->delete($id);
-        return sendResponse([],'Delete Permission Success');
-
+    /**
+     * Summary of destroy
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id)
+    {
+        $this->permissionService->deletePermission($id);
+        return sendResponse([], 'Delete Permission Success');
     }
 }

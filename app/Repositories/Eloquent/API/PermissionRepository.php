@@ -2,41 +2,66 @@
 namespace App\Repositories\Eloquent\API;
 
 use App\Models\Permission;
-use Illuminate\Support\Facades\Hash;
 
 class PermissionRepository
 {
     protected $permission;
-    public function __construct(Permission $permission)
+
+    public function __construct()
     {
-        $this->permission = $permission;
+        $this->permission = new Permission;
     }
 
-    public function getAll(){
-        return $this->permission->get();
-    }
-
-    public function getList(){
+    /**
+     * Summary of getList
+     * @return mixed
+     */
+    public function getList()
+    {
         return $this->permission->latest()->paginate(5);
     }
 
-    public function handleAdd($dataInsert){
-        return $this->permission->create($dataInsert);
+    /**
+     * Summary of savePermission
+     * @param array $dataInput
+     * @return mixed
+     */
+    public function savePermission(array $dataInput)
+    {
+        return $this->permission->create($dataInput);
     }
 
-    public function update($id,$name,$description,$group_permission_id){
-        return $this->permission->findOrFail($id)->update([
-            'name' => $name,
-            'description' => $description,
-            'group_permission_id' => $group_permission_id
-        ]);
+    /**
+     * Summary of updatePermission
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $description
+     * @param mixed $groupPermissionId
+     * @return mixed
+     */
+    public function updatePermission($id, $name, $description, $groupPermissionId)
+    {
+        return $this->permission->findOrFail($id)
+        ->update(['name' => $name, 'description' => $description, 'group_permission_id' => $groupPermissionId]);
     }
 
-    public function getId($id){
+    /**
+     * Summary of getId
+     * @param mixed $id
+     * @return mixed
+     */
+    public function getId($id)
+    {
         return $this->permission->findOrFail($id);
     }
 
-    public function delete($id){
+    /**
+     * Summary of deletePermission
+     * @param mixed $id
+     * @return mixed
+     */
+    public function deletePermission($id)
+    {
         return $this->permission->find($id)->delete();
     }
 }

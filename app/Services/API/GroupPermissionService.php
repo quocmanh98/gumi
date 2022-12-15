@@ -1,44 +1,65 @@
 <?php
 namespace App\Services\API;
 
-use App\Repositories\API\GroupPermissionRepository;
-use App\Repositories\API\RoleRepository;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
+use App\Repositories\Eloquent\API\GroupPermissionRepository;
 
-class GroupPermissionService{
-
+class GroupPermissionService
+{
     protected $groupPermissionRepository;
 
     public function __construct()
     {
-        $this->groupPermissionRepository = new GroupPermissionRepository();
+        $this->groupPermissionRepository = new GroupPermissionRepository;
     }
 
-    public function getAll(){
-        return $this->groupPermissionRepository->getAll();
-    }
-
-    public function getList(){
+    /**
+     * Summary of getList
+     * @return mixed
+     */
+    public function getList()
+    {
         return $this->groupPermissionRepository->getList();
     }
 
-    public function handleAdd($dataInsert){
-        return $this->groupPermissionRepository->handleAdd($dataInsert);
+    /**
+     * Summary of handleSaveGroupPermission
+     * @param array $dataInput
+     * @return mixed
+     */
+    public function handleSaveGroupPermission(array $dataInput)
+    {
+        return $this->groupPermissionRepository->saveGroupPermission($dataInput);
     }
 
-    public function update($id,$name,$description){
-        return $this->groupPermissionRepository->update($id,$name,$description);
+    /**
+     * Summary of handleUpdateGroupPermission
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $description
+     * @return mixed
+     */
+    public function handleUpdateGroupPermission($id, $name, $description)
+    {
+        return $this->groupPermissionRepository->updateGroupPermissionInfo($id, $name, $description);
     }
 
-    public function getId($id){
+    /**
+     * Summary of getId
+     * @param mixed $id
+     * @return mixed
+     */
+    public function getId($id)
+    {
         return $this->groupPermissionRepository->getId($id);
     }
 
-    public function delete($id){
-        return $this->groupPermissionRepository->delete($id);
+    /**
+     * Summary of handleDeleteGroupPermission
+     * @param int $id
+     * @return mixed
+     */
+    public function handleDeleteGroupPermission(int $id)
+    {
+        return $this->groupPermissionRepository->deleteGroupPermissionInfo($id);
     }
-
 }
-

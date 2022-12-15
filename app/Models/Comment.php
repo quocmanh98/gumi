@@ -8,14 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-    protected  $table = "comment";
+    protected  $table = "comments";
     protected $guarded = [];
 
-    public function cus(){
+    /**
+     * Summary of user
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function replies(){
+    /**
+     * Summary of replies
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies()
+    {
         return $this->hasMany(Comment::class, 'reply_id', 'id');
     }
 }

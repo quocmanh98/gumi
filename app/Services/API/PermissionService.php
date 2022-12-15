@@ -1,44 +1,69 @@
 <?php
 namespace App\Services\API;
 
-use App\Repositories\API\GroupPermissionRepository;
-use App\Repositories\API\PermissionRepository;
-use App\Repositories\API\RoleRepository;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
+use App\Repositories\Eloquent\API\PermissionRepository;
 
-class PermissionService{
-
+class PermissionService
+{
     protected $permissionRepository;
-    public function __construct(PermissionRepository $permissionRepository)
+
+    public function __construct()
     {
-        $this->permissionRepository = $permissionRepository;
+        $this->permissionRepository = new PermissionRepository();
     }
 
-    public function getAll(){
-        return $this->permissionRepository->getAll();
-    }
-
-    public function getList(){
+    /**
+     * Summary of getList
+     * @return mixed
+     */
+    public function getList()
+    {
         return $this->permissionRepository->getList();
     }
 
-    public function handleAdd($dataInsert){
-        return $this->permissionRepository->handleAdd($dataInsert);
+    /**
+     * Summary of savePermission
+     * @param mixed $dataInput
+     * @return mixed
+     */
+    public function savePermission($dataInput)
+    {
+        return $this->permissionRepository->savePermission($dataInput);
     }
 
-    public function update($id,$name,$description,$group_permission_id){
-        return $this->permissionRepository->update($id,$name,$description,$group_permission_id);
+    /**
+     * Summary of updatePermission
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $description
+     * @param mixed $groupPermissionId
+     * @return mixed
+     */
+    public function updatePermission($id, $name, $description, $groupPermissionId)
+    {
+        return $this->permissionRepository
+            ->updatePermission($id, $name, $description, $groupPermissionId);
     }
 
-    public function getId($id){
+
+    /**
+     * Summary of getId
+     * @param int $id
+     * @return mixed
+     */
+    public function getId(int $id)
+    {
         return $this->permissionRepository->getId($id);
     }
 
-    public function delete($id){
-        return $this->permissionRepository->delete($id);
+    /**
+     * Summary of deletePermission
+     * @param int $id
+     * @return mixed
+     */
+    public function deletePermission(int $id)
+    {
+        return $this->permissionRepository->deletePermission($id);
     }
-
 }
 

@@ -17,11 +17,17 @@ class UserController extends BaseController
         $this->userService = new UserService;
     }
 
+    /**
+     * Summary of index
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $search = null;
         $status = $request->status;
         $roleId = $request->role_id;
+
         if (!empty($request->search)) {
             $search = $request->search;
         }
@@ -34,22 +40,31 @@ class UserController extends BaseController
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
-
     }
 
+    /**
+     * Summary of store
+     * @param UserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(UserRequest $request)
     {
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
-            $result = $this->userService->saveUserData($data);
+            $result = $this->userService->handleSaveUserData($data);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
     }
 
-    public function show($user)
+    /**
+     * Summary of show
+     * @param int $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $user)
     {
         try {
             $result = $this->userService->getById($user);
@@ -59,22 +74,32 @@ class UserController extends BaseController
         }
     }
 
-
-    public function update(UpdateUserRequest $request,$id){
+    /**
+     * Summary of update
+     * @param UpdateUserRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateUserRequest $request, int $id){
         $data = $request->all();
         $data['password'] = bcrypt($request->input('password'));
         try {
-            $result = $this->userService->update($data,$id);
+            $result = $this->userService->handleUpdateUser($data, $id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
     }
 
-    public function destroy($id)
+    /**
+     * Summary of destroy
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id)
     {
         try {
-            $result = $this->userService->delete($id);
+            $result = $this->userService->handleDeleteUser($id);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());

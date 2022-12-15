@@ -2,24 +2,37 @@
 namespace App\Services\API;
 
 use App\Repositories\Eloquent\API\RoleRepository;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 
-class RoleService{
-
+class RoleService
+{
     protected $roleRepository;
+
     public function __construct()
     {
         $this->roleRepository = new RoleRepository;
     }
 
-    public function searchRole($search){
-        return $this->roleRepository->searchRole($search);
+    /**
+     * s
+     * @param mixed $search
+     * @return mixed
+     */
+    public function getSearchRole($search)
+    {
+        return $this->roleRepository->getSearchRole($search);
     }
 
-    public function handleAdd($name,$description,$permission_id){
+    /**
+     * Summary of handleSaveRole
+     * @param mixed $name
+     * @param mixed $description
+     * @param mixed $permissionId
+     * @throws \Exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function handleSaveRole($name, $description, $permissionId)
+    {
         try {
             DB::beginTransaction();
 
@@ -28,41 +41,63 @@ class RoleService{
                 'description' => $description,
             ];
             $role = $this->roleRepository->addRole($dataRole);
-            $role->permissions()->attach($permission_id);
+            $role->permissions()->attach($permissionId);
 
             DB::commit();
 
-            return sendResponse([],'Add Role Success');
+            return sendResponse([], 'Add Role Success');
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());
         }
     }
 
-    public function getId($role){
-        return $this->roleRepository->getId($role);
+    /**
+     * Summary of getRoleInfo
+     * @param mixed $role
+     * @return mixed
+     */
+    public function getRoleInfo($role)
+    {
+        return $this->roleRepository->getRoleId($role);
     }
 
-    public function handleUpdate($role,$name,$description,$permission_id){
+    /**
+     * Summary of handleUpdateRole
+     * @param mixed $role
+     * @param mixed $name
+     * @param mixed $description
+     * @param mixed $permissionId
+     * @throws \Exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function handleUpdateRole($role, $name, $description, $permissionId)
+    {
         try {
             DB::beginTransaction();
 
-            $this->roleRepository->updateRole($role,$name,$description);
-            $role = $this->roleRepository->getId($role);
+            $this->roleRepository->updateRoleInfo($role, $name, $description);
+            $role = $this->roleRepository->getRoleId($role);
 
-            $role->permissions()->sync($permission_id);
+            $role->permissions()->sync($permissionId);
 
             DB::commit();
 
-            return sendResponse([],'Update Role Success');
+            return sendResponse([], 'Update Role Success');
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());
         }
     }
 
-    public function delete($role){
-        return $this->roleRepository->delete($role);
+    /**
+     * Summary of handleDeleteRole
+     * @param mixed $role
+     * @return mixed
+     */
+    public function handleDeleteRole($role)
+    {
+        return $this->roleRepository->deleteRole($role);
     }
 }
 

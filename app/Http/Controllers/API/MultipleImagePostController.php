@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\API\MultipleImagePostRequest;
-use Illuminate\Http\Request;
 use App\Services\API\PostService;
 
 class MultipleImagePostController extends BaseController
@@ -16,8 +15,13 @@ class MultipleImagePostController extends BaseController
         $this->postService = new PostService;
     }
 
-    public function store(MultipleImagePostRequest $request){
-
+    /**
+     * Summary of store
+     * @param MultipleImagePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(MultipleImagePostRequest $request)
+    {
         $images = $request->file('image');
         $postId = $request->input('post_id');
 
@@ -28,5 +32,4 @@ class MultipleImagePostController extends BaseController
             return $this->sendError(null, $e->getMessage());
         }
     }
-
 }

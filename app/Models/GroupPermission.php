@@ -10,7 +10,12 @@ class GroupPermission extends Model
     protected  $table = "group_permissions";
     protected $guarded = [];
 
-    public function permissions() {
+    /**
+     * Summary of permissions
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permissions()
+    {
         return $this->hasMany(Permission::class);
     }
 }

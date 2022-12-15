@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -41,11 +40,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function role(){
+    /**
+     * Summary of role
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
-    public function hasPermission(Permission $permission) {
+    /**
+     * Summary of hasPermission
+     * @param Permission $permission
+     * @return bool
+     */
+    public function hasPermission(Permission $permission)
+    {
         return !!optional(optional($this->role)->permissions)->contains($permission);
     }
 }
