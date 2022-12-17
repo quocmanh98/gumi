@@ -102,4 +102,22 @@ class PostController extends BaseController
             return $this->sendError(null, $e->getMessage());
         }
     }
+
+    public function getImages(){
+
+    }
+
+    public function deleteImage()
+    {
+
+    }
+
+    public function updateImage()
+    {
+
+    }
+
+    public function uploadImage(){
+        
+    }
 }

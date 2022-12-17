@@ -102,27 +102,27 @@ class PostService extends BaseService
             $dataId[] = $post->id;
         }
 
-        if (in_array($id, $dataId)) {
-            $post = $this->postRepository->getById($id);
-            if (!empty($thumbnail)) {
-                if($post->thumbnail){
-                    if (File::exists(public_path($post->thumbnail))) {
-                        unlink($post->thumbnail);
-                    }
+        if (!in_array($id, $dataId)) {
+            throw new \Exception('Error ! No find Post', 1);
+        }
+        $post = $this->postRepository->getById($id);
+        if (!empty($thumbnail)) {
+            if($post->thumbnail){
+                if (File::exists(public_path($post->thumbnail))) {
+                    unlink($post->thumbnail);
                 }
             }
-
-            $result = $this->postRepository->updatePost($data, $id);
-            if ($result) {
-                $success = [
-                    'message' => 'Update Data Post Success',
-                ];
-                return $success;
-            }
-            throw new \Exception('Error ! Update Data Post No Success', 1);
         }
 
-        throw new \Exception('Error ! No find Post', 1);
+        $result = $this->postRepository->updatePost($data, $id);
+        if ($result) {
+            $success = [
+                'message' => 'Update Data Post Success',
+            ];
+            return $success;
+        }
+        throw new \Exception('Error ! Update Data Post No Success', 1);
+
     }
 
     /**

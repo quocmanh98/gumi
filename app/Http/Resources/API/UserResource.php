@@ -20,9 +20,6 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'status' => $this->status == 1 ? "Active" : "UnActive",
             'phone' => $this->phone,
-            'role' => $this->role->name,
-            'created_at' => $this->created_at->format('d/m/Y'),
-            'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
     }
 }

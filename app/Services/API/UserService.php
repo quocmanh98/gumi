@@ -28,7 +28,7 @@ class UserService extends BaseService
      * @throws \Exception
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getAllUser($status, $roleId, $search, $sortBy, $sortType)
+    public function getAllUser($status, $search, $sortBy, $sortType)
     {
         $filters = [];
 
@@ -42,9 +42,9 @@ class UserService extends BaseService
             $filters[] = ['users.status', '=', $status];
         }
 
-        if (!empty($roleId)) {
-            $filters[] = ['users.role_id', '=', $roleId];
-        }
+        // if (!empty($roleId)) {
+        //     $filters[] = ['users.role_id', '=', $roleId];
+        // }
 
         $allowSort = ['asc', 'desc'];
         if (!empty($sortType) && in_array($sortType, $allowSort)) {
@@ -111,6 +111,7 @@ class UserService extends BaseService
         $result = $this->userRepository->saveUserData($data);
         if ($result) {
             $success = [
+                'user_id' => $result,
                 'message' => 'Create Data User Success',
             ];
             return $success;

@@ -15,43 +15,43 @@ class AuthRepository extends BaseRepository
     }
 
     /**
-     * Summary of createUser
+     * Thêm người dùng
      * @param mixed $data
      * @return mixed
      */
     public function createUser($data)
     {
-        return $this->user->insertGetId($data);
+        return $this->user->create($data);
     }
 
     /**
-     * Summary of verifyUuid
+     *  Lấy thông tin chi tiêt user thông qua uuid của user đó
      * @param mixed $uuid
      * @return mixed
      */
     public function verifyUuid($uuid)
     {
-        $result = $this->user->select('activate_date', 'unique_id', 'status')
-            ->where('unique_id', $uuid)
+        $result = $this->user->select('activation_date', 'uuid', 'status')
+            ->where('uuid', $uuid)
             ->first();
         return $result;
     }
 
     /**
-     * Summary of updateStatusUser
+     * Cập nhật trạng thái user
      * @param mixed $uuid
      * @return mixed
      */
     public function updateStatusUser($uuid)
     {
         $result = $this->user
-            ->where('unique_id', $uuid)
+            ->where('uuid', $uuid)
             ->update(['status' => 1]);
         return $result;
     }
 
     /**
-     * Summary of verifyEmail
+     * Kiểm tra tồn tại email user đó
      * @param mixed $email
      * @return mixed
      */
@@ -64,7 +64,7 @@ class AuthRepository extends BaseRepository
     }
 
     /**
-     * Summary of verifyPhone
+     * Kiểm tra tồn tại phone đó
      * @param int $phone
      * @return mixed
      */
@@ -77,30 +77,30 @@ class AuthRepository extends BaseRepository
     }
 
     /**
-     * Summary of getDataUserId
+     * Lấy thông tin chi tiết user
      * @param int $userId
      * @return mixed
      */
-    public function getDataUserId(int $userId)
+    public function getUserId(int $userId)
     {
         $result = $this->user->whereId($userId)->first();
         return $result;
     }
 
     /**
-     * Summary of updatePassword
+     * Thay đổi mật khẩu qua uuid của user
      * @param mixed $passwordNew
      * @param mixed $uuid
      * @return mixed
      */
     public function updatePassword($passwordNew, $uuid)
     {
-        return $this->user->where('unique_id', $uuid)
+        return $this->user->where('uuid', $uuid)
             ->update(['password' => $passwordNew]);
     }
 
     /**
-     * Summary of updatePasswordByEmail
+     * Cập nhật mật khẩu user qua email của user
      * @param mixed $passwordNewHash
      * @param mixed $email
      * @return mixed
@@ -112,7 +112,8 @@ class AuthRepository extends BaseRepository
     }
 
     /**
-     * Summary of updateOrCreate
+     * Cập nhật nếu tồn tại user
+     * Tạo mới user nếu ko tồn tại user
      * @param mixed $user
      * @return mixed
      */
@@ -128,7 +129,7 @@ class AuthRepository extends BaseRepository
     }
 
     /**
-     * Summary of updateGoogleId
+     * Cập nhật cột google id bảng user
      * @param mixed $user
      * @return mixed
      */

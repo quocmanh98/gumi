@@ -23,8 +23,8 @@ class UserRepository extends BaseRepository
     public function getAllUser($filters = [], $search = null, $sortArr = null, $perPage = null)
     {
         $users = $this->user
-            ->select('users.*', 'roles.name as role_name')
-            ->join('roles', 'users.role_id', '=', 'roles.id');
+            ->select('users.*');
+            // ->join('roles', 'users.role_id', '=', 'roles.id');
 
         $orderBy = 'users.created_at';
         $orderType = 'desc';
@@ -65,7 +65,7 @@ class UserRepository extends BaseRepository
      */
     public function saveUserData(array $data)
     {
-        return $this->user->create($data);
+        return $this->user->insertGetId($data);
     }
 
     /**
@@ -109,4 +109,6 @@ class UserRepository extends BaseRepository
     {
         return $this->user->all();
     }
+
+    
 }

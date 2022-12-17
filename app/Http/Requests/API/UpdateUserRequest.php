@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,'.$this->user()->id,
             'status' => 'required|integer|between:0,1',
             'password' => 'required|min:6|max:10',
-            'role_id' => 'required|integer'
+            // 'role_id' => 'required|integer'
         ];
     }
 

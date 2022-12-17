@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\GroupPermissionRequest;
@@ -17,7 +17,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-     * Summary of index
+     * Xem dah sách nhóm quyền
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -27,7 +27,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-     * Summary of store
+     * Thêm nhóm quyền
      * @param GroupPermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -40,7 +40,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-      * Summary of update
+      * Cập nhât nhóm quyền
       * @param mixed $id
       * @param UpdateGroupPermissionRequest $request
       * @return \Illuminate\Http\JsonResponse
@@ -55,7 +55,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-     * Summary of show
+     * Xem chi tiết nhóm quyền
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -66,7 +66,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Xóa thông tin nhóm quyền
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */

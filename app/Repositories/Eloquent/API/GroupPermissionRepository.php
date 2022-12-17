@@ -47,7 +47,7 @@ class GroupPermissionRepository
      * @param mixed $description
      * @return mixed
      */
-    public function updateGroupPermissionInfo(int $id,$name,$description)
+    public function updateGroupPermissionInfo(int $id, $name, $description)
     {
         return $this->groupPermission->findOrFail($id)
             ->update(['name' => $name, 'description' => $description]);

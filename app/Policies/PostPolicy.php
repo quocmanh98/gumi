@@ -11,7 +11,12 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
-    public function permissionPost()
+    /**
+     * Lấy danh sách những quyền thông qua role
+     *  dựa trên user đang đăng nhập
+     * @return array
+     */
+    public function postPermission()
     {
         $user = Auth::user();
         $data['permission']['posts'] = [];
@@ -29,7 +34,7 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-        $data = $this->permissionPost();
+        $data = $this->postPermission();
         if (!empty($data)) {
             $check = isRole($data['permission'],config("services.modules.posts"), 'viewAny');
             if ($check) {
@@ -48,7 +53,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        $data = $this->permissionPost();
+        $data = $this->postPermission();
         if (!empty($data)) {
             $check = isRole( $data['permission'], 'posts', 'view');
             if ($check && $user->id === $post->user_id) {
@@ -66,7 +71,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        $data = $this->permissionPost();
+        $data = $this->postPermission();
         if (!empty($data)) {
             $check = isRole($data['permission'],config("services.modules.posts"), 'create');
             if ($check) {
@@ -85,7 +90,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        $data = $this->permissionPost();
+        $data = $this->postPermission();
         if (!empty($data)) {
             $check = isRole($data['permission'], config("services.modules.posts"), 'update');
             if ($check && $user->id === $post->user_id) {
@@ -104,7 +109,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        $data = $this->permissionPost();
+        $data = $this->postPermission();
 
         if (!empty($data)) {
             $check = isRole($data['permission'], 'posts', 'delete');

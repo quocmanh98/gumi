@@ -5,5 +5,5 @@
     <b>
         Please click the below click to active your account:
     </b> <br>
-    <a href="{{ route('auth.register_activate',$data['unique_id']) }}">Activate Now !</a>
+    <a href="{{ route('auth.register_activate',$data['uuid']) }}">Activate Now !</a>
 </p>

@@ -26,7 +26,7 @@ class UserController extends BaseController
     {
         $search = null;
         $status = $request->status;
-        $roleId = $request->role_id;
+        // $roleId = $request->role_id;
 
         if (!empty($request->search)) {
             $search = $request->search;
@@ -35,7 +35,7 @@ class UserController extends BaseController
         $sortType = $request->input('sort-type');
 
         try {
-            $userList = $this->userService->getAllUser($status, $roleId, $search, $sortBy, $sortType);
+            $userList = $this->userService->getAllUser($status, $search, $sortBy, $sortType);
             return $this->sendSuccess($userList);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());

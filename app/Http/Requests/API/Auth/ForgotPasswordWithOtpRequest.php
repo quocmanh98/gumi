@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginWithOtpRequest extends FormRequest
+class ForgotPasswordWithOtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,8 @@ class LoginWithOtpRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'password' => 'required',
+            'user_id' => 'required|exists:verification_codes,user_id',
             'otp' => 'required'
         ];
     }

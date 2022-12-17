@@ -39,7 +39,7 @@ class RoleRepository
      * @param int $role
      * @return mixed
      */
-    public function getRoleId(int $role)
+    public function getRoleId($role)
     {
         return $this->role->findOrFail($role);
     }
