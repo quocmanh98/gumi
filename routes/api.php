@@ -56,7 +56,6 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
             Route::post('action', 'action')->name('action');
             Route::put('{user_id}', 'update')->name('update');
             Route::delete('{user_id}', 'destroy')->name('destroy');
-            Route::put('thumbnail/', 'updateThumbnail')->name('thumbnail.update');
         });
     });
 
@@ -69,19 +68,12 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
         Route::prefix('post/')->name('post.')->group(function () {
             Route::post('', 'store')->name('store');
             Route::get('{post_id}', 'show')->name('show');
-            Route::get('action', 'action')->name('action');
             Route::put('{post_id}', 'update')->name('update');
             Route::delete('{post_id}', 'destroy')->name('destroy');
-            Route::put('thumbnail', 'updateThumbnail')->name('thumbnail.update');
 
             Route::prefix('images/')->name('images.')->group(function () {
-                Route::get('{post_id}', 'getImages')->name('get_images');
-            });
-
-            Route::prefix('image/')->name('image.')->group(function () {
-                Route::delete('{image_id}', 'deleteImage')->name('delete_image');
-                Route::put('{image_id}', 'updateImage')->name('update_image');
-                Route::post('{post_id}', 'uploadImage')->name('upload_image');
+                Route::post('{post_id}', 'uploadImage')->name('upload_images');
+                Route::delete('{post_id}', 'deleteAllImage')->name('delete_all_image');
             });
         });
     });
@@ -94,7 +86,6 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
         Route::prefix('role/')->name('role.')->group(function () {
             Route::post('', 'store')->name('store');
             Route::get('{role_id}', 'show')->name('show');
-            Route::get('action', 'action')->name('action');
             Route::put('{role_id}', 'update')->name('update');
             Route::delete('{role_id}', 'destroy')->name('destroy');
         });
@@ -109,7 +100,7 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
             Route::get('{permission_id}', 'show')->name('show');
             Route::put('{permission_id}', 'update')->name('update');
             Route::delete('{permission_id}', 'destroy')->name('destroy');
-            Route::get('action', 'action')->name('action');
+
         });
 
     });

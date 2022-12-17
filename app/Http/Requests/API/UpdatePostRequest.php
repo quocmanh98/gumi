@@ -26,10 +26,9 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'exists:posts,id',
-            'title' => 'required|min:6',
+            'title' => 'required|min:6|unique:posts,title',
             'content' => 'required|min:6',
-            'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'thumbnail' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'status' => 'required|integer|between:0,1',
             'book_id' => 'required|integer',
             'user_id' => 'required|integer',

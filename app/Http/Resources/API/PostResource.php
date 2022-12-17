@@ -21,7 +21,6 @@ class PostResource extends JsonResource
             'status' => $this->status == 1 ? "Active" : "UnActive",
             'book_id' => $this->book->id,
             'book_title' => $this->book->title,
-            'user_create' => $this->user->name,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
