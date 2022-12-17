@@ -5,7 +5,7 @@ use App\Http\Resources\API\UserResource;
 use App\Repositories\Eloquent\API\AuthRepository;
 use App\Repositories\Eloquent\API\UserRepository;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
+use Laravolt\Avatar\Avatar;
 
 class UserService extends BaseService
 {
@@ -19,7 +19,7 @@ class UserService extends BaseService
     }
 
     /**
-     * Summary of getAllUser
+     * Xử lý Lấy danh sách người dùng
      * @param mixed $status
      * @param mixed $roleId
      * @param mixed $search
@@ -28,31 +28,34 @@ class UserService extends BaseService
      * @throws \Exception
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getAllUser($status, $search, $sortBy, $sortType)
+    public function getAllUser($status, $roleId, $search, $sortBy, $sortType)
     {
         $filters = [];
 
         if (!empty($status)) {
+
             if ($status == 'active') {
                 $status = 1;
             } else {
                 $status = 0;
             }
-
             $filters[] = ['users.status', '=', $status];
+
         }
 
-        // if (!empty($roleId)) {
-        //     $filters[] = ['users.role_id', '=', $roleId];
-        // }
+        if (!empty($roleId)) {
+            $filters[] = ['users.role_id', '=', $roleId];
+        }
 
         $allowSort = ['asc', 'desc'];
         if (!empty($sortType) && in_array($sortType, $allowSort)) {
+
             if ($sortType == 'desc') {
                 $sortType = 'asc';
             } else {
                 $sortType = 'desc';
             }
+
         } else {
             $sortType = 'asc';
         }
@@ -70,57 +73,37 @@ class UserService extends BaseService
     }
 
     /**
-     * Summary of handleCallbackGoogle
-     * @throws \Exception
-     * @return array
-     */
-    public function handleCallbackGoogle()
-    {
-        $user = Socialite::driver('google')->user();
-
-        // Check Users Email If Already
-        $is_user = $this->authRepository->verifyEmail($user->getEmail());
-
-        if (!$is_user) {
-            $saveUser = $this->authRepository->updateOrCreate($user);
-        } else {
-            $saveUser = $this->authRepository->updateGoogleId($user);
-            $saveUser = $this->authRepository->verifyEmail($user->getEmail());
-        }
-
-        $result = Auth::loginUsingId($saveUser->id);
-
-        if ($result) {
-            $success = [
-                'user' => new UserResource($saveUser),
-                'message' => 'Login Google Success',
-            ];
-            return $success;
-        }
-        throw new \Exception('Error ! Fetch Data User No Success', 1);
-    }
-
-    /**
-     * Summary of handleSaveUserData
+     * Xử lý thêm chức năng người dùng
      * @param mixed $data
      * @throws \Exception
      * @return array<string>
      */
-    public function handleSaveUserData($data)
+    public function handleSaveUserData($data, $thumbnail, $hasFile)
     {
-        $result = $this->userRepository->saveUserData($data);
-        if ($result) {
-            $success = [
-                'user_id' => $result,
-                'message' => 'Create Data User Success',
-            ];
-            return $success;
+        if (!$hasFile) {
+            $avatar = new Avatar();
+            $data['thumbnail'] = $avatar->create($data['name'])->toBase64();
+        } else {
+            $imageName = $thumbnail->getClientOriginalName();
+            $thumbnail->move('image/users', $imageName);
+            $image = 'image/users/' . $imageName;
+            $data['thumbnail'] = $image;
         }
-        throw new \Exception('Error ! Create Data User No Success', 1);
+
+        $result = $this->userRepository->saveUserData($data);
+        if (!$result) {
+            throw new \Exception('Error ! Create Data User No Success', 1);
+        }
+
+        $success = [
+            'user_id' => $result,
+            'message' => 'Create Data User Success',
+        ];
+        return $success;
     }
 
     /**
-     * Summary of getById
+     * Xử lý lấy chi tiết user
      * @param int $id
      * @throws \Exception
      * @return array
@@ -133,70 +116,159 @@ class UserService extends BaseService
             $dataId[] = $user->id;
         }
 
-        if (in_array($id, $dataId)) {
-            $result = $this->userRepository->getById($id);
-            if ($result) {
-                $success = [
-                    'message' => 'Fetch Data User Success',
-                    'user' => new UserResource($result),
-                ];
-                return $success;
-            }
+        if (!in_array($id, $dataId)) {
+            throw new \Exception('Error ! No find User', 1);
+        }
+
+        $result = $this->userRepository->getById($id);
+        if (!$result) {
             throw new \Exception('Error ! Fetch Data User No Success', 1);
         }
-        throw new \Exception('Error ! No find User', 1);
+
+        $success = [
+            'message' => 'Fetch Data User Success',
+            'user' => new UserResource($result),
+        ];
+        return $success;
     }
 
     /**
-     * Summary of handleUpdateUser
+     * Xử lý cập nhật thông tin user
      * @param array $data
      * @param int $id
      * @throws \Exception
      * @return array<string>
      */
-    public function handleUpdateUser(array $data,int $id)
+    public function handleUpdateUser($data, $id, $hasFile, $thumbnail)
     {
         $users = $this->userRepository->getAllData();
+
         $dataId = [];
         foreach ($users as $user) {
             $dataId[] = $user->id;
         }
-        if (in_array($id, $dataId)) {
-            $result = $this->userRepository->updateUser($data, $id);
-            if ($result) {
-                $success = [
-                    'message' => 'Update Data User Success',
-                ];
-                return $success;
-            }
+
+        if (!in_array($id, $dataId)) {
+            throw new \Exception('Error ! No find User', 1);
+        }
+
+        if ($hasFile) {
+            $imageName = $thumbnail->getClientOriginalName();
+            $thumbnail->move('image/users', $imageName);
+            $image = 'image/users/' . $imageName;
+            $data['thumbnail'] = $image;
+        }
+
+        $result = $this->userRepository->updateUser($data, $id);
+        if (!$result) {
             throw new \Exception('Error ! Update Data User No Success', 1);
         }
-        throw new \Exception('Error ! No find User', 1);
+
+        $success = [
+            'message' => 'Update Data User Success',
+        ];
+        return $success;
     }
 
     /**
-     * Summary of handleDeleteUser
+     * Xử lý xóa user
      * @param int $id
      * @throws \Exception
      * @return array<string>
      */
-    public function handleDeleteUser(int $id)
+    public function handleDeleteUser($id)
     {
         $users = $this->userRepository->getAllData();
+
         $dataId = [];
         foreach ($users as $user) {
             $dataId[] = $user->id;
         }
-        if (in_array($id, $dataId)) {
-            $result = $this->userRepository->deleteUser($id);
-            if ($result) {
-                $success = [
-                    'message' => 'Success ! Delete Data User Success',
-                ];
-                return $success;
-            }
+
+        if (!in_array($id, $dataId)) {
+            throw new \Exception('Error ! No find User', 1);
+        }
+
+        $result = $this->userRepository->deleteUser($id);
+        if (!$result) {
             throw new \Exception('Error ! Delete Data User No Success', 1);
         }
-        throw new \Exception('Error ! No find User', 1);
+
+        $success = [
+            'message' => 'Success ! Delete Data User Success',
+        ];
+        return $success;
+
     }
+
+    /**
+     * Xử lý hành động xóa tạm thời, khôi phục, xóa vĩnh viến user
+     * @param mixed $listCheck
+     * @param mixed $action
+     * @throws \Exception
+     * @return array<string>
+     */
+    public function handleUserAction($listCheck, $action)
+    {
+
+        if (!$listCheck) {
+            throw new \Exception('Error ! You need to select the element to execute', 1);
+        }
+        foreach ($listCheck as $k => $v) {
+            if (Auth::id() == $v) {
+                unset($listCheck[$k]);
+            }
+        }
+
+        if (!empty($listCheck)) {
+
+            if ($action == 'delete') {
+                $this->userRepository->userDestroy($listCheck);
+                return [
+                    'message' => 'You have successfully deleted the temporary',
+                ];
+            }
+
+            if ($action == 'restore') {
+                $this->userRepository->userRestoreTrashed($listCheck);
+                return [
+                    'message' => 'You have successfully recovered',
+                ];
+            }
+
+            if ($action == 'forceDelete') {
+                $this->userRepository->userForceDelete($listCheck);
+                return [
+                    'message' => 'You have successfully permanently deleted',
+                ];
+            }
+        }
+
+        throw new \Exception('Error ! You cannot operate on your account', 1);
+    }
+
+    // public function handleCallbackGoogle()
+    // {
+    //     $user = Socialite::driver('google')->user();
+
+    //     // Check Users Email If Already
+    //     $is_user = $this->authRepository->verifyEmail($user->getEmail());
+    //     if (!$is_user) {
+    //         $saveUser = $this->authRepository->updateOrCreate($user);
+    //     } else {
+    //         $saveUser = $this->authRepository->updateGoogleId($user);
+    //         $saveUser = $this->authRepository->verifyEmail($user->getEmail());
+    //     }
+
+    //     $result = Auth::loginUsingId($saveUser->id);
+    //     if (!$result) {
+    //         throw new \Exception('Error ! Fetch Data User No Success', 1);
+    //     }
+
+    //     $success = [
+    //         'user' => new UserResource($saveUser),
+    //         'message' => 'Login Google Success',
+    //     ];
+    //     return $success;
+    // }
 }

@@ -1,14 +1,15 @@
 <?php
 namespace App\Services\API;
 
+use Laravolt\Avatar\Avatar;
+use Illuminate\Support\Carbon;
 use App\Mail\API\Auth\LoginOtpMail;
 use App\Mail\API\Auth\RegisterMail;
-use App\Repositories\Eloquent\API\AuthRepository;
-use App\Repositories\Eloquent\API\VerificationCodeRepository;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Repositories\Eloquent\API\AuthRepository;
+use App\Repositories\Eloquent\API\VerificationCodeRepository;
 
 class AuthService extends BaseService
 {
@@ -27,8 +28,19 @@ class AuthService extends BaseService
      * @param mixed $userData
      * @return array<string>
      */
-    public function createUser($dataInput, $userData)
+    public function createUser($dataInput, $userData, $hasFile, $thumbnail)
     {
+
+        if (!$hasFile) {
+            $avatar = new Avatar();
+            $userData['thumbnail'] = $avatar->create($dataInput['name'])->toBase64();
+        } else {
+            $imageName = $thumbnail->getClientOriginalName();
+            $thumbnail->move('image/users', $imageName);
+            $image = 'image/users/' . $imageName;
+            $userData['thumbnail'] = $image;
+        }
+
         $result = $this->authRepository->createUser($userData);
         if (!$result) {
             $this->sendError("Sorry ! Unable to create an account !");

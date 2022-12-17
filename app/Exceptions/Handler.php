@@ -50,12 +50,12 @@ class Handler extends ExceptionHandler
         //     //
         // });
 
-        $this->renderable(function (ModelNotFoundException $e, $request) {
-            return response()->json(['status' => 'failed', 'message' => 'Model not found'], 404);
-        });
-        $this->renderable(function (NotFoundHttpException $e, $request) {
-            return response()->json(['status' => 'failed', 'message' => 'Data not found'], 404);
-        });
+        // $this->renderable(function (ModelNotFoundException $e, $request) {
+        //     return response()->json(['status' => 'failed', 'message' => 'Model not found'], 404);
+        // });
+        // $this->renderable(function (NotFoundHttpException $e, $request) {
+        //     return response()->json(['status' => 'failed', 'message' => 'Data not found'], 404);
+        // });
 
         $this->renderable(function (AccessDeniedHttpException $e, $request) {
             return response()->json(['status' => 'failed', 'message' => 'Prohibited Access'], 403);

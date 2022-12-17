@@ -41,11 +41,14 @@ class AuthController extends BaseController
             'password' => bcrypt($request->input('password')),
             'phone' => $request->input('phone'),
             'uuid' => $dataInput['uuid'],
+            'role_id' => 3,
             'activation_date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s'),
         ];
+        $hasFile = $request->hasFile('thumbnail');
+        $thumbnail = $request->thumbnail;
 
         try {
-            $result = $this->authService->createUser($dataInput, $userData);
+            $result = $this->authService->createUser($dataInput, $userData, $hasFile, $thumbnail);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
