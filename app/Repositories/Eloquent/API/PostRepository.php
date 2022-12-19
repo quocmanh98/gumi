@@ -21,7 +21,7 @@ class PostRepository extends BaseRepository
      * Lấy danh sách post từ db
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllPost()
+    public function getPostAll()
     {
         return $this->post->all();
     }

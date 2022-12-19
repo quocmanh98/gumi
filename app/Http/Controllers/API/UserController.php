@@ -15,7 +15,7 @@ class UserController extends BaseController
 
     public function __construct()
     {
-        $this->userService = new UserService;
+        $this->userService = new UserService();
     }
 
     /**
@@ -26,8 +26,8 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $search = null;
-        $status = $request->status;
-        $roleId = $request->role_id;
+        $status =  $request->input('status');
+        $roleId = $request->input('role_id');
 
         if (!empty($request->search)) {
             $search = $request->search;
@@ -36,7 +36,7 @@ class UserController extends BaseController
         $sortType = $request->input('sort-type');
 
         try {
-            $userList = $this->userService->getAllUser($status, $roleId, $search, $sortBy, $sortType);
+            $userList = $this->userService->getUserAll($status, $roleId, $search, $sortBy, $sortType);
             return $this->sendSuccess($userList);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -57,7 +57,7 @@ class UserController extends BaseController
         $thumbnail = $request->thumbnail;
 
         try {
-            $result = $this->userService->handleSaveUserData($data,$thumbnail,$hasFile);
+            $result = $this->userService->handleSaveUserData($data, $thumbnail, $hasFile);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -65,11 +65,11 @@ class UserController extends BaseController
     }
 
     /**
-     * Xem chi tiết user
+     * Xem thông tin chi tiết user
      * @param int $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $user)
+    public function show($user)
     {
         try {
             $result = $this->userService->getById($user);
@@ -116,7 +116,7 @@ class UserController extends BaseController
     }
 
     /**
-     * Chức năng xóa tạm thời, khôi phục, xóa vĩnh viến user
+     * Chức năng xóa tạm thời, khôi phục, xóa vĩnh viến hàng loạt user
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

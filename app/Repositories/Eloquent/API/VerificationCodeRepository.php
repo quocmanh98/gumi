@@ -52,7 +52,7 @@ class VerificationCodeRepository extends BaseRepository
             ->create([
                 'user_id' => $user->id,
                 'otp' => rand(123456, 999999),
-                'expire_at' => Carbon::now()->addMinutes(10),
+                'expire_at' => Carbon::now()->addMinutes(5),
                 'email' => $user->email
                 ]);
     }

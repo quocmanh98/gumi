@@ -26,7 +26,7 @@ class PostController extends BaseController
     public function index()
     {
         try {
-            $data = $this->postService->getAllPost();
+            $data = $this->postService->getPostAll();
             return $this->sendSuccess($data);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());

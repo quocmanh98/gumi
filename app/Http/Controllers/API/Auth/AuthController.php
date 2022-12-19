@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use Carbon\Carbon;
+use App\Services\API\AuthService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\API\Auth\LoginRequest;
+use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Http\Requests\API\Auth\ChangePasswordRequest;
 use App\Http\Requests\API\Auth\ForgotPasswordRequest;
 use App\Http\Requests\API\Auth\ForgotPasswordWithOtpRequest;
-use App\Http\Requests\API\Auth\LoginRequest;
-use App\Http\Requests\API\Auth\RegisterRequest;
-use App\Services\API\AuthService;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends BaseController
 {
@@ -60,7 +61,7 @@ class AuthController extends BaseController
      * @param int|null $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerActivate($id = null)
+    public function registerActivate($id)
     {
         try {
             $result = $this->authService->verifyUuid($id);
@@ -123,6 +124,7 @@ class AuthController extends BaseController
     {
         $dataInput = $request->all();
         $dataInput['uuid'] = md5(str_shuffle('abcdefghijklmnopqrstuvwxyz' . time()));
+
         try {
             $result = $this->authService->handleForgotPassword($dataInput);
             return $this->sendSuccess($result);
@@ -141,6 +143,7 @@ class AuthController extends BaseController
     public function forgotPasswordWithOtp(ForgotPasswordWithOtpRequest $request)
     {
         $dataInput = $request->all();
+
         try {
             $result = $this->authService->handleForgotPasswordWithOtp($dataInput);
             return $this->sendSuccess($result);
@@ -155,8 +158,8 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        $result = Auth::logout();
+        Auth::logout();
+        Session::forget('_token');
         return $this->sendSuccess('Logout success !');
     }
-
 }

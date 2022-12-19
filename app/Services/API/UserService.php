@@ -28,52 +28,49 @@ class UserService extends BaseService
      * @throws \Exception
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getAllUser($status, $roleId, $search, $sortBy, $sortType)
+    public function getUserAll($status, $roleId, $search, $sortBy, $sortType)
     {
+        // Lọc trạng thái tài khoản
         $filters = [];
-
         if (!empty($status)) {
-
             if ($status == 'active') {
                 $status = 1;
             } else {
                 $status = 0;
             }
             $filters[] = ['users.status', '=', $status];
-
         }
 
+        // Lọc vai trò
         if (!empty($roleId)) {
             $filters[] = ['users.role_id', '=', $roleId];
         }
 
+        // Sắp xếp các cột theo thứ tự desc,asc
         $allowSort = ['asc', 'desc'];
         if (!empty($sortType) && in_array($sortType, $allowSort)) {
-
             if ($sortType == 'desc') {
                 $sortType = 'asc';
             } else {
                 $sortType = 'desc';
             }
-
         } else {
             $sortType = 'asc';
         }
-
         $sortArr = [
             'sortBy' => $sortBy,
             'sortType' => $sortType,
         ];
 
-        $result = $this->userRepository->getAllUser($filters, $search, $sortArr, config('services.PER_PAGE'));
-        if ($result->count() > 0) {
-            return UserResource::collection($result);
+        $result = $this->userRepository->getUserAll($filters, $search, $sortArr, config('services.PER_PAGE'));
+        if (!$result->count()) {
+            throw new \Exception('Error ! Fetch Data User No Success', 1);
         }
-        throw new \Exception('Error ! Fetch Data User No Success', 1);
+        return UserResource::collection($result);
     }
 
     /**
-     * Xử lý thêm chức năng người dùng
+     * Xử lý chức thêm năng người dùng
      * @param mixed $data
      * @throws \Exception
      * @return array<string>
@@ -94,7 +91,6 @@ class UserService extends BaseService
         if (!$result) {
             throw new \Exception('Error ! Create Data User No Success', 1);
         }
-
         $success = [
             'user_id' => $result,
             'message' => 'Create Data User Success',
@@ -108,9 +104,9 @@ class UserService extends BaseService
      * @throws \Exception
      * @return array
      */
-    public function getById(int $id)
+    public function getById($id)
     {
-        $users = $this->userRepository->getAllData();
+        $users = $this->userRepository->getUsers();
         $dataId = [];
         foreach ($users as $user) {
             $dataId[] = $user->id;
@@ -141,7 +137,7 @@ class UserService extends BaseService
      */
     public function handleUpdateUser($data, $id, $hasFile, $thumbnail)
     {
-        $users = $this->userRepository->getAllData();
+        $users = $this->userRepository->getUsers();
 
         $dataId = [];
         foreach ($users as $user) {
@@ -178,7 +174,7 @@ class UserService extends BaseService
      */
     public function handleDeleteUser($id)
     {
-        $users = $this->userRepository->getAllData();
+        $users = $this->userRepository->getUsers();
 
         $dataId = [];
         foreach ($users as $user) {
@@ -202,7 +198,7 @@ class UserService extends BaseService
     }
 
     /**
-     * Xử lý hành động xóa tạm thời, khôi phục, xóa vĩnh viến user
+     * Xử lý hành động xóa tạm thời, khôi phục, xóa vĩnh viến hàng loạt user
      * @param mixed $listCheck
      * @param mixed $action
      * @throws \Exception
@@ -214,6 +210,7 @@ class UserService extends BaseService
         if (!$listCheck) {
             throw new \Exception('Error ! You need to select the element to execute', 1);
         }
+
         foreach ($listCheck as $k => $v) {
             if (Auth::id() == $v) {
                 unset($listCheck[$k]);

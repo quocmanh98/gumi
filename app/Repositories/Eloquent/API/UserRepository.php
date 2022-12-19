@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository
      * @param mixed $perPage
      * @return mixed
      */
-    public function getAllUser($filters = [], $search = null, $sortArr = null, $perPage = null)
+    public function getUserAll($filters = [], $search = null, $sortArr = null, $perPage = null)
     {
         $users = $this->user
             ->select('users.*', 'roles.name as role_name')
@@ -103,10 +103,10 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Lấy danh sách user
+     * Lấy tất cả user
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllData()
+    public function getUsers()
     {
         return $this->user->all();
     }

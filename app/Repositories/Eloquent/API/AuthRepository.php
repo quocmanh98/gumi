@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRepository extends BaseRepository
 {
-
     protected $user;
 
     public function __construct()
@@ -38,11 +37,22 @@ class AuthRepository extends BaseRepository
     }
 
     /**
+     * Kiểm tra tồn tại uuid của user đó
+     * @param mixed $uuid
+     * @return mixed
+     */
+    public function checkUuidExist($uuid)
+    {
+        $result = $this->user->where('uuid', $uuid)->exists();
+        return $result;
+    }
+
+    /**
      * Cập nhật trạng thái user
      * @param mixed $uuid
      * @return mixed
      */
-    public function updateStatusUser($uuid)
+    public function updateUserStatus($uuid)
     {
         $result = $this->user
             ->where('uuid', $uuid)
@@ -68,7 +78,7 @@ class AuthRepository extends BaseRepository
      * @param int $phone
      * @return mixed
      */
-    public function verifyPhone(int $phone)
+    public function verifyPhone($phone)
     {
         $result = $this->user->select('*')
             ->where('phone', $phone)
@@ -81,7 +91,7 @@ class AuthRepository extends BaseRepository
      * @param int $userId
      * @return mixed
      */
-    public function getUserId(int $userId)
+    public function getUserId($userId)
     {
         $result = $this->user->whereId($userId)->first();
         return $result;

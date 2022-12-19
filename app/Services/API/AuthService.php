@@ -45,8 +45,8 @@ class AuthService extends BaseService
         if (!$result) {
             $this->sendError("Sorry ! Unable to create an account !");
         }
-        $data =
-            [
+
+        $data = [
             'name' => $dataInput['username'],
             'email' => $dataInput['email'],
             'uuid' => $dataInput['uuid'],
@@ -70,7 +70,8 @@ class AuthService extends BaseService
      */
     public function verifyUuid($id)
     {
-        if (empty($id)) {
+        $uuid = $this->authRepository->checkUuidExist($id);
+        if (!$uuid) {
             $this->sendError("Sorry !  Unable to process your request !");
         }
 
@@ -85,11 +86,11 @@ class AuthService extends BaseService
 
         if ($userData->status == 1) {
             return [
-                'message' => 'Your account is already activated !',
+                'message' => 'Account has been activated !',
             ];
         }
 
-        $result = $this->authRepository->updateStatusUser($id);
+        $result = $this->authRepository->updateUserStatus($id);
         if (!$result) {
             $this->sendError("Sorry ! Account activated failed !");
         }
@@ -100,7 +101,7 @@ class AuthService extends BaseService
     }
 
     /**
-     * Xác minh thời gian hết hạn
+     * Kiểm tra link xác thực đã hết thời gian hiệu lực !
      * @param mixed $regulateTime
      * @return bool
      */
@@ -124,7 +125,7 @@ class AuthService extends BaseService
     {
         $userData = $this->authRepository->verifyEmail($email);
         if (!$userData) {
-            $this->sendError("Sorry ! Unauthorise ! ");
+            $this->sendError("Sorry ! Unauthorize ! ");
         }
         return $userData;
     }
@@ -135,7 +136,7 @@ class AuthService extends BaseService
      * @param mixed $userData
      * @return array<string>
      */
-    public function handleLogin(string $password,$userData)
+    public function handleLogin($password, $userData)
     {
         $data = [
             'email' => $userData->email,
@@ -174,7 +175,7 @@ class AuthService extends BaseService
 
         $result = $this->authRepository->updatePassword($passwordNew, $uuid);
         if (!$result) {
-            $this->sendError('Update password no success');
+            $this->sendError('Error ! Update password fail !');
         }
         return [
             'message' => 'Update Password Success',
@@ -194,7 +195,7 @@ class AuthService extends BaseService
             throw new \Exception("Email not exist ", 1);
         }
 
-        # Generate An OTP
+        # Tạo mã OTP
         $verificationCode = $this->handleGenerateOtp($dataInput, $user);
         $data = [
             'name' => $verificationCode->user->username,
@@ -202,7 +203,6 @@ class AuthService extends BaseService
         ];
 
         $result = Mail::to($dataInput['email'])->send(new LoginOtpMail($data));
-
         if (!$result) {
             throw new \Exception("Error ! Send email fail ! ", 1);
         }
@@ -222,7 +222,7 @@ class AuthService extends BaseService
      */
     public function handleGenerateOtp($dataInput, $user)
     {
-        // User Does not Have Any Existing OTP
+        // Ở hiện tại người dùng không có bất kì mã OTP
         $verificationCode = $this->verificationCodeRepository->verifyUser($user->id);
         $this->verificationCodeRepository->deleteOtp();
         $now = Carbon::now();
@@ -231,7 +231,7 @@ class AuthService extends BaseService
             return $verificationCode;
         }
 
-        // Create a New OTP
+        // Tạo mới mã OTP
         return $this->verificationCodeRepository->createVerificationCode($dataInput, $user);
     }
 
@@ -248,9 +248,9 @@ class AuthService extends BaseService
 
         $now = Carbon::now();
         if (!$verificationCode) {
-            throw new \Exception("Error ! Your OTP is not correct ! ", 1);
+            throw new \Exception("Error ! OTP is not correct ! ", 1);
         } elseif ($verificationCode && $now->isAfter($verificationCode->expire_at)) {
-            throw new \Exception("Error ! Your OTP has been expired ! ", 1);
+            throw new \Exception("Error ! OTP has been expired ! ", 1);
         }
 
         $user = $this->authRepository->getUserId($data['user_id']);
@@ -263,7 +263,6 @@ class AuthService extends BaseService
         if (!$result) {
             throw new \Exception("Error ! Update password fail ! ", 1);
         }
-
         return [
             'message' => 'Success ! Update password success ',
         ];
