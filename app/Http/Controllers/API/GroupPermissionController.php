@@ -40,7 +40,7 @@ class GroupPermissionController extends Controller
     }
 
     /**
-      * Summary of update
+      * Cập nhật nhóm quyền
       * @param mixed $id
       * @param UpdateGroupPermissionRequest $request
       * @return \Illuminate\Http\JsonResponse
