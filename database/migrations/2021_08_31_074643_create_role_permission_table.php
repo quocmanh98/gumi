@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateRolePermissionTable extends Migration {
     /**
+     * Tạo bảng trung gian: role_permission
      * Run the migrations.
      *
      * @return void
@@ -23,6 +24,7 @@ class CreateRolePermissionTable extends Migration {
     }
 
     /**
+     * Xóa bảng trung gian: role_permission
      * Reverse the migrations.
      *
      * @return void

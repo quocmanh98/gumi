@@ -16,9 +16,9 @@ class GroupPermissionSeeder extends Seeder
     public function run()
     {
         DB::table('group_permissions')->insert([
-            ['name' => 'Posts', 'created_at' => now(),
+            ['name' => 'posts', 'created_at' => now(),
                 'updated_at' => now()],
-            ['name' => 'Users', 'created_at' => now(),
+            ['name' => 'users', 'created_at' => now(),
                 'updated_at' => now()],
         ]);
     }

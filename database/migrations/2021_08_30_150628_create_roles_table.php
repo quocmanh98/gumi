@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateRolesTable extends Migration {
     /**
+     * Tạo bảng vai trò
      * Run the migrations.
      *
      * @return void
@@ -23,6 +24,7 @@ class CreateRolesTable extends Migration {
     }
 
     /**
+     * Xóa bảng vai trò
      * Reverse the migrations.
      *
      * @return void

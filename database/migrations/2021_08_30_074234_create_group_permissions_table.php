@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateGroupPermissionsTable extends Migration {
     /**
+     * Tạo bảng nhóm quyền
      * Run the migrations.
      *
      * @return void
@@ -13,9 +14,7 @@ class CreateGroupPermissionsTable extends Migration {
     public function up() {
         Schema::create('group_permissions', function (Blueprint $table) {
             $table->id();
-            $table->text('name')
-                ->nullable();
-            $table->text('content')
+            $table->string('name')
                 ->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -23,6 +22,7 @@ class CreateGroupPermissionsTable extends Migration {
     }
 
     /**
+     * Xóa bảng nhóm quyền
      * Reverse the migrations.
      *
      * @return void

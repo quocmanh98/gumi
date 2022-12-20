@@ -42,7 +42,7 @@ class AuthController extends BaseController
             'password' => bcrypt($request->input('password')),
             'phone' => $request->input('phone'),
             'uuid' => $dataInput['uuid'],
-            'role_id' => 3,
+            'role_id' => 1,
             'activation_date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s'),
         ];
         $hasFile = $request->hasFile('thumbnail');

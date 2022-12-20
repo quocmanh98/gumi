@@ -93,16 +93,15 @@ Route::prefix('/')->middleware('auth:sanctum')->group(function () {
 
     // Route: Permission
     Route::controller(PermissionController::class)->group(function () {
-        Route::get('permissions', 'index')->name('index');
-
-        Route::prefix('permission/')->name('permission.')->group(function () {
-            Route::post('', 'store')->name('store');
-            Route::get('{permission_id}', 'show')->name('show');
+        Route::prefix('permissions')->name('permissions.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+        Route::prefix('permission')->name('permission.')->group(function () {
+            Route::post('/', 'store')->name('store');
+            Route::get('/{permission_id}', 'show')->name('show');
             Route::put('{permission_id}', 'update')->name('update');
             Route::delete('{permission_id}', 'destroy')->name('destroy');
-
         });
-
     });
 
     // Group Permission Controller

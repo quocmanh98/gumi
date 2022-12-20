@@ -21,20 +21,26 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->string('slug');
-            $table->string('thumbnail');
+            $table->string('slug')
+                ->nullable();
+            $table->text('thumbnail')
+                ->nullable();
             $table->string('meta_keyword')
+                ->nullable()
                 ->comment('meta_keyword: tìm kiếm');
             $table->boolean('status')
+                ->nullable()
                 ->default(Status::Inactive);
-            $table->integer('book_id');
-            $table->integer('user_id');
+            $table->integer('book_id')
+                ->nullable();
+            $table->integer('user_id')
+                ->nullable();
 
-            $table->integer('user_created')
+            $table->string('user_created')
                 ->nullable();
-            $table->integer('user_updated')
+            $table->string('user_updated')
                 ->nullable();
-            $table->integer('user_deleted')
+            $table->string('user_deleted')
                 ->nullable();
 
             $table->timestamps();

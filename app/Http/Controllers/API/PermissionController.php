@@ -18,68 +18,69 @@ class PermissionController extends Controller
     }
 
     /**
-     * Summary of index
+     * Danh sách quyền
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $permissions = PermissionResource::collection($this->permissionService->getList());
+        $permissions = $this->permissionService->getList();
+        $permissions = PermissionResource::collection($permissions);
+
         return sendResponse($permissions,'Fetch Data Success');
     }
 
     /**
-     * Summary of store
+     * Thêm quyền
      * @param PermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(PermissionRequest $request)
     {
         $name = $request->input('name');
-        $title = $request->input('title');
+
 
         $dataInput = [
             'name' => $name,
-            'title' => $title,
-            'group_permission_id' =>  $request->input('group_permission_id')
+            'group_permission_id' => $request->input('group_permission_id')
         ];
 
-        $this->permissionService->savePermission( $dataInput );
-        return sendResponse('','Add Permission Success');
+        $result = $this->permissionService->savePermission( $dataInput );
+        return sendResponse($result, 'Add Permission Success');
     }
 
     /**
-     * Summary of update
+     * Cập nhật quyền
      * @param int $id
      * @param UpdatePermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(int $id,UpdatePermissionRequest $request)
+    public function update($id, UpdatePermissionRequest $request)
     {
         $name = $request->input('name');
-        $title = $request->input('title');
         $groupPermissionId = $request->input('group_permission_id');
 
-        $this->permissionService->updatePermission($id, $name, $title, $groupPermissionId);
+        $this->permissionService->updatePermission($id, $name, $groupPermissionId);
         return sendResponse([],'Update Permission Success');
     }
 
     /**
-     * Summary of show
+     * Xem bản ghi cụ thể quyền
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $id)
+    public function show($id)
     {
-        $result = new PermissionResource($this->permissionService->getId($id));
-        return sendResponse($result, 'Fetch Permission Success');
+        $permission = $this->permissionService->getId($id);
+        $permission = new PermissionResource($permission);
+        return sendResponse($permission, 'Fetch Permission Success');
     }
 
     /**
-     * Summary of destroy
+     * Xóa quyền
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $this->permissionService->deletePermission($id);
         return sendResponse([], 'Delete Permission Success');

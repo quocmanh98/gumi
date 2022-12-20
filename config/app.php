@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
+    'group_permission_id' => [
+        'post' => 1
+    ],
+    
+    'modules' => [
+        'posts' => 'posts'
+    ],
 
     /*
     |--------------------------------------------------------------------------

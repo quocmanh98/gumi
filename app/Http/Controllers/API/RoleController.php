@@ -19,11 +19,12 @@ class RoleController extends BaseController
     }
 
     /**
-     * Summary of index
+     * Lấy danh sách vai trò
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         $search = '';
         if ($request->has('search')) {
@@ -35,7 +36,7 @@ class RoleController extends BaseController
     }
 
     /**
-     * Summary of store
+     * Thêm vai trò
      * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -45,50 +46,62 @@ class RoleController extends BaseController
         $description = $request->input('description');
         $permissionId = $request->input('permission_id');
 
-        return $this->roleService->handleSaveRole($name, $description, $permissionId);
+        $result = $this->roleService->handleSaveRole($name, $description, $permissionId);
+        return sendResponse($result, 'Add Role Success');
     }
 
     /**
-     * Summary of show
+     * Xem thông tin chi tiết vai trò
      * @param mixed $role
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($role)
     {
-        $role = $this->roleService->getRoleInfo($role);
-        $permissionsChecked = $role->permissions;
+        try {
+            $role = $this->roleService->getRoleInfo($role);
+            $permissionsChecked = $role->permissions;
 
-        $result = [
-            'role' => $role,
-            'permissionsChecked' => $permissionsChecked
-        ];
-
-        return sendResponse($result, 'Show Data Success');
+            $result = [
+                'role' => $role,
+                'permissionsChecked' => $permissionsChecked,
+            ];
+            return sendResponse($result, 'Show Data Role Success');
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
     }
 
     /**
-     * Summary of update
+     * Cập nhật thông tin vai trò
      * @param mixed $role
      * @param UpdateRoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    function update($role, UpdateRoleRequest $request)
+    public function update($role, UpdateRoleRequest $request)
     {
         $name = $request->input('name');
         $description = $request->input('description');
         $permissionId = $request->input('permission_id');
 
-        return $this->roleService->handleUpdateRole($role, $name, $description, $permissionId);
+        try {
+            return $this->roleService->handleUpdateRole($role, $name, $description, $permissionId);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
     }
 
     /**
-     * Summary of destroy
+     * Xóa vai trò
      * @param mixed $role
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($role)
     {
-        $this->roleService->handleDeleteRole($role);
-        return sendResponse([], 'Delete Data Success');
+        try {
+            $this->roleService->handleDeleteRole($role);
+            return sendResponse([], 'Delete Data Success');
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
     }
 }

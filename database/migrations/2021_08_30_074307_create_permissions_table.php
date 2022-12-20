@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePermissionsTable extends Migration {
     /**
+     * Tạo bảng quyền
      * Run the migrations.
      *
      * @return void
@@ -15,10 +16,6 @@ class CreatePermissionsTable extends Migration {
             $table->id();
             $table->string('name')
                 ->nullable();
-            $table->string('title')
-                ->nullable();
-            $table->text('content')
-                ->nullable();
             $table->integer('group_permission_id');
             $table->timestamps();
             $table->softDeletes();
@@ -26,6 +23,7 @@ class CreatePermissionsTable extends Migration {
     }
 
     /**
+     * Xóa bảng quyền
      * Reverse the migrations.
      *
      * @return void

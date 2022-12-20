@@ -34,9 +34,9 @@ class GroupPermissionController extends Controller
     public function store(GroupPermissionRequest $request)
     {
         $data = $request->all();
-        $this->groupPermissionService->handleSaveGroupPermission($data);
+        $result = $this->groupPermissionService->handleSaveGroupPermission($data);
 
-        return sendResponse('', 'Add Group Permission Success');
+        return sendResponse($result, 'Add Group Permission Success');
     }
 
     /**
@@ -45,12 +45,11 @@ class GroupPermissionController extends Controller
       * @param UpdateGroupPermissionRequest $request
       * @return \Illuminate\Http\JsonResponse
       */
-    public function update($id, UpdateGroupPermissionRequest $request)
+    public function update(UpdateGroupPermissionRequest $request, $id)
     {
-        $name = $request->name;
-        $description = $request->description;
+        $name = $request->input('name');
 
-        $this->groupPermissionService->handleUpdateGroupPermission($id, $name, $description);
+        $this->groupPermissionService->handleUpdateGroupPermission($id, $name);
         return sendResponse([], 'Update Group Permission Success');
     }
 
@@ -59,7 +58,7 @@ class GroupPermissionController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $id)
+    public function show($id)
     {
         $result = $this->groupPermissionService->getId($id);
         return sendResponse($result, 'Show Group Permission Success');
@@ -70,7 +69,7 @@ class GroupPermissionController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $this->groupPermissionService->handleDeleteGroupPermission($id);
         return sendResponse([], 'Delete Group Permission Success');

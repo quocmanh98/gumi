@@ -13,7 +13,7 @@ class RoleRepository
     }
 
     /**
-     * Summary of getSearchRole
+     * Tìm kiếm vai trò có phân trang
      * @param mixed $search
      * @return mixed
      */
@@ -25,27 +25,31 @@ class RoleRepository
     }
 
     /**
-     * Summary of addRole
+     * Thêm vai trò
      * @param mixed $dataRole
      * @return mixed
      */
     public function addRole($dataRole)
     {
-        return $this->role->create($dataRole);
+        return $this->role->create($dataRole)->id;
     }
 
     /**
-     * Summary of getRoleId
+     * Lấy thông tin chi tiêt vai trò
      * @param int $role
      * @return mixed
      */
     public function getRoleId($role)
     {
-        return $this->role->findOrFail($role);
+        $result = $this->role->where('id', $role)->exists();
+        if($result){
+            return $this->role->findOrFail($role)->first();
+        }
+        throw new \Exception('Find role fail');
     }
 
     /**
-     * Summary of updateRoleInfo
+     * Cập nhật thông tin vai trò
      * @param mixed $role
      * @param mixed $name
      * @param mixed $description
@@ -59,7 +63,7 @@ class RoleRepository
     }
 
     /**
-     * Summary of deleteRole
+     * Xóa vai trò
      * @param mixed $role
      * @return mixed
      */

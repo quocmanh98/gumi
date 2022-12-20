@@ -244,28 +244,4 @@ class UserService extends BaseService
         throw new \Exception('Error ! You cannot operate on your account', 1);
     }
 
-    // public function handleCallbackGoogle()
-    // {
-    //     $user = Socialite::driver('google')->user();
-
-    //     // Check Users Email If Already
-    //     $is_user = $this->authRepository->verifyEmail($user->getEmail());
-    //     if (!$is_user) {
-    //         $saveUser = $this->authRepository->updateOrCreate($user);
-    //     } else {
-    //         $saveUser = $this->authRepository->updateGoogleId($user);
-    //         $saveUser = $this->authRepository->verifyEmail($user->getEmail());
-    //     }
-
-    //     $result = Auth::loginUsingId($saveUser->id);
-    //     if (!$result) {
-    //         throw new \Exception('Error ! Fetch Data User No Success', 1);
-    //     }
-
-    //     $success = [
-    //         'user' => new UserResource($saveUser),
-    //         'message' => 'Login Google Success',
-    //     ];
-    //     return $success;
-    // }
 }

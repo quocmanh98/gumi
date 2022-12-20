@@ -25,6 +25,7 @@ class PostController extends BaseController
      */
     public function index()
     {
+        $this->authorize('viewAny',Post::class);
         try {
             $data = $this->postService->getPostAll();
             return $this->sendSuccess($data);
@@ -40,6 +41,7 @@ class PostController extends BaseController
      */
     public function store(PostRequest $request)
     {
+        $this->authorize('create',Post::class);
         $data = $request->all();
         $hasFile = $request->hasFile('thumbnail');
         $thumbnail = $request->file('thumbnail');
@@ -49,18 +51,17 @@ class PostController extends BaseController
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
-
         }
     }
 
     /**
-     * Summary of show
+     * Thông tin chi tiết post
      * @param Post $post
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Post $postId)
     {
-        // $this->authorize('view', $postId);
+        $this->authorize('view', $postId);
         try {
             $post = $this->postService->getById($postId->id);
             return $this->sendSuccess($post);
@@ -70,14 +71,14 @@ class PostController extends BaseController
     }
 
     /**
-     * Summary of update
+     * Cập nhật post
      * @param UpdatePostRequest $request
      * @param Post $post
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdatePostRequest $request, Post $postId)
     {
-        // $this->authorize('update', $post);
+        $this->authorize('update', $postId);
         $hasFile = $request->hasFile('thumbnail');
         $thumbnail = $request->file('thumbnail');
         $data = $request->all();
@@ -91,13 +92,13 @@ class PostController extends BaseController
     }
 
     /**
-     * Summary of destroy
+     * Xóa post
      * @param Post $post
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Post $postId)
     {
-        // $this->authorize('delete', $postId);
+        $this->authorize('delete', $postId);
         try {
             $result = $this->postService->handleDeletePost($postId->id);
             return $this->sendSuccess($result);
@@ -114,6 +115,7 @@ class PostController extends BaseController
      */
     public function uploadImage(MultipleImagePostRequest $request)
     {
+        $this->authorize('create',Post::class);
         $images = $request->file('image');
         $postId = $request->input('post_id');
 

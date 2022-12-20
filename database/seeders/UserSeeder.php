@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
 
         User::insert([
             [
-                'name' => 'Quốc Mạnh',
-                'username' => 'quocmanh',
-                'email' => 'quocmanh1998s@gmail.com',
+                'name' => 'Trần Quốc Mạnh',
+                'username' => 'quocmanhtran',
+                'email' => 'quocmanh.tran@gumiviet.com',
                 'password' => bcrypt('123456789'),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'email_verified_at' => now(),
-                'role_id' => 3
+                'role_id' => 1
             ],
         ]);
     }
