@@ -25,28 +25,36 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('gender')
-                ->comment('gender: giới tính');
-            $table->string('phone');
-            $table->text('address');
-            $table->string('thumbnail')
-                ->comment('thumbnail: Hình ảnh đại diện ');
+                ->comment('gender: Giới tính')
+                ->nullable();
+            $table->string('phone')
+                ->nullable();
+            $table->text('address')
+                ->nullable();
+            $table->text('thumbnail')
+                ->comment('thumbnail: Hình ảnh đại diện ')
+                ->nullable();
             $table->boolean('status')
                 ->default(Status::Inactive)
                 ->comment('status: trạng thái tài khoản');
             $table->string('activation_date')
                 ->nullable()
-                ->comment('activation_date: ngày kích hoạt');
+                ->comment('activate_date: ngày kích hoạt');
+            $table->string('uuid')
+                ->nullable();
             $table->timestamp('email_verified_at')
                 ->nullable()
                 ->comment('email_verified_at: email xác thực');
             $table->string('google_id')
                 ->nullable();
+            $table->foreignId('role_id')
+                ->nullable();
 
-            $table->integer('user_created')
+            $table->string('user_created')
                 ->nullable();
-            $table->integer('user_updated')
+            $table->string('user_updated')
                 ->nullable();
-            $table->integer('user_deleted')
+            $table->string('user_deleted')
                 ->nullable();
 
             $table->rememberToken();

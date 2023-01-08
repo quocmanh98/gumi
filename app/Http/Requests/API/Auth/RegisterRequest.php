@@ -30,6 +30,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required',
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
+            'thumbnail' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'phone' =>  'required|regex:/(0)[0-9]{9}/',
             'password' => 'required',
             'confirm_password' => 'required|same:password',

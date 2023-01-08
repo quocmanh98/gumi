@@ -13,7 +13,7 @@ class PermissionRepository
     }
 
     /**
-     * Summary of getList
+     * Lấy tất cả bản ghi quyền có phân trang
      * @return mixed
      */
     public function getList()
@@ -22,31 +22,31 @@ class PermissionRepository
     }
 
     /**
-     * Summary of savePermission
+     * Lưu thông tin quyền vào database
      * @param array $dataInput
      * @return mixed
      */
     public function savePermission(array $dataInput)
     {
-        return $this->permission->create($dataInput);
+        return $this->permission->create($dataInput)->id;
     }
 
     /**
-     * Summary of updatePermission
+     * Cập nhật thông tin quyền vào database
      * @param mixed $id
      * @param mixed $name
      * @param mixed $description
      * @param mixed $groupPermissionId
      * @return mixed
      */
-    public function updatePermission($id, $name, $description, $groupPermissionId)
+    public function updatePermission($id, $name, $groupPermissionId)
     {
         return $this->permission->findOrFail($id)
-        ->update(['name' => $name, 'description' => $description, 'group_permission_id' => $groupPermissionId]);
+        ->update(['name' => $name, 'group_permission_id' => $groupPermissionId]);
     }
 
     /**
-     * Summary of getId
+     * Lấy bản ghi cụ thể của quyền
      * @param mixed $id
      * @return mixed
      */
@@ -56,12 +56,12 @@ class PermissionRepository
     }
 
     /**
-     * Summary of deletePermission
+     * Xóa quyền vào database
      * @param mixed $id
      * @return mixed
      */
     public function deletePermission($id)
     {
-        return $this->permission->find($id)->delete();
+        return $this->permission->findOrFail($id)->delete();
     }
 }

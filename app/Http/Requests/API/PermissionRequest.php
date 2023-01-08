@@ -26,8 +26,7 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|unique:permissions,name',
-            'title' => 'required|min:5',
+            'name' => 'required',
             'group_permission_id' => 'required',
         ];
     }

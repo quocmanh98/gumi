@@ -27,7 +27,6 @@ class GroupPermissionRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|unique:group_permissions',
-            'description' => 'required|min:5'
         ];
     }
 

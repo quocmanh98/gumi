@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
+    'group_permission_id' => [
+        'post' => 1
+    ],
+    
+    'modules' => [
+        'posts' => 'posts'
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -184,6 +191,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Laravolt\Avatar\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -215,7 +223,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Socialite' =>
         Laravel\Socialite\Facades\Socialite::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Avatar'    => Laravolt\Avatar\Facade::class,
     ])->toArray(),
 
 ];

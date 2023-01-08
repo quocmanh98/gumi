@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories\Eloquent\API;
 
-use App\Models\MultipleImagePost;
+use App\Models\ImagePost;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 
@@ -14,40 +14,40 @@ class PostRepository extends BaseRepository
     public function __construct()
     {
         $this->post = new Post();
-        $this->multipleImagePost = new MultipleImagePost();
+        $this->multipleImagePost = new ImagePost();
     }
 
     /**
-     * Summary of getAllPost
+     * Lấy danh sách post từ db
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllPost()
+    public function getPostAll()
     {
         return $this->post->all();
     }
 
     /**
-     * Summary of savePostData
+     * Lưu thông tin post
      * @param mixed $data
      * @return mixed
      */
     public function savePostData($data)
     {
-        return $this->post->create($data);
+        return $this->post->create($data)->id;
     }
 
     /**
-     * Summary of getById
+     * Lấy thông tin chi tiết post từ db
      * @param mixed $id
      * @return mixed
      */
     public function getById($id)
     {
-        return $this->post->where('id',$id)->first();
+        return $this->post->where('id', $id)->first();
     }
 
     /**
-     * Summary of updatePost
+     * Cập nhật Post từ đb
      * @param mixed $data
      * @param mixed $user
      * @return mixed
@@ -55,22 +55,22 @@ class PostRepository extends BaseRepository
     public function updatePost($data, $user)
     {
         return $this->post->find($user)
-        ->update($data);
+            ->update($data);
     }
 
     /**
-     * Summary of deletePost
+     * Xóa bài post
      * @param mixed $user
      * @return mixed
      */
     public function deletePost($user)
     {
         return $user = $this->post->find($user)
-        ->delete();
+            ->delete();
     }
 
     /**
-     * Summary of saveMultipleImagePost
+     * Lưu nhiều hình ảnh của post
      * @param mixed $data
      * @throws \Exception
      * @return void
@@ -82,9 +82,29 @@ class PostRepository extends BaseRepository
         try {
             $this->multipleImagePost->create($data);
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             DB::rollBack();
             throw new \Exception('Update Data User Success');
         }
+    }
+
+    /**
+     * Kiểm tra nhiều ảnh có thuôc 1 bài post
+     * @param mixed $postId
+     * @return mixed
+     */
+    public function verifyPostId($postId)
+    {
+        return $this->multipleImagePost->where('post_id', $postId)->get();
+    }
+
+    /**
+     * Xóa nhiều ảnh của bài post
+     * @param mixed $postId
+     * @return mixed
+     */
+    public function deleteImageAll($postId)
+    {
+        return $this->multipleImagePost->where('post_id', $postId)->delete();
     }
 }

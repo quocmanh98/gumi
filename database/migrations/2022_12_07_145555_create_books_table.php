@@ -22,20 +22,30 @@ return new class extends Migration
             $table->text('content')
                 ->comment('content: nội dung');
             $table->string('views')
+                ->nullable()
                 ->comment('views: lượt xem');
-            $table->string('thumbnail');
+            $table->text('thumbnail')
+                ->nullable();
             $table->string('author')
+                ->nullable()
                 ->comment('author: tác giả');
             $table->string('quantity')
+                ->nullable()
                 ->comment('quantity: số lượng');
-            $table->string('price_old');
-            $table->string('price_new');
-            $table->string('slug');
+            $table->string('price_old')
+                ->nullable();
+            $table->string('price_new')
+                ->nullable();
+            $table->string('slug')
+                ->nullable();
             $table->string('supplier')
+                ->nullable()
                 ->comment('supplier: nhà cung cấp');
             $table->string('publishing_company')
+                ->nullable()
                 ->comment('publishing_company: nhà xuất bản');
             $table->string('cover')
+                ->nullable()
                 ->comment('hình thức bìa: bìa cứng, bìa mềm');
             $table->boolean('status')
                 ->default(Status::Inactive)
@@ -48,11 +58,11 @@ return new class extends Migration
                 ->comment('meta_keyword: tìm kiếm');
             $table->integer('type_id');
 
-            $table->integer('user_created')
+            $table->string('user_created')
                 ->nullable();
-            $table->integer('user_updated')
+            $table->string('user_updated')
                 ->nullable();
-            $table->integer('user_deleted')
+            $table->string('user_deleted')
                 ->nullable();
 
             $table->timestamps();

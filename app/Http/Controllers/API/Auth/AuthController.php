@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Http\Controllers\BaseController;
-use App\Http\Requests\API\Auth\ChangePasswordRequest;
-use App\Http\Requests\API\Auth\LoginRequest;
-use App\Http\Requests\API\Auth\RegisterRequest;
-use App\Http\Requests\API\Auth\ForgotPasswordRequest;
-use App\Services\API\AuthService;
 use Carbon\Carbon;
+use App\Services\API\AuthService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\API\Auth\LoginRequest;
+use App\Http\Requests\API\Auth\RegisterRequest;
+use App\Http\Requests\API\Auth\ChangePasswordRequest;
+use App\Http\Requests\API\Auth\ForgotPasswordRequest;
+use App\Http\Requests\API\Auth\ForgotPasswordWithOtpRequest;
 
 class AuthController extends BaseController
 {
     protected $authService;
 
-    /**
-     * Summary of __construct
-     */
     public function __construct()
     {
         $this->authService = new AuthService;
     }
 
     /**
-     * Summary of register
+     * Chức năng đăng ký tài khoản
      * @param RegisterRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -38,16 +37,19 @@ class AuthController extends BaseController
             'name' => $request->input('name'),
             'username' => $request->input('username'),
             'email' => $request->input('email'),
+            'gender' => $request->input('gender'),
             'status' => 0,
             'password' => bcrypt($request->input('password')),
             'phone' => $request->input('phone'),
-            'unique_id' => $dataInput['uuid'],
-            'activate_date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s'),
-            'role_id' => 3,
+            'uuid' => $dataInput['uuid'],
+            'role_id' => 1,
+            'activation_date' => Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s'),
         ];
+        $hasFile = $request->hasFile('thumbnail');
+        $thumbnail = $request->thumbnail;
 
         try {
-            $result = $this->authService->createUser($dataInput, $userData);
+            $result = $this->authService->createUser($dataInput, $userData, $hasFile, $thumbnail);
             return $this->sendSuccess($result);
         } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
@@ -55,11 +57,11 @@ class AuthController extends BaseController
     }
 
     /**
-     * Summary of registerActivate
+     * User nhấn link xác thực đăng ký
      * @param int|null $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerActivate(int $id=null)
+    public function registerActivate($id)
     {
         try {
             $result = $this->authService->verifyUuid($id);
@@ -70,7 +72,7 @@ class AuthController extends BaseController
     }
 
     /**
-     * Summary of login
+     * Chức năng đăng nhập
      * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -86,15 +88,15 @@ class AuthController extends BaseController
         }
 
         try {
-            $result =  $this->authService->handleLogin($password, $userData);
+            $result = $this->authService->handleLogin($password, $userData);
             return $this->sendSuccess($result);
-        }  catch (\Exception$e) {
+        } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
     }
 
     /**
-     * Summary of changePassword
+     * Chức năng: Thay đổi mật khẩu
      * @param ChangePasswordRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -106,27 +108,58 @@ class AuthController extends BaseController
         $uuid = Auth::user()->uuid;
 
         try {
-            $result =  $this->authService->handleChangePassword($passwordOld, $passwordNew, $password, $uuid);
+            $result = $this->authService->handleChangePassword($passwordOld, $passwordNew, $password, $uuid);
             return $this->sendSuccess($result);
-        }  catch (\Exception$e) {
+        } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
     }
 
     /**
-     * Summary of forgotPassword
+     * Chức năng quên mật khẩu
      * @param ForgotPasswordRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function forgotPassword(ForgotPasswordRequest $request)
     {
-        $email = $request->input('email');
+        $dataInput = $request->all();
+        $dataInput['uuid'] = md5(str_shuffle('abcdefghijklmnopqrstuvwxyz' . time()));
 
         try {
-            $result = $this->authService->handleForgotPassword($email);
+            $result = $this->authService->handleForgotPassword($dataInput);
             return $this->sendSuccess($result);
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             return $this->sendError(null, $e->getMessage());
         }
+    }
+
+    /**
+     * Chức năng nhập OTP + nhập password mới
+     * dùng trong chức năng quên mật khẩu
+     * @param ForgotPasswordWithOtpRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function forgotPasswordWithOtp(ForgotPasswordWithOtpRequest $request)
+    {
+        $dataInput = $request->all();
+
+        try {
+            $result = $this->authService->handleForgotPasswordWithOtp($dataInput);
+            return $this->sendSuccess($result);
+        } catch (\Exception$e) {
+            return $this->sendError(null, $e->getMessage());
+        }
+    }
+
+    /**
+     * Chức năng logout tài khoản
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+        Session::forget('_token');
+        return $this->sendSuccess('Logout success !');
     }
 }

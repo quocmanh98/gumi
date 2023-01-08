@@ -14,7 +14,7 @@ class RoleService
     }
 
     /**
-     * s
+     * Tìm kiếm bản ghi
      * @param mixed $search
      * @return mixed
      */
@@ -24,7 +24,7 @@ class RoleService
     }
 
     /**
-     * Summary of handleSaveRole
+     * Xử lý thêm vai trò
      * @param mixed $name
      * @param mixed $description
      * @param mixed $permissionId
@@ -41,11 +41,13 @@ class RoleService
                 'description' => $description,
             ];
             $role = $this->roleRepository->addRole($dataRole);
-            $role->permissions()->attach($permissionId);
+            // $role->permissions()->attach($permissionId);
+            $success = [
+                'role_id' => $role,
+            ];
 
             DB::commit();
-
-            return sendResponse([], 'Add Role Success');
+            return $success;
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());
@@ -53,7 +55,7 @@ class RoleService
     }
 
     /**
-     * Summary of getRoleInfo
+     * lấy thông tin chi tiêt vai trò
      * @param mixed $role
      * @return mixed
      */
@@ -63,7 +65,7 @@ class RoleService
     }
 
     /**
-     * Summary of handleUpdateRole
+     * Xử lý cập nhật vai trò
      * @param mixed $role
      * @param mixed $name
      * @param mixed $description
@@ -78,20 +80,19 @@ class RoleService
 
             $this->roleRepository->updateRoleInfo($role, $name, $description);
             $role = $this->roleRepository->getRoleId($role);
-
-            $role->permissions()->sync($permissionId);
+            // $role->permissions()->sync($permissionId);
 
             DB::commit();
 
             return sendResponse([], 'Update Role Success');
         } catch (\Exception $e) {
             DB::rollback();
-            throw new \Exception($e->getMessage());
+            throw new \Exception('Fail ! Role no find');
         }
     }
 
     /**
-     * Summary of handleDeleteRole
+     * Xử lý xóa vai trò
      * @param mixed $role
      * @return mixed
      */

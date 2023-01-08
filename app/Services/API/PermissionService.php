@@ -9,11 +9,11 @@ class PermissionService
 
     public function __construct()
     {
-        $this->permissionRepository = new PermissionRepository();
+        $this->permissionRepository = new PermissionRepository;
     }
 
     /**
-     * Summary of getList
+     * Lấy danh sách quyền
      * @return mixed
      */
     public function getList()
@@ -22,46 +22,51 @@ class PermissionService
     }
 
     /**
-     * Summary of savePermission
+     * lưu quyền
      * @param mixed $dataInput
      * @return mixed
      */
     public function savePermission($dataInput)
     {
-        return $this->permissionRepository->savePermission($dataInput);
+        $id = $this->permissionRepository->savePermission($dataInput);
+        $success = [
+            'permission_id' => $id,
+            'message' => 'Save Permission Success !',
+        ];
+        return $success;
     }
 
     /**
-     * Summary of updatePermission
+     * Cập nhật quyền vào database
      * @param mixed $id
      * @param mixed $name
      * @param mixed $description
      * @param mixed $groupPermissionId
      * @return mixed
      */
-    public function updatePermission($id, $name, $description, $groupPermissionId)
+    public function updatePermission($id, $name, $groupPermissionId)
     {
         return $this->permissionRepository
-            ->updatePermission($id, $name, $description, $groupPermissionId);
+            ->updatePermission($id, $name, $groupPermissionId);
     }
 
 
     /**
-     * Summary of getId
+     * Lấy bản ghi cụ thể của quyền
      * @param int $id
      * @return mixed
      */
-    public function getId(int $id)
+    public function getId($id)
     {
         return $this->permissionRepository->getId($id);
     }
 
     /**
-     * Summary of deletePermission
+     * Xóa quyền.
      * @param int $id
      * @return mixed
      */
-    public function deletePermission(int $id)
+    public function deletePermission($id)
     {
         return $this->permissionRepository->deletePermission($id);
     }

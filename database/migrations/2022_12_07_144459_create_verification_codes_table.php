@@ -23,11 +23,11 @@ return new class extends Migration
                 ->comment('otp: mã OTP');
             $table->string('email');
 
-            $table->integer('user_created')
+            $table->string('user_created')
                 ->nullable();
-            $table->integer('user_updated')
+            $table->string('user_updated')
                 ->nullable();
-            $table->integer('user_deleted')
+            $table->string('user_deleted')
                 ->nullable();
 
             $table->timestamp('expire_at')

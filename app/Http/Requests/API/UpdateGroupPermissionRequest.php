@@ -26,8 +26,7 @@ class UpdateGroupPermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5',
-            'description' => 'required|min:5'
+            'name' => 'required|unique:group_permissions,name,'.$this->group_permission_id,
         ];
     }
 

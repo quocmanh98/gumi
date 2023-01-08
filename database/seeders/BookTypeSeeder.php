@@ -21,11 +21,11 @@ class BookTypeSeeder extends Seeder
     public function run()
     {
         BookType::insert([
-            ['name' => 'Chính trị','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
-            ['name' => 'Pháp luật','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
-            ['name' => 'Khoa học công nghệ','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
-            ['name' => 'Kinh tế','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
-            ['name' => 'Doremon','created_at' => Carbon::now(),'updated_at' => Carbon::now()]
+            ['title' => 'Chính trị','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
+            ['title' => 'Pháp luật','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
+            ['title' => 'Khoa học công nghệ','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
+            ['title' => 'Kinh tế','created_at' => Carbon::now(),'updated_at' => Carbon::now()],
+            ['title' => 'Doremon','created_at' => Carbon::now(),'updated_at' => Carbon::now()]
         ]);
     }
 }

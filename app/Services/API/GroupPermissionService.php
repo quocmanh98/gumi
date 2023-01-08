@@ -13,7 +13,7 @@ class GroupPermissionService
     }
 
     /**
-     * Summary of getList
+     * Xử lý lấy danh sách nhóm quyền
      * @return mixed
      */
     public function getList()
@@ -22,13 +22,18 @@ class GroupPermissionService
     }
 
     /**
-     * Summary of handleSaveGroupPermission
+     * Xử lý thêm nhóm quyền
      * @param array $dataInput
      * @return mixed
      */
     public function handleSaveGroupPermission(array $dataInput)
     {
-        return $this->groupPermissionRepository->saveGroupPermission($dataInput);
+        $id = $this->groupPermissionRepository->saveGroupPermission($dataInput);
+        $success = [
+            'group_permission_id' => $id,
+            'message' => 'Save Success',
+        ];
+        return $success;
     }
 
     /**
@@ -38,9 +43,9 @@ class GroupPermissionService
      * @param mixed $description
      * @return mixed
      */
-    public function handleUpdateGroupPermission($id, $name, $description)
+    public function handleUpdateGroupPermission($id, $name)
     {
-        return $this->groupPermissionRepository->updateGroupPermissionInfo($id, $name, $description);
+        return $this->groupPermissionRepository->updateGroupPermissionInfo($id, $name);
     }
 
     /**
@@ -58,7 +63,7 @@ class GroupPermissionService
      * @param int $id
      * @return mixed
      */
-    public function handleDeleteGroupPermission(int $id)
+    public function handleDeleteGroupPermission($id)
     {
         return $this->groupPermissionRepository->deleteGroupPermissionInfo($id);
     }

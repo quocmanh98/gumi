@@ -13,14 +13,15 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Summary of getAllUser
+     * Lấy danh sách user
+     * kèm theo lọc theo các tiêu chí khác nhau
      * @param mixed $filters
      * @param mixed $search
      * @param mixed $sortArr
      * @param mixed $perPage
      * @return mixed
      */
-    public function getAllUser($filters = [], $search = null, $sortArr = null, $perPage = null)
+    public function getUserAll($filters = [], $search = null, $sortArr = null, $perPage = null)
     {
         $users = $this->user
             ->select('users.*', 'roles.name as role_name')
@@ -59,17 +60,17 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Summary of saveUserData
+     * lưu thông tin user vào db
      * @param array $data
      * @return mixed
      */
     public function saveUserData(array $data)
     {
-        return $this->user->create($data);
+        return $this->user->create($data)->id;
     }
 
     /**
-     * Summary of getById
+     * lấy thông tin chi tiêt user
      * @param int $user
      * @return mixed
      */
@@ -79,7 +80,7 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Summary of updateUser
+     * Cập nhật thông tin user vào db
      * @param mixed $data
      * @param mixed $user
      * @return mixed
@@ -91,7 +92,7 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Summary of deleteUser
+     * Xóa tạm thời user vào db
      * @param mixed $user
      * @return mixed
      */
@@ -102,11 +103,43 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Summary of getAllData
+     * Lấy tất cả user
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllData()
+    public function getUsers()
     {
         return $this->user->all();
     }
+
+    /**
+     * Xóa tạm thời user
+     * @param mixed $listCheck
+     * @return int
+     */
+    public function userDestroy($listCheck)
+    {
+        return $this->user->destroy($listCheck);
+    }
+
+    /**
+     * Khôi phục dữ liệu user
+     * @param mixed $listCheck
+     * @return mixed
+     */
+    public function userRestoreTrashed($listCheck)
+    {
+        return $this->user->withTrashed()->whereIn('id', $listCheck)->restore();
+    }
+
+    /**
+     *  Xóa vĩnh viễn user
+     * @param mixed $listCheck
+     * @return mixed
+     */
+    public function userForceDelete($listCheck)
+    {
+        return $this->user->withTrashed()->whereIn('id', $listCheck)->forceDelete();
+    }
+
+
 }

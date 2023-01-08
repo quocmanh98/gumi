@@ -20,24 +20,28 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content')
+                ->nullable()
                 ->comment('content: mô tả');
-            $table->string('thumbnail')
+            $table->text('thumbnail')
+                ->nullable()
                 ->comment('thumbnail: hình ảnh đại diện');
             $table->boolean('status')
+                ->nullable()
                 ->default(Status::Inactive)
                 ->comment('status: trạng thái hiện ẩn');
-            $table->string('slug');
+            $table->string('slug')
+                ->nullable();
             $table->text('meta_keyword')
                 ->nullable()
                 ->comment('meta_keyword: tìm kiếm');
 
-            $table->integer('user_created')
+            $table->string('user_created')
                 ->nullable()
                 ->comment('user_created: người tạo bài viết');
-            $table->integer('user_updated')
+            $table->string('user_updated')
                 ->nullable()
                 ->comment('user_updated: người cập nhật lại bài viết');
-            $table->integer('user_deleted')
+            $table->string('user_deleted')
                 ->nullable()
                 ->comment('user_deleted: người xóa bài viết');
 

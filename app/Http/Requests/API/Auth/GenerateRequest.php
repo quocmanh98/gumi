@@ -27,7 +27,6 @@ class GenerateRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'phone' => 'required|exists:users,phone'
         ];
     }
 

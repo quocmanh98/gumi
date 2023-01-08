@@ -13,7 +13,7 @@ class GroupPermissionRepository
     }
 
     /**
-     * Summary of getAll
+     * Lấy tất cả bản ghi nhóm quyền
      * @return mixed
      */
     public function getAll()
@@ -22,7 +22,7 @@ class GroupPermissionRepository
     }
 
     /**
-     * Summary of getList
+     * Lấy tất cả bản ghi nhóm quyền có phân trang
      * @return mixed
      */
     public function getList()
@@ -31,45 +31,45 @@ class GroupPermissionRepository
     }
 
     /**
-     * Summary of saveGroupPermission
+     * Lưu thông tin nhóm quyền vào database
      * @param array $dataInput
      * @return mixed
      */
     public function saveGroupPermission(array $dataInput)
     {
-        return $this->groupPermission->create($dataInput);
+        return $this->groupPermission->create($dataInput)->id;
     }
 
     /**
-     * Summary of updateGroupPermissionInfo
+     * Cập nhật thông tin nhóm quyền vào database
      * @param int $id
      * @param mixed $name
      * @param mixed $description
      * @return mixed
      */
-    public function updateGroupPermissionInfo(int $id,$name,$description)
+    public function updateGroupPermissionInfo($id, $name)
     {
         return $this->groupPermission->findOrFail($id)
-            ->update(['name' => $name, 'description' => $description]);
+            ->update(['name' => $name]);
     }
 
     /**
-     * Summary of getId
+     * Lấy thông tin cụ thể của nhóm quyền
      * @param int $id
      * @return mixed
      */
-    public function getId(int $id)
+    public function getId($id)
     {
         return $this->groupPermission->findOrFail($id);
     }
 
     /**
-     * Summary of deleteGroupPermissionInfo
+     * Xóa bản ghi cụ thể nhóm quyền
      * @param mixed $id
      * @return mixed
      */
     public function deleteGroupPermissionInfo($id)
     {
-        return $this->groupPermission->find($id)->delete();
+        return $this->groupPermission->findOrFail($id)->delete();
     }
 }
