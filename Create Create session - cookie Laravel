@@ -1,0 +1,944 @@
+1) Cookie
+<?php
+use Illuminate\Http\Response;
+
+function setCookieValue($name, $value, $expiration) {
+    $cookie = cookie($name, $value, $expiration);
+    return new Response()->withCookie($cookie);
+}
+
+function getCookieValue($name) {
+    return request()->cookie($name);
+}
+
+function deleteCookie($name) {
+    $cookie = cookie()->forget($name);
+    return new Response()->withCookie($cookie);
+}
+?>
+
+2) Session
+<?php
+function setSessionValue($name, $value) {
+    session([$name => $value]);
+}
+
+function getSessionValue($name) {
+    return session($name);
+}
+
+function deleteSessionValue($name) {
+    session()->forget($name);
+}
+
+function destroySession() {
+    session()->flush();
+}
+?>
+
+3)
+<?php
+$strings = array("Hello", " ", "World", "!"); 
+$result = "";
+
+foreach ($strings as $string) {
+    $result .= $string;
+}
+
+echo $result;
+?>
+
+4)
+$strings = array("Hello", " ", "world", "!"); 
+$result = ""; 
+
+foreach ($strings as $string) {
+    $result .= $string;
+}
+
+echo $result; 
+
+5)
+<?php
+
+$strings = array("Hello", "World", "How", "Are", "You?");
+
+$result = "";
+
+for ($i = 0; $i < count($strings); $i++) {
+    $result .= $strings[$i];
+
+    if ($i < count($strings) - 1) {
+        $result .= "<br>";
+    }
+}
+
+echo $result;
+?>
+
+6)
+<?php
+$strings = array("Hello", "World", "This", "is", "a", "loop");
+
+$result = '';
+
+foreach ($strings as $string) {
+    $result .= $string . "<br>";
+}
+
+echo $result;
+?>
+
+
+7)
+<?php
+$strings = ["Hello", " ", "world", "!"];
+$result = "";
+
+for ($i = 0; $i < count($strings); $i++) {
+    $result .= $strings[$i];
+}
+
+echo $result;
+?>
+
+8)
+<?php
+$finalString = ""; 
+
+for ($i = 1; $i <= 5; $i++) {
+    $finalString .= "Iteration " . $i . ", "; 
+}
+
+$finalString = rtrim($finalString, ", "); 
+
+echo $finalString; 
+?>
+/////////////////////////////
+9) JS
+var strings = ["Hello", "world", "!"];
+var concatenatedString = "";
+
+for (var i = 0; i < strings.length; i++) {
+  concatenatedString += strings[i];
+}
+
+console.log(concatenatedString);
+
+10) JS
+var strings = ['Hello', 'there,', 'how', 'are', 'you?'];
+
+var result = '';
+
+for (var i = 0; i < strings.length; i++) {
+  // Check if the current string contains a comma
+  if (strings[i].includes(',')) {
+    // If it contains a comma, split the string by comma
+    var parts = strings[i].split(',');
+
+    // Loop through each part and add it to the result string
+    for (var j = 0; j < parts.length; j++) {
+      result += parts[j] + ' ';
+    }
+  } else {
+    // If the string doesn't contain a comma, directly add it to the result string
+    result += strings[i] + ' ';
+  }
+}
+
+// Trim the trailing whitespace
+result = result.trim();
+
+console.log(result);
+
+10)
+var words = ["Hello", "world", "how", "are", "you?"];
+
+var concatenatedString = "";
+
+for (var i = 0; i < words.length; i++) {
+  concatenatedString += words[i] + " ";
+}
+
+concatenatedString = concatenatedString.trim();
+
+console.log(concatenatedString);
+
+11)
+const names = ['Alice', 'Bob', 'Charlie', 'David'];
+
+let result = '';
+for (let i = 0; i < names.length; i++) {
+  result += names[i] + ', ';
+}
+
+result = result.slice(0, -2);
+
+console.log(result);
+
+11)
+function concatenateStrings(strings) {
+  let result = '';
+
+  for (let i = 0; i < strings.length; i++) {
+    result += strings[i];
+  }
+
+  return result;
+}
+
+const strings = ['Hello', ' ', 'world', '!'];
+const concatenatedString = concatenateStrings(strings);
+console.log(concatenatedString);
+
+12)
+const strings = ['Hello', ' ', 'world', '!'];
+
+let result = '';
+
+for (let i = 0; i < strings.length; i++) {
+  result += `${strings[i]}`;
+}
+
+console.log(result);
+
+13)
+let fruits = ["apple", "banana", "orange"];
+let result = "";
+
+for (let i = 0; i < fruits.length; i++) {
+  result += `I like ${fruits[i]}.\n`;
+}
+
+console.log(result);
+
+13)
+const name = 'John';
+const age = 25;
+
+const message = `Hello, my name is ${name} and I'm ${age} years old.`;
+
+console.log(message);
+
+14)
+// Example 1: 
+const name = 'John';
+const age = 30;
+
+const message = `My name is ${name} and I'm ${age} years old.`;
+console.log(message);
+
+// Example 2:
+const multilineString = `
+  This is a multiline string.
+  It can span multiple lines without the need for concatenation.
+  Template literals preserve line breaks and indentation.
+`;
+console.log(multilineString);
+
+// Example 3:
+const a = 5;
+const b = 10;
+
+const result = `The sum of ${a} and ${b} is ${a + b}.`;
+console.log(result);
+
+15)
+let fruits = ['Apple', 'Banana', 'Orange'];
+
+let output = '';
+for (let i = 0; i < fruits.length; i++) {
+  output += `Fruit ${i + 1}: ${fruits[i]}\n`;
+}
+
+console.log(output);
+
+16)
+const tableData = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Alice', age: 30, city: 'London' },
+  { name: 'Bob', age: 35, city: 'Paris' },
+];
+
+function createTable(data) {
+  let tableHTML = '<table>';
+  
+  tableHTML += '<tr>';
+  for (const key in data[0]) {
+    tableHTML += `<th>${key}</th>`;
+  }
+  tableHTML += '</tr>';
+
+  for (const item of data) {
+    tableHTML += '<tr>';
+    for (const key in item) {
+      tableHTML += `<td>${item[key]}</td>`;
+    }
+    tableHTML += '</tr>';
+  }
+
+  tableHTML += '</table>';
+  return tableHTML;
+}
+
+const tableMarkup = createTable(tableData);
+console.log(tableMarkup);
+
+17)
+const table = [
+  { id: 1, name: 'John', age: 25 },
+  { id: 2, name: 'Jane', age: 30 },
+  { id: 3, name: 'Bob', age: 35 }
+];
+
+function processTable(data) {
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    logTableRow`ID: ${row.id}, Name: ${row.name}, Age: ${row.age}`;
+  }
+}
+
+function logTableRow(strings, ...values) {
+  let output = '';
+  for (let i = 0; i < strings.length; i++) {
+    output += strings[i];
+    if (i < values.length) {
+      output += values[i];
+    }
+  }
+  console.log(output);
+}
+
+processTable(table);
+
+18)
+const tableData = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Alice', age: 30, city: 'London' },
+  { name: 'Bob', age: 35, city: 'Paris' }
+];
+
+let tableHTML = '<table>';
+tableHTML += '<thead><tr><th>Name</th><th>Age</th><th>City</th></tr></thead>';
+tableHTML += '<tbody>';
+
+for (let i = 0; i < tableData.length; i++) {
+  const row = tableData[i];
+  tableHTML += `<tr><td>${row.name}</td><td>${row.age}</td><td>${row.city}</td></tr>`;
+}
+
+tableHTML += '</tbody></table>';
+
+console.log(tableHTML);
+
+20)
+const table = [
+  { id: 1, name: 'John', age: 25 },
+  { id: 2, name: 'Jane', age: 30 },
+  { id: 3, name: 'Bob', age: 35 }
+];
+
+table.forEach(row => {
+  let rowString = '';
+  Object.entries(row).forEach(([key, value]) => {
+    rowString += `${key}: ${value}, `;
+  });
+
+  rowString = rowString.slice(0, -2);
+
+  console.log(`Row: ${rowString}`);
+});
+
+21)
+const table = document.querySelector('table');
+const rows = table.querySelectorAll('tr');
+
+rows.forEach(row => {
+  const cells = row.querySelectorAll('td');
+  cells.forEach(cell => {
+    const value = cell.textContent;
+    console.log(value);
+  });
+});
+
+
+22)
+const data = [
+  { name: 'John', age: 25 },
+  { name: 'Jane', age: 30 },
+  { name: 'Mike', age: 35 }
+];
+
+let tableHTML = '<table>';
+
+data.forEach(item => {
+  tableHTML += `<tr>
+    <td>${item.name}</td>
+    <td>${item.age}</td>
+  </tr>`;
+});
+
+tableHTML += '</table>';
+
+console.log(tableHTML);
+
+23)
+const data = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Alice', age: 30, city: 'London' },
+  { name: 'Bob', age: 35, city: 'Paris' }
+];
+
+let tableHTML = '<table>';
+
+data.forEach(rowData => {
+  tableHTML += '<tr>';
+
+  Object.values(rowData).forEach(cellData => {
+    tableHTML += `<td>${cellData}</td>`;
+  });
+
+  tableHTML += '</tr>';
+});
+
+tableHTML += '</table>';
+
+console.log(tableHTML);
+
+24)
+const data = [
+  { name: 'John', age: 25 },
+  { name: 'Alice', age: 30 },
+  { name: 'Bob', age: 35 }
+];
+
+function createTable(data) {
+  let tableHtml = '<table>';
+
+  data.forEach(item => {
+    tableHtml += `<tr>`;
+    
+    Object.values(item).forEach(value => {
+      tableHtml += `<td>${value}</td>`;
+    });
+
+    tableHtml += `</tr>`;
+  });
+
+  tableHtml += '</table>';
+
+  return tableHtml;
+}
+
+const table = createTable(data);
+console.log(table);
+
+25)
+const tableData = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Jane', age: 30, city: 'London' },
+  { name: 'Bob', age: 35, city: 'Paris' }
+];
+
+let tableHTML = '<table>';
+tableHTML += '<thead><tr>';
+
+Object.keys(tableData[0]).forEach(key => {
+  tableHTML += `<th>${key}</th>`;
+});
+
+tableHTML += '</tr></thead>';
+
+tableHTML += '<tbody>';
+tableData.forEach(row => {
+  tableHTML += '<tr>';
+
+  Object.values(row).forEach(value => {
+    tableHTML += `<td>${value}</td>`;
+  });
+
+  tableHTML += '</tr>';
+});
+
+tableHTML += '</tbody></table>';
+
+console.log(tableHTML);
+
+26)
+const data = [
+  { name: 'John', age: 25 },
+  { name: 'Jane', age: 30 },
+  { name: 'Bob', age: 35 }
+];
+
+let tableHTML = '';
+
+tableHTML += '<table>';
+tableHTML += '<thead>';
+tableHTML += '<tr>';
+
+Object.keys(data[0]).forEach(key => {
+  tableHTML += `<th>${key}</th>`;
+});
+
+tableHTML += '</tr>';
+tableHTML += '</thead>';
+tableHTML += '<tbody>';
+
+data.forEach(row => {
+  tableHTML += '<tr>';
+
+  Object.values(row).forEach(value => {
+    tableHTML += `<td>${value}</td>`;
+  });
+
+  tableHTML += '</tr>';
+});
+
+tableHTML += '</tbody>';
+tableHTML += '</table>';
+
+console.log(tableHTML);
+
+27)
+const tableData = [
+  { name: 'John', age: 30 },
+  { name: 'Jane', age: 25 },
+  { name: 'Bob', age: 35 }
+];
+
+let tableHTML = `<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>`;
+
+tableData.forEach(data => {
+  tableHTML += `
+    <tr>
+      <td>${data.name}</td>
+      <td>${data.age}</td>
+    </tr>`;
+});
+
+tableHTML += `
+  </tbody>
+</table>`;
+
+console.log(tableHTML);
+
+28)
+const tableData = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Jane', age: 30, city: 'London' },
+  { name: 'Bob', age: 35, city: 'Paris' },
+];
+
+let tableHTML = `<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>`;
+
+tableData.forEach((row) => {
+  tableHTML += `
+    <tr>
+      <td>${row.name}</td>
+      <td>${row.age}</td>
+      <td>${row.city}</td>
+    </tr>`;
+});
+
+tableHTML += `
+  </tbody>
+</table>`;
+
+console.log(tableHTML);
+
+29)
+
+const tableData = [
+  { name: 'John', age: 25, city: 'New York' },
+  { name: 'Jane', age: 30, city: 'London' },
+  { name: 'Mike', age: 35, city: 'Paris' }
+];
+
+function generateTable(data) {
+  let tableHTML = `<table>
+                      <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Age</th>
+                              <th>City</th>
+                          </tr>
+                      </thead>
+                      <tbody>`;
+
+  data.forEach(item => {
+    tableHTML += `<tr>
+                      <td>${item.name}</td>
+                      <td>${item.age}</td>
+                      <td>${item.city}</td>
+                  </tr>`;
+  });
+
+  tableHTML += `</tbody>
+              </table>`;
+
+  return tableHTML;
+}
+
+const table = generateTable(tableData);
+console.log(table);
+
+30)
+const tableData = [
+  { name: 'John', age: 25, email: 'john@example.com' },
+  { name: 'Jane', age: 30, email: 'jane@example.com' },
+  { name: 'Mark', age: 28, email: 'mark@example.com' }
+];
+
+let tableHTML = `<table>`;
+tableHTML += `<thead><tr>`;
+Object.keys(tableData[0]).forEach((key) => {
+  tableHTML += `<th>${key}</th>`;
+});
+tableHTML += `</tr></thead>`;
+tableHTML += `<tbody>`;
+tableData.forEach((row) => {
+  tableHTML += `<tr>`;
+  Object.values(row).forEach((value) => {
+    tableHTML += `<td>${value}</td>`;
+  });
+  tableHTML += `</tr>`;
+});
+tableHTML += `</tbody>`;
+tableHTML += `</table>`;
+
+console.log(tableHTML);
+
+31)
+
+const tableData = [
+  { name: 'John', age: 25, country: 'USA' },
+  { name: 'Emma', age: 30, country: 'UK' },
+  { name: 'Mark', age: 28, country: 'Canada' }
+];
+
+let tableHTML = `<table>`;
+tableHTML += `<thead><tr>`;
+for (const key in tableData[0]) {
+  tableHTML += `<th>${key}</th>`;
+}
+tableHTML += `</tr></thead>`;
+tableHTML += `<tbody>`;
+tableData.forEach(row => {
+  tableHTML += `<tr>`;
+  for (const key in row) {
+    tableHTML += `<td>${row[key]}</td>`;
+  }
+  tableHTML += `</tr>`;
+});
+tableHTML += `</tbody>`;
+tableHTML += `</table>`;
+
+console.log(tableHTML);
+
+31)
+<?php
+$records = [
+    [
+        'Name' => 'John Doe',
+        'Age' => 25,
+        'Email' => 'john@example.com',
+    ],
+    [
+        'Name' => 'Jane Smith',
+        'Age' => 30,
+        'Email' => 'jane@example.com',
+    ],
+];
+
+echo '<table>';
+echo '<thead>';
+echo '<tr>';
+foreach ($records[0] as $key => $value) {
+    echo '<th>' . $key . '</th>';
+}
+echo '</tr>';
+echo '</thead>';
+
+echo '<tbody>';
+foreach ($records as $record) {
+    echo '<tr>';
+    foreach ($record as $value) {
+        echo '<td>' . $value . '</td>';
+    }
+    echo '</tr>';
+}
+echo '</tbody>';
+
+echo '</table>';
+?>
+
+32)
+<?php
+
+$data = [
+    ['John', 'Doe', 'john@example.com'],
+    ['Jane', 'Smith', 'jane@example.com'],
+    ['Bob', 'Johnson', 'bob@example.com']
+];
+
+echo '<table>';
+
+echo '<thead>';
+echo '<tr>';
+echo '<th>First Name</th>';
+echo '<th>Last Name</th>';
+echo '<th>Email</th>';
+echo '</tr>';
+echo '</thead>';
+
+echo '<tbody>';
+
+foreach ($data as $row) {
+    echo '<tr>';
+    foreach ($row as $cell) {
+        echo '<td>' . $cell . '</td>';
+    }
+    echo '</tr>';
+}
+
+echo '</tbody>';
+
+echo '</table>';
+?>
+
+33)
+<?php
+$tableData = [
+    [
+        'Name' => 'John Doe',
+        'Age' => 30,
+        'Email' => 'john@example.com'
+    ],
+    [
+        'Name' => 'Jane Smith',
+        'Age' => 25,
+        'Email' => 'jane@example.com'
+    ],
+    [
+        'Name' => 'Robert Johnson',
+        'Age' => 35,
+        'Email' => 'robert@example.com'
+    ]
+];
+
+echo '<table>';
+echo '<thead>';
+echo '<tr>';
+foreach ($tableData[0] as $key => $value) {
+    echo "<th>$key</th>";
+}
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
+foreach ($tableData as $row) {
+    echo '<tr>';
+    foreach ($row as $value) {
+        echo "<td>$value</td>";
+    }
+    echo '</tr>';
+}
+echo '</tbody>';
+echo '</table>';
+?>
+
+34)
+<?php
+$tableData = array(
+    array('Name', 'Age', 'Email'),
+    array('John Doe', 25, 'john@example.com'),
+    array('Jane Smith', 30, 'jane@example.com'),
+    array('Bob Johnson', 35, 'bob@example.com')
+);
+?>
+
+<table>
+    <thead>
+        <tr>
+            <?php foreach ($tableData[0] as $header): ?>
+                <th><?php echo $header; ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach (array_slice($tableData, 1) as $row): ?>
+            <tr>
+                <?php foreach ($row as $cell): ?>
+                    <td><?php echo $cell; ?></td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+35)
+<table>
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($data as $row): ?>
+            <tr>
+                <?php foreach ($row['columns'] as $column): ?>
+                    <td><?php echo $column; ?></td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+36)
+<table>
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $data = array(
+            array('Row 1 Data 1', 'Row 1 Data 2', 'Row 1 Data 3'),
+            array('Row 2 Data 1', 'Row 2 Data 2', 'Row 2 Data 3'),
+            array('Row 3 Data 1', 'Row 3 Data 2', 'Row 3 Data 3')
+        );
+
+        foreach ($data as $row) {
+            echo "<tr>";
+            foreach ($row as $cell) {
+                echo "<td>" . $cell . "</td>";
+            }
+            echo "</tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
+37)
+<table>
+    <thead>
+        <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+            <th>Header 3</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+    $data = [
+        ['Cell 1', 'Cell 2', 'Cell 3'],
+        ['Cell 4', 'Cell 5', 'Cell 6'],
+        ['Cell 7', 'Cell 8', 'Cell 9']
+    ];
+
+    foreach ($data as $row) {
+        echo "<tr>";
+        foreach ($row as $cell) {
+            echo "<td>$cell</td>";
+        }
+        echo "</tr>";
+    }
+    ?>
+    </tbody>
+</table>
+
+39)
+<?php
+$data = array(
+    array('John', 'Doe', 'john.doe@example.com'),
+    array('Jane', 'Smith', 'jane.smith@example.com'),
+    array('Mark', 'Johnson', 'mark.johnson@example.com')
+);
+
+echo '<table>';
+echo '<thead>';
+echo '<tr>';
+echo '<th>First Name</th>';
+echo '<th>Last Name</th>';
+echo '<th>Email</th>';
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
+
+foreach ($data as $row) {
+    echo '<tr>';
+    
+    foreach ($row as $cell) {
+        echo '<td>' . $cell . '</td>';
+    }
+    
+    echo '</tr>';
+}
+
+echo '</tbody>';
+echo '</table>';
+?>
+
+40)
+<table>
+    <thead>
+        <tr>
+            <?php foreach ($headers as $header): ?>
+                <th><?php echo $header; ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($data as $row): ?>
+            <tr>
+                <?php foreach ($row as $cell): ?>
+                    <td><?php echo $cell; ?></td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+41)
+<table>
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($items as $item)
+            <tr>
+                <td>{{ $item->column1 }}</td>
+                <td>{{ $item->column2 }}</td>
+                <td>{{ $item->column3 }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+
+
+
+
