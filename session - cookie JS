@@ -1,0 +1,200 @@
+1) Cookie:
+
+function setCookie(name, value, expirationDays) {
+  let date = new Date();
+  date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+
+  let expires = "expires=" + date.toUTCString();
+
+  document.cookie = name + "=" + value + "; " + expires;
+}
+
+setCookie("username", "John Doe", 7);
+
+/////////////////////////// 
+
+function updateCookie(name, value, expirationDays) {
+  setCookie(name, value, expirationDays);
+}
+
+updateCookie("username", "Jane Smith", 7);
+
+//////////////////////////
+
+function deleteCookie(name) {
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+deleteCookie("username");
+
+//////////////////////////
+
+function getCookie(name) {
+  var cookieName = name + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var cookieArray = decodedCookie.split(";");
+
+  for (var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i];
+    while (cookie.charAt(0) == " ") {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(cookieName) == 0) {
+      return cookie.substring(cookieName.length, cookie.length);
+    }
+  }
+  return "";
+}
+
+var username = getCookie("username");
+console.log(username);
+
+
+////////////////////////
+
+function setCookie(name, value, expirationDays) {
+  var date = new Date();
+  date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + date.toUTCString();
+
+  var serializedValue;
+  if (typeof value === "object") {
+    serializedValue = JSON.stringify(value);
+  } else {
+    serializedValue = String(value);
+  }
+
+  document.cookie = name + "=" + serializedValue + "; " + expires;
+}
+
+setCookie("username", "John Doe", 7); // string
+setCookie("numbers", [1, 2, 3, 4, 5], 7); // array
+setCookie("isPremium", true, 7); // boolean
+setCookie("userData", { name: "John Doe", age: 30 }, 7); // JSON object
+
+////////////////////////////
+
+function getCookie(name) {
+  var cookieName = name + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var cookieArray = decodedCookie.split(";");
+
+  for (var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i];
+    while (cookie.charAt(0) == " ") {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(cookieName) == 0) {
+      var value = cookie.substring(cookieName.length, cookie.length);
+
+      // Deserialize the value based on the data type
+      var deserializedValue;
+      try {
+        deserializedValue = JSON.parse(value);
+      } catch (error) {
+        deserializedValue = value;
+      }
+
+      return deserializedValue;
+    }
+  }
+  return null;
+}
+
+var username = getCookie("username"); // string
+var numbers = getCookie("numbers"); // array
+var isPremium = getCookie("isPremium"); // boolean
+var userData = getCookie("userData"); // JSON object
+
+console.log(username);
+console.log(numbers);
+console.log(isPremium);
+console.log(userData);
+
+//////////////////////////////
+function setCookie(name, value, expirationDays) {
+  var date = new Date();
+  date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + date.toUTCString();
+
+  // Convert the value to a string and set the cookie
+  document.cookie = name + "=" + encodeURIComponent(value) + "; " + expires;
+}
+
+// String
+setCookie("username", "John Doe", 7);
+
+// Array
+var favoriteColors = ["red", "green", "blue"];
+setCookie("colors", JSON.stringify(favoriteColors), 7);
+
+// Boolean
+setCookie("isPremiumUser", true, 7);
+
+// JSON
+var userData = { name: "John Doe", age: 25 };
+setCookie("data", JSON.stringify(userData), 7);
+
+// Object
+var user = { username: "john", email: "john@example.com" };
+setCookie("user", JSON.stringify(user), 7);
+
+// File (not directly supported, you can store the file name or URL as a string)
+setCookie("file", "example.txt", 7);
+
+//////////////////
+function getCookie(name) {
+  var cookieName = name + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var cookieArray = decodedCookie.split(";");
+
+  for (var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i];
+    while (cookie.charAt(0) == " ") {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(cookieName) == 0) {
+      // Parse the stored value back to the original data type
+      var cookieValue = cookie.substring(cookieName.length, cookie.length);
+      return JSON.parse(cookieValue);
+    }
+  }
+  return null;
+}
+
+// Example: Read the value of the "username" cookie
+var username = getCookie("username");
+console.log(username);
+
+// Example: Read the value of the "data" cookie (JSON)
+var userData = getCookie("data");
+console.log(JSON.parse(userData));
+
+2) sessionStorage
+// Save data to session storage
+sessionStorage.setItem('key', 'value');
+
+// Retrieve data from session storage
+var data = sessionStorage.getItem('key');
+
+// Update data in session storage
+sessionStorage.setItem('key', 'new value');
+
+// Delete data from session storage
+sessionStorage.removeItem('key');
+
+3) localStorage
+// Save data to local storage
+localStorage.setItem('key', 'value');
+
+// Retrieve data from local storage
+var data = localStorage.getItem('key');
+
+// Update data in local storage
+localStorage.setItem('key', 'new value');
+
+// Delete data from local storage
+localStorage.removeItem('key');
+
+Công nghệ "Brain-Computer Interface" (BCI)
+
