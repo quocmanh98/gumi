@@ -1,0 +1,136 @@
+1) json_encode: Hàm này được sử dụng để chuyển đổi dữ liệu PHP thành định dạng JSON.
+$data = array(
+    'name' => 'John',
+    'age' => 30,
+    'city' => 'New York'
+);
+
+$jsonData = json_encode($data);
+echo $jsonData;
+
+2) json_decode: Hàm này được sử dụng để chuyển đổi chuỗi JSON thành dạng dữ liệu PHP
+$jsonData = '{"name":"John","age":30,"city":"New York"}';
+
+$data = json_decode($jsonData, true);
+echo $data['name'];  // John
+echo $data['age'];   // 30
+echo $data['city'];  // New York
+
+3)
+json_decode: 
+Hàm json_decode được sử dụng để chuyển đổi một chuỗi JSON thành một cấu trúc dữ liệu tương ứng trong PHP, ví dụ như mảng hoặc đối tượng
+$jsonString = '{"name":"John","age":30,"city":"New York"}';
+$data = json_decode($jsonString);
+echo $data->name;  // John
+echo $data->age;   // 30
+echo $data->city;  // New York
+
+$jsonData = '{"name":"John","age":30,"city":"New York"}';
+$data = json_decode($jsonData, true);
+print_r($data);
+
+
+4) json_encode: Hàm json_encode được sử dụng để chuyển đổi một cấu trúc dữ liệu trong PHP thành một chuỗi JSON
+$data = array(
+  'name' => 'John',
+  'age' => 30,
+  'city' => 'New York'
+);
+$jsonString = json_encode($data);
+echo $jsonString;  // {"name":"John","age":30,"city":"New York"}
+
+5) Cookie
+<?php
+// Create or update a cookie
+setcookie('username', 'John Doe', time() + (86400 * 30), '/');
+
+// Read a cookie
+if (isset($_COOKIE['username'])) {
+    $username = $_COOKIE['username'];
+    echo "Username: $username";
+}
+
+// Update a cookie
+setcookie('username', 'Jane Smith', time() + (86400 * 30), '/');
+
+// Delete a cookie
+setcookie('username', '', time() - 3600, '/');
+?>
+
+6) Session
+<?php
+// Start a session
+session_start();
+
+// Set session data
+$_SESSION['username'] = 'John Doe';
+
+// Read session data
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    echo "Username: $username";
+}
+
+// Update session data
+$_SESSION['username'] = 'Jane Smith';
+
+// Delete session data
+unset($_SESSION['username']);
+
+// Destroy the session
+session_destroy();
+?>
+
+7) cookie
+<?php
+// Create or update a cookie
+function setCookieValue($name, $value, $expiration) {
+    setcookie($name, $value, $expiration);
+}
+
+// Read a cookie value
+function getCookieValue($name) {
+    if (isset($_COOKIE[$name])) {
+        return $_COOKIE[$name];
+    }
+    return null;
+}
+
+// Delete a cookie
+function deleteCookie($name) {
+    setcookie($name, "", time() - 3600);
+}
+?>
+
+8) session
+<?php
+// Start or resume a session
+function startSession() {
+    session_start();
+}
+
+// Set a session value
+function setSessionValue($name, $value) {
+    $_SESSION[$name] = $value;
+}
+
+// Get a session value
+function getSessionValue($name) {
+    if (isset($_SESSION[$name])) {
+        return $_SESSION[$name];
+    }
+    return null;
+}
+
+// Delete a session value
+function deleteSessionValue($name) {
+    unset($_SESSION[$name]);
+}
+
+// Destroy the session
+function destroySession() {
+    session_destroy();
+}
+?>
+
+
